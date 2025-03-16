@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank System - Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            Blood Bank System
+        </div>
+        <div class="mockup-nav">
+            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="inventory.html">Blood Inventory</a>
+            <a href="donors.html">Donors</a>
+            <a href="blood-banks.html">Blood Banks</a>
+            <a href="reports.html">Reports</a>
+            <a href="#" id="logout-btn" style="float: right;">Logout</a>
+            <a href="profile.html" style="float: right; margin-right: 5px;">Profile</a>
+        </div>
+        <div class="mockup-content">
+            <h2>Dashboard</h2>
+            <div class="dashboard-grid">
+                <div class="stat-card">
+                    <div>Total Blood Units</div>
+                    <div class="stat-number">1,284</div>
+                </div>
+                <div class="stat-card">
+                    <div>Donors This Month</div>
+                    <div class="stat-number">56</div>
+                </div>
+                <div class="stat-card">
+                    <div>Units Requested</div>
+                    <div class="stat-number">42</div>
+                </div>
+                <div class="stat-card">
+                    <div>Critical Shortage</div>
+                    <div class="stat-number">O-</div>
+                </div>
+            </div>
+            
+            <h3>Blood Inventory Status</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Blood Type</th>
+                        <th>Available Units</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>A+</td>
+                        <td>145</td>
+                        <td class="status-normal">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>A-</td>
+                        <td>68</td>
+                        <td class="status-normal">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>B+</td>
+                        <td>93</td>
+                        <td class="status-normal">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>B-</td>
+                        <td>32</td>
+                        <td class="status-low">Low</td>
+                    </tr>
+                    <tr>
+                        <td>AB+</td>
+                        <td>45</td>
+                        <td class="status-normal">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>AB-</td>
+                        <td>22</td>
+                        <td class="status-low">Low</td>
+                    </tr>
+                    <tr>
+                        <td>O+</td>
+                        <td>187</td>
+                        <td class="status-normal">Normal</td>
+                    </tr>
+                    <tr>
+                        <td>O-</td>
+                        <td>12</td>
+                        <td class="status-critical">Critical</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <h3>Recent Activity</h3>
+            <div class="card">
+                <p><strong>Today, 11:45 AM</strong> - 3 units of B+ dispatched to Memorial Hospital</p>
+            </div>
+            <div class="card">
+                <p><strong>Today, 10:22 AM</strong> - New donor registered: Sarah Johnson (A+)</p>
+            </div>
+            <div class="card">
+                <p><strong>Today, 09:15 AM</strong> - Emergency request for O- from City General Hospital</p>
+            </div>
+            <div class="card">
+                <p><strong>Yesterday, 04:30 PM</strong> - Blood drive scheduled at Community Center for next Monday</p>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 Blood Bank System
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = sessionStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                // Redirect to login if not logged in
+                window.location.href = 'login.html';
+            }
+            
+            // Handle logout
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                sessionStorage.removeItem('loggedInUser');
+                sessionStorage.removeItem('userRole');
+                window.location.href = 'login.html';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank System - Mobile</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Mobile-specific styles */
+        body {
+            padding: 0;
+            margin: 0;
+            max-width: 100%;
+        }
+        
+        .mobile-container {
+            max-width: 375px;
+            margin: 0 auto;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            background-color: #fff;
+        }
+        
+        .mobile-header {
+            background-color: #D32F2F;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .mobile-header-title {
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        .mobile-content {
+            padding: 15px;
+        }
+        
+        .mobile-title {
+            margin-top: 0;
+        }
+        
+        .mobile-map {
+            height: 200px;
+            background-color: #eee;
+            border-radius: 4px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .mobile-location {
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .mobile-location-name {
+            font-weight: bold;
+        }
+        
+        .mobile-location-distance {
+            font-size: 14px;
+        }
+        
+        .mobile-location-address {
+            font-size: 14px;
+        }
+        
+        .mobile-location-status {
+            font-size: 14px;
+            color: #2E7D32;
+        }
+        
+        .mobile-button-row {
+            margin-top: 10px;
+        }
+        
+        .mobile-button-primary {
+            background-color: #D32F2F;
+            color: white;
+            border: none;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+            margin-right: 5px;
+        }
+        
+        .mobile-button-secondary {
+            background-color: white;
+            color: #D32F2F;
+            border: 1px solid #D32F2F;
+            padding: 8px;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        
+        .mobile-nav {
+            display: flex;
+            border-top: 1px solid #ddd;
+        }
+        
+        .mobile-nav-item {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+            color: #333;
+        }
+        
+        .mobile-nav-item.active {
+            color: #D32F2F;
+            background-color: #ffebee;
+        }
+    </style>
+</head>
+<body>
+    <div class="mobile-container">
+        <div class="mobile-header">
+            <div class="mobile-header-title">Blood Bank System</div>
+        </div>
+        
+        <div class="mobile-content">
+            <h3 class="mobile-title">Find Blood Banks Near Me</h3>
+            
+            <div style="margin-bottom: 15px;">
+                <input type="text" id="mobile-location" placeholder="Your location..." style="width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 4px; margin-bottom: 10px; box-sizing: border-box;">
+                <button id="find-btn" class="mobile-button-primary" style="width: 100%;">Find Nearby</button>
+            </div>
+            
+            <div class="mobile-map">
+                <div style="text-align: center;">
+                    <div>Map View</div>
+                    <div style="font-size: 12px; color: #666;">(Location services integration)</div>
+                </div>
+            </div>
+            
+            <div id="results-label" style="font-weight: bold; margin-bottom: 5px;">Results:</div>
+            
+            <div id="results-container">
+                <div class="mobile-location">
+                    <div class="mobile-location-name">Central Blood Bank</div>
+                    <div class="mobile-location-distance">1.2 miles away</div>
+                    <div class="mobile-location-address">123 Main St, Anytown</div>
+                    <div class="mobile-location-status">Open until 6:00 PM</div>
+                    <div class="mobile-button-row">
+                        <button class="mobile-button-primary" onclick="getDirections('Central Blood Bank')">Directions</button>
+                        <button class="mobile-button-secondary" onclick="callLocation('Central Blood Bank')">Call</button>
+                    </div>
+                </div>
+                
+                <div class="mobile-location">
+                    <div class="mobile-location-name">Memorial Hospital Blood Center</div>
+                    <div class="mobile-location-distance">2.8 miles away</div>
+                    <div class="mobile-location-address">456 Hospital Ave, Anytown</div>
+                    <div class="mobile-location-status">Open 24/7</div>
+                    <div class="mobile-button-row">
+                        <button class="mobile-button-primary" onclick="getDirections('Memorial Hospital Blood Center')">Directions</button>
+                        <button class="mobile-button-secondary" onclick="callLocation('Memorial Hospital Blood Center')">Call</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="mobile-nav">
+            <a href="mobile-home.html" class="mobile-nav-item">Home</a>
+            <a href="mobile.html" class="mobile-nav-item active">Find</a>
+            <a href="mobile-donate.html" class="mobile-nav-item">Donate</a>
+            <a href="mobile-profile.html" class="mobile-nav-item">Profile</a>
+        </div>
+    </div>
+
+    <script>
+        // Find nearby function
+        document.getElementById('find-btn').addEventListener('click', function() {
+            const location = document.getElementById('mobile-location').value;
+            
+            if (!location) {
+                alert('Please enter your location');
+                return;
+            }
+            
+            // In a real app, this would query a location API
+            // For this demo, we'll simulate finding locations
+            
+            alert(`Finding blood banks near ${location}...`);
+            
+            // Simulate different results based on search term
+            if (location.toLowerCase().includes('downtown')) {
+                // Show downtown results
+                document.getElementById('results-container').innerHTML = `
+                    <div class="mobile-location">
+                        <div class="mobile-location-name">Downtown Medical Plaza Blood Center</div>
+                        <div class="mobile-location-distance">0.5 miles away</div>
+                        <div class="mobile-location-address">555 Medical Plaza, Downtown</div>
+                        <div class="mobile-location-status">Open until 7:00 PM</div>
+                        <div class="mobile-button-row">
+                            <button class="mobile-button-primary" onclick="getDirections('Downtown Medical Plaza Blood Center')">Directions</button>
+                            <button class="mobile-button-secondary" onclick="callLocation('Downtown Medical Plaza Blood Center')">Call</button>
+                        </div>
+                    </div>
+                    
+                    <div class="mobile-location">
+                        <div class="mobile-location-name">Central Hospital Blood Center</div>
+                        <div class="mobile-location-distance">0.8 miles away</div>
+                        <div class="mobile-location-address">123 Hospital St, Downtown</div>
+                        <div class="mobile-location-status">Open 24/7</div>
+                        <div class="mobile-button-row">
+                            <button class="mobile-button-primary" onclick="getDirections('Central Hospital Blood Center')">Directions</button>
+                            <button class="mobile-button-secondary" onclick="callLocation('Central Hospital Blood Center')">Call</button>
+                        </div>
+                    </div>
+                `;
+            }
+            // Keep default results for other searches
+        });
+        
+        // Directions function
+        function getDirections(locationName) {
+            // In a real app, this would open a maps app
+            alert(`Getting directions to ${locationName}\n\nIn a real app, this would open a maps application.`);
+        }
+        
+        // Call function
+        function callLocation(locationName) {
+            // In a real app, this would initiate a phone call
+            alert(`Calling ${locationName}\n\nIn a real app, this would initiate a phone call.`);
+        }
+    </script>
+</body>
+</html>

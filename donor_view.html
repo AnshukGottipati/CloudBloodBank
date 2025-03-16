@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank System - Donor Details</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            Blood Bank System
+        </div>
+        <div class="mockup-nav">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="inventory.html">Blood Inventory</a>
+            <a href="donors.html" class="active">Donors</a>
+            <a href="blood-banks.html">Blood Banks</a>
+            <a href="reports.html">Reports</a>
+            <a href="#" id="logout-btn" style="float: right;">Logout</a>
+            <a href="profile.html" style="float: right; margin-right: 5px;">Profile</a>
+        </div>
+        <div class="mockup-content">
+            <h2>Donor Details - John Smith</h2>
+            
+            <div class="two-column">
+                <div class="column">
+                    <div class="card">
+                        <h3>Personal Information</h3>
+                        <p><strong>Name:</strong> John Smith</p>
+                        <p><strong>Date of Birth:</strong> 05/12/1985</p>
+                        <p><strong>Blood Type:</strong> A+</p>
+                        <p><strong>Gender:</strong> Male</p>
+                        <p><strong>Address:</strong> 123 Main St, Anytown, ST 12345</p>
+                        <p><strong>Phone:</strong> (555) 123-4567</p>
+                        <p><strong>Email:</strong> john@example.com</p>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="card">
+                        <h3>Medical Information</h3>
+                        <p><strong>Healthcare Provider:</strong> City Medical</p>
+                        <p><strong>Health Insurance:</strong> Health Plus</p>
+                        <p><strong>Organ Donor:</strong> Yes</p>
+                        <p><strong>Last Donation Date:</strong> 01/15/2025</p>
+                        <p><strong>Eligibility Status:</strong> Eligible (next donation after 04/15/2025)</p>
+                    </div>
+                    
+                    <div class="card" style="margin-top: 20px;">
+                        <h3>Medical History</h3>
+                        <p><strong>Known Conditions:</strong> None</p>
+                        <p><strong>Allergies:</strong> Penicillin</p>
+                        <p><strong>Medications:</strong> None</p>
+                        <p><strong>Notes:</strong> Regular donor since 2020. No adverse reactions during donations.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h3>Donation History</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Donation ID</th>
+                        <th>Date</th>
+                        <th>Blood Bank Location</th>
+                        <th>Volume</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>BLD-1001</td>
+                        <td>01/15/2025</td>
+                        <td>Central Blood Bank</td>
+                        <td>450ml</td>
+                        <td>Available</td>
+                    </tr>
+                    <tr>
+                        <td>BLD-0897</td>
+                        <td>10/10/2024</td>
+                        <td>Memorial Hospital</td>
+                        <td>450ml</td>
+                        <td>Used</td>
+                    </tr>
+                    <tr>
+                        <td>BLD-0765</td>
+                        <td>07/05/2024</td>
+                        <td>Central Blood Bank</td>
+                        <td>450ml</td>
+                        <td>Used</td>
+                    </tr>
+                    <tr>
+                        <td>BLD-0623</td>
+                        <td>03/22/2024</td>
+                        <td>Community Blood Drive</td>
+                        <td>450ml</td>
+                        <td>Used</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="action-buttons">
+                <a href="#" class="btn" onclick="scheduleDonation()">Schedule Donation</a>
+                <a href="donor-edit.html?id=DNR-1001" class="btn-outline">Edit Details</a>
+                <a href="donors.html" class="btn-outline">Back to List</a>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 Blood Bank System
+        </div>
+    </div>
+
+    <!-- Schedule Donation Modal -->
+    <div id="schedule-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Schedule Donation</h3>
+            <form id="schedule-form">
+                <div class="form-group">
+                    <label for="donation-date">Donation Date</label>
+                    <input type="date" id="donation-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="donation-time">Donation Time</label>
+                    <input type="time" id="donation-time" required>
+                </div>
+                <div class="form-group">
+                    <label for="donation-location">Location</label>
+                    <select id="donation-location" required>
+                        <option value="">Select location</option>
+                        <option value="central">Central Blood Bank</option>
+                        <option value="memorial">Memorial Hospital Blood Center</option>
+                        <option value="community">Community Center Blood Drive</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="donation-notes">Notes</label>
+                    <textarea id="donation-notes"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Schedule</button>
+                    <button type="button" class="btn-outline modal-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Check if user is logged in
+        document.addEventListener('DOMContentLoaded', function() {
+            const loggedInUser = sessionStorage.getItem('loggedInUser');
+            if (!loggedInUser) {
+                // Redirect to login if not logged in
+                window.location.href = 'login.html';
+            }
+            
+            // Handle logout
+            document.getElementById('logout-btn').addEventListener('click', function(e) {
+                e.preventDefault();
+                sessionStorage.removeItem('loggedInUser');
+                sessionStorage.removeItem('userRole');
+                window.location.href = 'login.html';
+            });
+            
+            // Initialize donor details based on ID in URL
+            const urlParams = new URLSearchParams(window.location.search);
+            const donorId = urlParams.get('id');
+            
+            // In a real app, this would fetch donor data from a server
+            // For this demo, we'll just use the ID to personalize the page
+            if (donorId) {
+                document.querySelector('h2').textContent = `Donor Details - ${donorId}`;
+            }
+        });
+
+        // Schedule donation modal
+        const modal = document.getElementById('schedule-modal');
+        const closeBtn = document.querySelector('.close');
+        const cancelBtn = document.querySelector('.modal-cancel');
+
+        function scheduleDonation() {
+            modal.style.display = 'block';
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        cancelBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        document.getElementById('schedule-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const date = document.getElementById('donation-date').value;
+            const time = document.getElementById('donation-time').value;
+            const location = document.getElementById('donation-location').options[document.getElementById('donation-location').selectedIndex].text;
+            
+            alert(`Donation scheduled for ${date} at ${time} at ${location}.`);
+            modal.style.display = 'none';
+            // Reset form
+            document.getElementById('schedule-form').reset();
+        });
+    </script>
+</body>
+</html>

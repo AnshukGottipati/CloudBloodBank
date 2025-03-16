@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank System - Login</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            Blood Bank System
+        </div>
+        <div class="mockup-content">
+            <div class="login-form">
+                <h2>Login</h2>
+                <form id="loginForm" action="dashboard.html" method="get">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Login</button>
+                        <a href="register.html" class="btn-outline">Create Account</a>
+                    </div>
+                </form>
+                <p><a href="#">Forgot Password?</a></p>
+                <p><a href="index.html">&larr; Back to Home</a></p>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 Blood Bank System
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // In a real app, this would validate credentials against a server
+            // For this demo, we'll just simulate authentication
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username && password) {
+                // Store the username in session storage to simulate being logged in
+                sessionStorage.setItem('loggedInUser', username);
+                sessionStorage.setItem('userRole', 'medical'); // Default role for demo
+                window.location.href = 'dashboard.html';
+            } else {
+                alert('Please enter both username and password');
+            }
+        });
+    </script>
+</body>
+</html>

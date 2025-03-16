@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank System - Register</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            Blood Bank System
+        </div>
+        <div class="mockup-content">
+            <div class="login-form">
+                <h2>Create Account</h2>
+                <form id="registerForm" action="dashboard.html" method="get">
+                    <div class="form-group">
+                        <label for="full-name">Full Name</label>
+                        <input type="text" id="full-name" name="full-name" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-username">Username</label>
+                        <input type="text" id="reg-username" name="username" placeholder="Choose a username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="reg-password">Password</label>
+                        <input type="password" id="reg-password" name="password" placeholder="Choose a strong password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirm-password">Confirm Password</label>
+                        <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="role">Role</label>
+                        <select id="role" name="role" required>
+                            <option value="">Select your role</option>
+                            <option value="medical">Medical Personnel</option>
+                            <option value="admin">Blood Bank Administrator</option>
+                            <option value="donor">Blood Donor</option>
+                            <option value="researcher">Researcher</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn">Register</button>
+                        <a href="login.html" class="btn-outline">Back to Login</a>
+                    </div>
+                </form>
+                <p><a href="index.html">&larr; Back to Home</a></p>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 Blood Bank System
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Basic form validation
+            const password = document.getElementById('reg-password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+            const role = document.getElementById('role').value;
+            const username = document.getElementById('reg-username').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match');
+                return;
+            }
+            
+            if (!role) {
+                alert('Please select a role');
+                return;
+            }
+            
+            // In a real app, this would send data to a server
+            // For this demo, we'll just simulate registration success
+            sessionStorage.setItem('loggedInUser', username);
+            sessionStorage.setItem('userRole', role);
+            window.location.href = 'dashboard.html';
+        });
+    </script>
+</body>
+</html>
