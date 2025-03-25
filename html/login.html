@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Bank System - Login</title>
+    <style>
+        /* Global Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+        }
+        
+        /* Mockup Container */
+        .mockup {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        /* Header */
+        .mockup-header {
+            background-color: #D32F2F;
+            color: white;
+            padding: 15px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+        
+        /* Content Area */
+        .mockup-content {
+            padding: 20px;
+        }
+        
+        /* Login Form */
+        .login-form {
+            max-width: 400px;
+            margin: 20px auto 40px;
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .login-form h2 {
+            margin-top: 0;
+            color: #D32F2F;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus {
+            border-color: #D32F2F;
+            outline: none;
+            box-shadow: 0 0 5px rgba(211, 47, 47, 0.2);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #D32F2F;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn:hover {
+            background-color: #B71C1C;
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: #D32F2F;
+            padding: 9px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #D32F2F;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Links */
+        .login-form p {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .login-form a {
+            color: #D32F2F;
+            text-decoration: none;
+        }
+        
+        .login-form a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        .mockup-footer {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            Blood Bank System
+        </div>
+        <div class="mockup-content">
+            <div class="login-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                </div>
+                <div class="form-group">
+                    <a href="med-dashboard.html" class="btn" style="margin-right: 10px;">Login</a>
+                    <a href="register.html" class="btn-outline">Create Account</a>
+                </div>
+                <p><a href="forgot-password.html">Forgot Password?</a></p>
+                <p><a href="index.html">Return to Home Page</a></p>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 Blood Bank System | Privacy Policy | Terms of Service | Contact Us
+        </div>
+    </div>
+
+    <script>
+        // Simple form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.querySelector('.btn');
+            loginBtn.addEventListener('click', function(e) {
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Simple validation
+                if (!username || !password) {
+                    e.preventDefault();
+                    alert('Please enter both username and password.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
