@@ -80,6 +80,12 @@
             box-shadow: 0 0 5px rgba(211, 47, 47, 0.2);
         }
         
+        /* Button container - centered */
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
         /* Buttons */
         .btn {
             display: inline-block;
@@ -91,6 +97,7 @@
             border: none;
             cursor: pointer;
             font-size: 16px;
+            margin: 0 5px;
         }
         
         .btn:hover {
@@ -107,6 +114,7 @@
             border: 1px solid #D32F2F;
             cursor: pointer;
             font-size: 16px;
+            margin: 0 5px;
         }
         
         .btn-outline:hover {
@@ -155,8 +163,8 @@
                     <label for="password">Password</label>
                     <input type="password" id="password" placeholder="Enter your password">
                 </div>
-                <div class="form-group">
-                    <a href="med-dashboard.html" class="btn" style="margin-right: 10px;">Login</a>
+                <div class="button-container">
+                    <a href="#" id="login-btn" class="btn" style="color: white;">Login</a>
                     <a href="register.html" class="btn-outline">Create Account</a>
                 </div>
                 <p><a href="forgot-password.html">Forgot Password?</a></p>
@@ -171,15 +179,51 @@
     <script>
         // Simple form validation
         document.addEventListener('DOMContentLoaded', function() {
-            const loginBtn = document.querySelector('.btn');
+            const loginBtn = document.getElementById('login-btn');
             loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
                 const username = document.getElementById('username').value;
                 const password = document.getElementById('password').value;
                 
                 // Simple validation
                 if (!username || !password) {
-                    e.preventDefault();
                     alert('Please enter both username and password.');
+                    return;
+                }
+                
+                // Mock login logic - in a real system, this would validate against a database
+                // For demo purposes, we'll use some hardcoded values to determine role
+                
+                // Define some test users (in a real system, this would come from an API/database)
+                const testUsers = {
+                    'donor123': { role: 'donor', password: 'password123' },
+                    'doctor123': { role: 'medical', password: 'password123' },
+                    'admin123': { role: 'admin', password: 'password123' }
+                };
+                
+                // Check if username exists
+                if (testUsers[username]) {
+                    // Check if password matches
+                    if (testUsers[username].password === password) {
+                        // Redirect based on role
+                        const userRole = testUsers[username].role;
+                        
+                        if (userRole === 'donor') {
+                            // Redirect to donor dashboard
+                            window.location.href = 'donor-dashboard.html';
+                        } else if (userRole === 'medical') {
+                            // Redirect to medical dashboard
+                            window.location.href = 'med-dashboard.html';
+                        } else if (userRole === 'admin') {
+                            // Redirect to admin dashboard
+                            window.location.href = 'dashboard.html';
+                        }
+                    } else {
+                        alert('Incorrect password. Please try again.');
+                    }
+                } else {
+                    alert('Username not found. Please check your username or register for an account.');
                 }
             });
         });

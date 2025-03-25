@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blood Bank System - Dashboard</title>
+    <title>Blood Bank System - Medical Dashboard</title>
     <style>
         /* Global Styles */
         body {
@@ -62,28 +62,144 @@
             padding: 20px;
         }
         
+        /* Welcome Banner */
+        .welcome-banner {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .welcome-text {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .welcome-text h1 {
+            margin-top: 0;
+            color: #D32F2F;
+        }
+        
+        .welcome-actions {
+            flex: 1;
+            min-width: 200px;
+            text-align: right;
+        }
+        
         /* Dashboard Grid */
-        .dashboard-grid {
+        .stats-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 20px;
             margin-bottom: 30px;
         }
         
-        /* Stat Card */
         .stat-card {
             background-color: #fff;
-            border-radius: 4px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
             padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             text-align: center;
-            border: 1px solid #eee;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
         }
         
-        .stat-number {
+        .stat-value {
             font-size: 24px;
             font-weight: bold;
+            color: #D32F2F;
             margin: 10px 0;
+        }
+        
+        /* Status Colors */
+        .status-normal {
+            color: green;
+        }
+        
+        .status-low {
+            color: orange;
+        }
+        
+        .status-critical {
+            color: red;
+        }
+        
+        /* Blood Type Grid */
+        .blood-type-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .blood-type-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .blood-type-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .blood-type-units {
+            font-size: 18px;
+            margin-bottom: 5px;
+        }
+        
+        .blood-type-status {
+            font-size: 14px;
+            font-weight: bold;
+            padding: 3px 8px;
+            border-radius: 3px;
+            display: inline-block;
+        }
+        
+        .status-green {
+            background-color: #e8f5e9;
+            color: #2E7D32;
+        }
+        
+        .status-yellow {
+            background-color: #fff8e1;
+            color: #F57F17;
+        }
+        
+        .status-red {
+            background-color: #ffebee;
+            color: #D32F2F;
+        }
+        
+        /* Tabs */
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            border-radius: 4px 4px 0 0;
+            margin-right: 5px;
+            background-color: #f8f8f8;
+        }
+        
+        .tab.active {
+            background-color: white;
+            border-color: #ddd;
+            border-bottom: 2px solid white;
+            margin-bottom: -1px;
+            font-weight: bold;
             color: #D32F2F;
         }
         
@@ -91,7 +207,7 @@
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         
         table th, table td {
@@ -109,20 +225,19 @@
             background-color: #f9f9f9;
         }
         
-        /* Status Colors */
-        .status-normal {
-            color: green;
+        /* Actions */
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
         }
         
-        .status-low {
-            color: orange;
+        .actions-cell {
+            white-space: nowrap;
         }
         
-        .status-critical {
-            color: red;
-        }
-        
-        /* Cards for Activity */
+        /* Cards */
         .card {
             padding: 15px;
             border: 1px solid #ddd;
@@ -162,6 +277,62 @@
             background-color: #ffebee;
         }
         
+        .btn-sm {
+            padding: 5px 10px;
+            font-size: 14px;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .badge-urgent {
+            background-color: #ffebee;
+            color: #D32F2F;
+        }
+        
+        .badge-pending {
+            background-color: #fff8e1;
+            color: #F57F17;
+        }
+        
+        .badge-complete {
+            background-color: #e8f5e9;
+            color: #2E7D32;
+        }
+        
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .pagination a {
+            display: inline-block;
+            padding: 8px 12px;
+            margin: 0 5px;
+            border: 1px solid #ddd;
+            color: #333;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+        
+        .pagination a.active {
+            background-color: #D32F2F;
+            color: white;
+            border-color: #D32F2F;
+        }
+        
+        .pagination a:hover:not(.active) {
+            background-color: #f1f1f1;
+        }
+        
         /* Footer */
         .mockup-footer {
             background-color: #f8f8f8;
@@ -174,8 +345,36 @@
         
         /* Responsive Adjustments */
         @media (max-width: 768px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .welcome-actions {
+                text-align: center;
+                margin-top: 20px;
+            }
+            
+            .action-buttons {
+                justify-content: center;
+            }
+            
+            .tabs {
+                flex-wrap: wrap;
+                border-bottom: none;
+            }
+            
+            .tab {
+                margin-bottom: 5px;
+                width: calc(50% - 10px);
+                text-align: center;
+                border: 1px solid #ddd;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
             }
         }
     </style>
@@ -183,109 +382,321 @@
 <body>
     <div class="mockup">
         <div class="mockup-header">
-            Blood Bank System
+            Blood Bank System - Medical Portal
         </div>
         <div class="mockup-nav">
-            <a href="dashboard.html" class="active">Dashboard</a>
+            <a href="med-dashboard.html" class="active">Dashboard</a>
             <a href="blood-inventory.html">Blood Inventory</a>
             <a href="donors.html">Donors</a>
+            <a href="blood-requests.html">Requests</a>
             <a href="blood-banks.html">Blood Banks</a>
             <a href="reports.html">Reports</a>
             <a href="index.html" style="float: right;">Logout</a>
-            <a href="profile.html" style="float: right; margin-right: 5px;">Profile</a>
+            <a href="med-profile.html" style="float: right; margin-right: 5px;">Profile</a>
         </div>
         <div class="mockup-content">
-            <h2>Dashboard</h2>
-            <div class="dashboard-grid">
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h1>Welcome back, Dr. Sarah!</h1>
+                    <p>You have <strong>3</strong> pending blood requests waiting for your review.</p>
+                </div>
+                <div class="welcome-actions">
+                    <a href="blood-request.html" class="btn">New Blood Request</a>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
                 <div class="stat-card">
                     <div>Total Blood Units</div>
-                    <div class="stat-number">1,284</div>
+                    <div class="stat-value">1,284</div>
+                    <div>Available in inventory</div>
                 </div>
                 <div class="stat-card">
-                    <div>Donors This Month</div>
-                    <div class="stat-number">56</div>
+                    <div>Donations This Month</div>
+                    <div class="stat-value">56</div>
+                    <div>Increase of 12% from last month</div>
                 </div>
                 <div class="stat-card">
-                    <div>Units Requested</div>
-                    <div class="stat-number">42</div>
+                    <div>Active Requests</div>
+                    <div class="stat-value">24</div>
+                    <div>5 urgent, 19 routine</div>
                 </div>
                 <div class="stat-card">
                     <div>Critical Shortage</div>
-                    <div class="stat-number">O-</div>
+                    <div class="stat-value">O-</div>
+                    <div>12 units remaining</div>
                 </div>
             </div>
             
             <h3>Blood Inventory Status</h3>
+            <div class="blood-type-grid">
+                <div class="blood-type-card">
+                    <div class="blood-type-name">A+</div>
+                    <div class="blood-type-units">145 units</div>
+                    <div class="blood-type-status status-green">Normal</div>
+                </div>
+                <div class="blood-type-card">
+                    <div class="blood-type-name">A-</div>
+                    <div class="blood-type-units">68 units</div>
+                    <div class="blood-type-status status-green">Normal</div>
+                </div>
+                <div class="blood-type-card">
+                    <div class="blood-type-name">B+</div>
+                    <div class="blood-type-units">93 units</div>
+                    <div class="blood-type-status status-green">Normal</div>
+                </div>
+                <div class="blood-type-card">
+                    <div class="blood-type-name">B-</div>
+                    <div class="blood-type-units">32 units</div>
+                    <div class="blood-type-status status-yellow">Low</div>
+                </div>
+                <div class="blood-type-card">
+                    <div class="blood-type-name">AB+</div>
+                    <div class="blood-type-units">45 units</div>
+                    <div class="blood-type-status status-green">Normal</div>
+                </div>
+                <div class="blood-type-card">
+                    <div class="blood-type-name">AB-</div>
+                    <div class="blood-type-units">22 units</div>
+                    <div class="blood-type-status status-yellow">Low</div>
+                </div>
+                <div class="blood-type-card">
+                    <div class="blood-type-name">O+</div>
+                    <div class="blood-type-units">187 units</div>
+                    <div class="blood-type-status status-green">Normal</div>
+                </div>
+                <div class="blood-type-card">
+                    <div class="blood-type-name">O-</div>
+                    <div class="blood-type-units">12 units</div>
+                    <div class="blood-type-status status-red">Critical</div>
+                </div>
+            </div>
+            
+            <div class="action-buttons">
+                <a href="blood-inventory.html" class="btn">View Full Inventory</a>
+                <a href="expiring-units.html" class="btn-outline">Expiring Units</a>
+                <a href="inventory-forecast.html" class="btn-outline">Inventory Forecast</a>
+            </div>
+            
+            <div class="tabs">
+                <div class="tab active" id="tab-requests">Pending Requests</div>
+                <div class="tab" id="tab-activity">Recent Activity</div>
+                <div class="tab" id="tab-donations">Today's Donations</div>
+            </div>
+            
+            <div id="requests-content">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Request ID</th>
+                            <th>Hospital</th>
+                            <th>Blood Type</th>
+                            <th>Units</th>
+                            <th>Date Needed</th>
+                            <th>Priority</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>REQ-1025</td>
+                            <td>Memorial Hospital</td>
+                            <td>O-</td>
+                            <td>3</td>
+                            <td>Today, 2:00 PM</td>
+                            <td><span class="status-badge badge-urgent">Urgent</span></td>
+                            <td class="actions-cell">
+                                <a href="process-request.html?id=REQ-1025" class="btn btn-sm">Process</a>
+                                <a href="view-request.html?id=REQ-1025" class="btn-outline btn-sm">View</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1024</td>
+                            <td>City General</td>
+                            <td>A+</td>
+                            <td>2</td>
+                            <td>Tomorrow</td>
+                            <td><span class="status-badge badge-pending">Routine</span></td>
+                            <td class="actions-cell">
+                                <a href="process-request.html?id=REQ-1024" class="btn btn-sm">Process</a>
+                                <a href="view-request.html?id=REQ-1024" class="btn-outline btn-sm">View</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1023</td>
+                            <td>Westside Medical</td>
+                            <td>B+</td>
+                            <td>1</td>
+                            <td>Tomorrow</td>
+                            <td><span class="status-badge badge-pending">Routine</span></td>
+                            <td class="actions-cell">
+                                <a href="process-request.html?id=REQ-1023" class="btn btn-sm">Process</a>
+                                <a href="view-request.html?id=REQ-1023" class="btn-outline btn-sm">View</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1022</td>
+                            <td>Memorial Hospital</td>
+                            <td>AB-</td>
+                            <td>1</td>
+                            <td>Mar 27, 2025</td>
+                            <td><span class="status-badge badge-pending">Routine</span></td>
+                            <td class="actions-cell">
+                                <a href="process-request.html?id=REQ-1022" class="btn btn-sm">Process</a>
+                                <a href="view-request.html?id=REQ-1022" class="btn-outline btn-sm">View</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>REQ-1021</td>
+                            <td>Eastside Clinic</td>
+                            <td>O+</td>
+                            <td>2</td>
+                            <td>Mar 28, 2025</td>
+                            <td><span class="status-badge badge-pending">Routine</span></td>
+                            <td class="actions-cell">
+                                <a href="process-request.html?id=REQ-1021" class="btn btn-sm">Process</a>
+                                <a href="view-request.html?id=REQ-1021" class="btn-outline btn-sm">View</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="pagination">
+                    <a href="#">&laquo;</a>
+                    <a href="#" class="active">1</a>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">&raquo;</a>
+                </div>
+            </div>
+            
+            <div id="activity-content" style="display: none;">
+                <h3>Recent Activity Log</h3>
+                <div class="card">
+                    <p><strong>Today, 11:45 AM</strong> - 3 units of B+ dispatched to Memorial Hospital</p>
+                </div>
+                <div class="card">
+                    <p><strong>Today, 10:22 AM</strong> - New donor registered: Sarah Johnson (A+)</p>
+                </div>
+                <div class="card">
+                    <p><strong>Today, 09:15 AM</strong> - Emergency request for O- from City General Hospital</p>
+                </div>
+                <div class="card">
+                    <p><strong>Today, 08:30 AM</strong> - Daily inventory check completed</p>
+                </div>
+                <div class="card">
+                    <p><strong>Yesterday, 04:30 PM</strong> - Blood drive scheduled at Community Center for next Monday</p>
+                </div>
+                <div class="card">
+                    <p><strong>Yesterday, 03:15 PM</strong> - 5 units of A+ received from donor drive</p>
+                </div>
+                <div class="card">
+                    <p><strong>Yesterday, 01:45 PM</strong> - Expiry alert: 3 units of AB+ expiring in 2 days</p>
+                </div>
+            </div>
+            
+            <div id="donations-content" style="display: none;">
+                <h3>Today's Donations</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Donor ID</th>
+                            <th>Name</th>
+                            <th>Blood Type</th>
+                            <th>Time</th>
+                            <th>Location</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>DNR-1045</td>
+                            <td>Michael Brown</td>
+                            <td>O+</td>
+                            <td>10:30 AM</td>
+                            <td>Central Blood Bank</td>
+                            <td><span class="status-badge badge-complete">Complete</span></td>
+                            <td><a href="donation-details.html?id=DNR-1045" class="btn-outline btn-sm">View</a></td>
+                        </tr>
+                        <tr>
+                            <td>DNR-1046</td>
+                            <td>Emily Taylor</td>
+                            <td>A-</td>
+                            <td>11:15 AM</td>
+                            <td>Central Blood Bank</td>
+                            <td><span class="status-badge badge-complete">Complete</span></td>
+                            <td><a href="donation-details.html?id=DNR-1046" class="btn-outline btn-sm">View</a></td>
+                        </tr>
+                        <tr>
+                            <td>DNR-1047</td>
+                            <td>James Wilson</td>
+                            <td>B+</td>
+                            <td>11:45 AM</td>
+                            <td>Central Blood Bank</td>
+                            <td><span class="status-badge badge-complete">Complete</span></td>
+                            <td><a href="donation-details.html?id=DNR-1047" class="btn-outline btn-sm">View</a></td>
+                        </tr>
+                        <tr>
+                            <td>DNR-1048</td>
+                            <td>Sarah Johnson</td>
+                            <td>A+</td>
+                            <td>09:00 AM</td>
+                            <td>Memorial Hospital</td>
+                            <td><span class="status-badge badge-complete">Complete</span></td>
+                            <td><a href="donation-details.html?id=DNR-1048" class="btn-outline btn-sm">View</a></td>
+                        </tr>
+                        <tr>
+                            <td>DNR-1049</td>
+                            <td>Robert Davis</td>
+                            <td>AB-</td>
+                            <td>01:30 PM</td>
+                            <td>Central Blood Bank</td>
+                            <td><span class="status-badge badge-pending">Scheduled</span></td>
+                            <td><a href="donation-details.html?id=DNR-1049" class="btn-outline btn-sm">View</a></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <h3>Upcoming Blood Drives</h3>
             <table>
                 <thead>
                     <tr>
-                        <th>Blood Type</th>
-                        <th>Available Units</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Estimated Donors</th>
+                        <th>Staff Assigned</th>
                         <th>Status</th>
+                        <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td>A+</td>
-                        <td>145</td>
-                        <td class="status-normal">Normal</td>
+                        <td>March 15-17, 2025</td>
+                        <td>Community Center</td>
+                        <td>75-100</td>
+                        <td>5 staff, 8 volunteers</td>
+                        <td><span class="status-badge badge-pending">Upcoming</span></td>
+                        <td><a href="drive-details.html?id=DRV-125" class="btn-outline btn-sm">Details</a></td>
                     </tr>
                     <tr>
-                        <td>A-</td>
-                        <td>68</td>
-                        <td class="status-normal">Normal</td>
+                        <td>March 22, 2025</td>
+                        <td>Downtown Office Complex</td>
+                        <td>40-60</td>
+                        <td>3 staff, 5 volunteers</td>
+                        <td><span class="status-badge badge-pending">Upcoming</span></td>
+                        <td><a href="drive-details.html?id=DRV-126" class="btn-outline btn-sm">Details</a></td>
                     </tr>
                     <tr>
-                        <td>B+</td>
-                        <td>93</td>
-                        <td class="status-normal">Normal</td>
-                    </tr>
-                    <tr>
-                        <td>B-</td>
-                        <td>32</td>
-                        <td class="status-low">Low</td>
-                    </tr>
-                    <tr>
-                        <td>AB+</td>
-                        <td>45</td>
-                        <td class="status-normal">Normal</td>
-                    </tr>
-                    <tr>
-                        <td>AB-</td>
-                        <td>22</td>
-                        <td class="status-low">Low</td>
-                    </tr>
-                    <tr>
-                        <td>O+</td>
-                        <td>187</td>
-                        <td class="status-normal">Normal</td>
-                    </tr>
-                    <tr>
-                        <td>O-</td>
-                        <td>12</td>
-                        <td class="status-critical">Critical</td>
+                        <td>April 5, 2025</td>
+                        <td>University Campus</td>
+                        <td>100-150</td>
+                        <td>6 staff, 12 volunteers</td>
+                        <td><span class="status-badge badge-pending">Planning</span></td>
+                        <td><a href="drive-details.html?id=DRV-127" class="btn-outline btn-sm">Details</a></td>
                     </tr>
                 </tbody>
             </table>
-            
-            <h3>Recent Activity</h3>
-            <div class="card">
-                <p><strong>Today, 11:45 AM</strong> - 3 units of B+ dispatched to Memorial Hospital</p>
-            </div>
-            <div class="card">
-                <p><strong>Today, 10:22 AM</strong> - New donor registered: Sarah Johnson (A+)</p>
-            </div>
-            <div class="card">
-                <p><strong>Today, 09:15 AM</strong> - Emergency request for O- from City General Hospital</p>
-            </div>
-            <div class="card">
-                <p><strong>Yesterday, 04:30 PM</strong> - Blood drive scheduled at Community Center for next Monday</p>
-            </div>
-            
-            <div style="margin-top: 20px;">
-                <a href="reports.html" class="btn">View All Reports</a>
-                <a href="blood-request.html" class="btn-outline" style="margin-left: 10px;">Process Blood Request</a>
-            </div>
         </div>
         <div class="mockup-footer">
             © 2025 Blood Bank System | Privacy Policy | Terms of Service | Contact Us
@@ -293,20 +704,60 @@
     </div>
 
     <script>
-        // Simple interactivity for dashboard
         document.addEventListener('DOMContentLoaded', function() {
-            // Update time
-            const updateTime = () => {
-                const now = new Date();
-                const timeString = now.toLocaleTimeString();
-                // You could update a time element here if needed
-            };
+            // Tab functionality
+            const tabs = document.querySelectorAll('.tab');
+            const tabContents = [
+                document.getElementById('requests-content'),
+                document.getElementById('activity-content'),
+                document.getElementById('donations-content')
+            ];
             
-            // Call immediately and set interval
-            updateTime();
-            setInterval(updateTime, 60000); // Update every minute
+            tabs.forEach((tab, index) => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs
+                    tabs.forEach(t => t.classList.remove('active'));
+                    
+                    // Hide all tab contents
+                    tabContents.forEach(content => {
+                        if (content) content.style.display = 'none';
+                    });
+                    
+                    // Add active class to clicked tab
+                    this.classList.add('active');
+                    
+                    // Show corresponding content
+                    if (tabContents[index]) {
+                        tabContents[index].style.display = 'block';
+                    }
+                });
+            });
             
-            // You could add more dashboard interactivity here
+            // Mock data for real-time updates (in a real implementation, this would come from an API)
+            const mockUpdateInterval = setInterval(function() {
+                // Simulate inventory changes
+                const inventoryStats = document.querySelectorAll('.blood-type-units');
+                const randomIndex = Math.floor(Math.random() * inventoryStats.length);
+                const currentValue = parseInt(inventoryStats[randomIndex].textContent);
+                const newValue = currentValue + (Math.random() > 0.5 ? 1 : -1);
+                
+                if (newValue > 0) {
+                    inventoryStats[randomIndex].textContent = `${newValue} units`;
+                }
+                
+                // Update critical shortage warnings based on thresholds
+                const oNegUnits = parseInt(document.querySelectorAll('.blood-type-units')[7].textContent);
+                const criticalShortageCard = document.querySelectorAll('.stat-card')[3];
+                
+                if (oNegUnits <= 10) {
+                    criticalShortageCard.querySelector('.stat-value').style.color = '#D32F2F';
+                }
+            }, 30000); // Update every 30 seconds
+            
+            // Clean up interval on page unload
+            window.addEventListener('beforeunload', function() {
+                clearInterval(mockUpdateInterval);
+            });
         });
     </script>
 </body>
