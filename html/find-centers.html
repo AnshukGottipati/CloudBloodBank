@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBOBBS - Find Donation Centers</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Navigation */
+        .mockup-nav {
+            background-color: #f8f8f8;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+        
+        .mockup-nav a {
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+            padding: 5px 0;
+        }
+        
+        .mockup-nav a.active {
+            font-weight: bold;
+            color: #D32F2F;
+            border-bottom: 2px solid #D32F2F;
+        }
+        
+        .mockup-nav a:hover:not(.btn):not(.btn-outline) {
+            color: #D32F2F;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #D32F2F;
+            color: white !important;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: normal;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #B71C1C;
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: #D32F2F !important;
+            padding: 7px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #D32F2F;
+            font-weight: normal;
+            cursor: pointer;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Content Area */
+        .mockup-content {
+            padding: 20px;
+        }
+        
+        /* Hero Banner */
+        .hero-banner {
+            background-color: #f8f8f8;
+            padding: 30px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        
+        .hero-banner h1 {
+            color: #D32F2F;
+            margin-top: 0;
+        }
+        
+        /* Search Controls */
+        .search-controls {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        
+        .search-controls input[type="text"] {
+            padding: 10px;
+            flex-grow: 1;
+            min-width: 250px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        .search-controls select {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        
+        /* Map Container */
+        .map-container {
+            height: 450px;
+            background-color: #eee;
+            position: relative;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            border: 1px solid #ddd;
+        }
+        
+        .map-placeholder {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+        
+        /* Location Filters */
+        .filter-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: #f8f8f8;
+            border: 1px solid #ddd;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+        
+        .filter-btn.active {
+            background-color: #ffebee;
+            border-color: #D32F2F;
+            color: #D32F2F;
+        }
+        
+        /* Location Item */
+        .location-list {
+            margin-top: 20px;
+        }
+        
+        .location-item {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background-color: #fff;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .location-info {
+            flex: 3;
+            min-width: 300px;
+        }
+        
+        .location-actions {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            padding-left: 20px;
+        }
+        
+        .location-item h3 {
+            margin-top: 0;
+            color: #D32F2F;
+            margin-bottom: 15px;
+        }
+        
+        .location-item p {
+            margin: 8px 0;
+        }
+        
+        .location-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            margin-right: 5px;
+        }
+        
+        .badge-open {
+            background-color: #e8f5e9;
+            color: #2E7D32;
+        }
+        
+        .badge-closed {
+            background-color: #ffebee;
+            color: #D32F2F;
+        }
+        
+        .badge-special {
+            background-color: #e3f2fd;
+            color: #1565C0;
+        }
+        
+        .location-actions .btn,
+        .location-actions .btn-outline {
+            margin-bottom: 10px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        /* Footer */
+        .mockup-footer {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .search-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-controls input[type="text"],
+            .search-controls select,
+            .search-controls .btn {
+                width: 100%;
+            }
+            
+            .location-item {
+                flex-direction: column;
+            }
+            
+            .location-actions {
+                padding-left: 0;
+                margin-top: 20px;
+            }
+            
+            .map-container {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            <a href="index.html" class="nav-logo">
+                <img src="../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBBS - Find Donation Centers
+        </div>
+        <div class="mockup-nav">
+            <a href="index.html">Home</a>
+            <a href="find-centers.html" class="active">Find Donation Centers</a>
+            <a href="eligibility.html">Eligibility</a>
+            <!-- <a href="about.html">About</a> -->
+            <a href="login.html" class="btn" style="float: right;">Login</a>
+            <a href="register.html" class="btn-outline" style="float: right; margin-right: 10px;">Register</a>
+        </div>
+        <div class="mockup-content">
+            <div class="hero-banner">
+                <h1>Find Blood Donation Centers</h1>
+                <p>Locate your nearest blood donation center or upcoming blood drive. Every donation can save up to three lives.</p>
+            </div>
+            
+            <div class="search-controls">
+                <input type="text" placeholder="Enter your address, city, or zip code...">
+                <select>
+                    <option value="10">Within 10 miles</option>
+                    <option value="25" selected>Within 25 miles</option>
+                    <option value="50">Within 50 miles</option>
+                </select>
+                <a href="#" class="btn">Find Centers</a>
+            </div>
+            
+            <div class="map-container">
+                <div class="map-placeholder">
+                    <div style="font-size: 18px; margin-bottom: 10px;">Interactive Map</div>
+                    <div style="font-size: 14px; color: #666;">(Shows nearby donation centers and blood drives)</div>
+                </div>
+            </div>
+            
+            <div class="filter-options">
+                <div class="filter-btn active">All Centers</div>
+                <div class="filter-btn">Permanent Centers</div>
+                <div class="filter-btn">Mobile Blood Drives</div>
+                <div class="filter-btn">Open Today</div>
+                <div class="filter-btn">Open Weekends</div>
+            </div>
+            
+            <h2>Donation Centers Near You</h2>
+            <div class="location-list">
+                <div class="location-item">
+                    <div class="location-info">
+                        <h3>Central Blood Bank</h3>
+                        <p><span class="location-badge badge-open">Open Now</span> <span class="location-badge badge-special">Appointments Available Today</span></p>
+                        <p><strong>Address:</strong> 123 Main St, Anytown, ST 12345</p>
+                        <p><strong>Phone:</strong> (555) 123-4567</p>
+                        <p><strong>Hours:</strong> Mon-Fri: 8am-6pm, Sat: 9am-2pm, Sun: Closed</p>
+                        <p><strong>Distance:</strong> 1.2 miles</p>
+                        <p><strong>Current Needs:</strong> All blood types, especially O- and B-</p>
+                    </div>
+                    <div class="location-actions">
+                        <a href="schedule-appointment.html?id=BB001" class="btn">Schedule Appointment</a>
+                        <a href="#" class="btn-outline">Get Directions</a>
+                        <a href="center-details.html?id=BB001" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="location-item">
+                    <div class="location-info">
+                        <h3>Memorial Hospital Blood Center</h3>
+                        <p><span class="location-badge badge-open">Open Now</span> <span class="location-badge badge-special">Walk-ins Welcome</span></p>
+                        <p><strong>Address:</strong> 456 Hospital Ave, Anytown, ST 12345</p>
+                        <p><strong>Phone:</strong> (555) 987-6543</p>
+                        <p><strong>Hours:</strong> 24/7 for emergency donations, Regular hours: Mon-Sun: 7am-8pm</p>
+                        <p><strong>Distance:</strong> 2.8 miles</p>
+                        <p><strong>Current Needs:</strong> Critical need for O- and platelets</p>
+                    </div>
+                    <div class="location-actions">
+                        <a href="schedule-appointment.html?id=BB002" class="btn">Schedule Appointment</a>
+                        <a href="#" class="btn-outline">Get Directions</a>
+                        <a href="center-details.html?id=BB002" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="location-item">
+                    <div class="location-info">
+                        <h3>Community Center Blood Drive</h3>
+                        <p><span class="location-badge badge-special">Special Event</span></p>
+                        <p><strong>Address:</strong> 789 Community Blvd, Anytown, ST 12346</p>
+                        <p><strong>Phone:</strong> (555) 456-7890</p>
+                        <p><strong>Dates:</strong> March 15-17, 2025</p>
+                        <p><strong>Hours:</strong> 10:00 AM - 4:00 PM daily</p>
+                        <p><strong>Distance:</strong> 3.5 miles</p>
+                        <p><strong>Current Needs:</strong> All blood types welcome</p>
+                    </div>
+                    <div class="location-actions">
+                        <a href="schedule-appointment.html?id=TMP001" class="btn">Schedule Appointment</a>
+                        <a href="#" class="btn-outline">Get Directions</a>
+                        <a href="drive-details.html?id=TMP001" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="location-item">
+                    <div class="location-info">
+                        <h3>Westside Medical Center</h3>
+                        <p><span class="location-badge badge-closed">Closed Now</span></p>
+                        <p><strong>Address:</strong> 222 West St, Anytown, ST 12346</p>
+                        <p><strong>Phone:</strong> (555) 222-3333</p>
+                        <p><strong>Hours:</strong> Mon-Fri: 9am-5pm, Sat-Sun: Closed</p>
+                        <p><strong>Distance:</strong> 4.7 miles</p>
+                        <p><strong>Current Needs:</strong> A+, A-, AB+, AB-</p>
+                    </div>
+                    <div class="location-actions">
+                        <a href="schedule-appointment.html?id=BB003" class="btn">Schedule Appointment</a>
+                        <a href="#" class="btn-outline">Get Directions</a>
+                        <a href="center-details.html?id=BB003" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+                
+                <div class="location-item">
+                    <div class="location-info">
+                        <h3>Eastside Blood Donation Center</h3>
+                        <p><span class="location-badge badge-open">Open Now</span></p>
+                        <p><strong>Address:</strong> 555 East Ave, Anytown, ST 12347</p>
+                        <p><strong>Phone:</strong> (555) 555-5555</p>
+                        <p><strong>Hours:</strong> Mon-Fri: 10am-7pm, Sat: 9am-3pm, Sun: Closed</p>
+                        <p><strong>Distance:</strong> 5.3 miles</p>
+                        <p><strong>Current Needs:</strong> All blood types, especially O-</p>
+                    </div>
+                    <div class="location-actions">
+                        <a href="schedule-appointment.html?id=BB004" class="btn">Schedule Appointment</a>
+                        <a href="#" class="btn-outline">Get Directions</a>
+                        <a href="center-details.html?id=BB004" class="btn-outline">View Details</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; margin-bottom: 20px;">
+                <a href="#" class="btn-outline">Load More Centers</a>
+            </div>
+            
+            <div class="card" style="border: 1px solid #ddd; padding: 20px; border-radius: 5px; background-color: #f8f8f8; margin-top: 30px;">
+                <h3 style="margin-top: 0; color: #D32F2F;">Can't Find a Center Near You?</h3>
+                <p>Contact us to learn about mobile blood drives coming to your area or to request a blood drive at your location.</p>
+                <p><a href="contact.html" class="btn">Contact Us</a> <a href="host-drive.html" class="btn-outline">Host a Blood Drive</a></p>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Filter buttons functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    
+                    // Add active class to clicked button
+                    this.classList.add('active');
+                    
+                    // In a real implementation, this would filter the locations
+                    console.log('Filter selected:', this.textContent.trim());
+                });
+            });
+            
+            // Search functionality
+            const searchBtn = document.querySelector('.search-controls .btn');
+            const searchInput = document.querySelector('.search-controls input');
+            const distanceSelect = document.querySelector('.search-controls select');
+            
+            searchBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                if (!searchInput.value.trim()) {
+                    alert('Please enter a location to search');
+                    return;
+                }
+                
+                // In a real implementation, this would call a mapping API
+                alert('Searching for donation centers near: ' + searchInput.value + 
+                      '\nWithin: ' + distanceSelect.value + ' miles');
+            });
+        });
+    </script>
+</body>
+</html>

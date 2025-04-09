@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBOBBS - Login</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Content Area */
+        .mockup-content {
+            padding: 20px;
+        }
+        
+        /* Login Form */
+        .login-form {
+            max-width: 400px;
+            margin: 20px auto 40px;
+            padding: 30px;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .login-form h2 {
+            margin-top: 0;
+            color: #D32F2F;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        
+        .form-group input:focus {
+            border-color: #D32F2F;
+            outline: none;
+            box-shadow: 0 0 5px rgba(211, 47, 47, 0.2);
+        }
+        
+        /* Button container - centered */
+        .button-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #D32F2F;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+        }
+        
+        .btn:hover {
+            background-color: #B71C1C;
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: #D32F2F;
+            padding: 9px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #D32F2F;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 0 5px;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Links */
+        .login-form p {
+            text-align: center;
+            margin-top: 20px;
+        }
+        
+        .login-form a {
+            color: #D32F2F;
+            text-decoration: none;
+        }
+        
+        .login-form a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        .mockup-footer {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            <a href="index.html" class="nav-logo">
+                <img src="../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBBS - Login
+        </div>
+        <div class="mockup-content">
+            <div class="login-form">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username">
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password">
+                </div>
+                <div class="button-container">
+                    <a href="#" id="login-btn" class="btn" style="color: white;">Login</a>
+                    <a href="register.html" class="btn-outline">Create Account</a>
+                </div>
+                <p><a href="forgot-password.html">Forgot Password?</a></p>
+                <p><a href="index.html">Return to Home Page</a></p>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
+        </div>
+    </div>
+
+    <script>
+        // Simple form validation
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginBtn = document.getElementById('login-btn');
+            loginBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const username = document.getElementById('username').value;
+                const password = document.getElementById('password').value;
+                
+                // Simple validation
+                if (!username || !password) {
+                    alert('Please enter both username and password.');
+                    return;
+                }
+                
+                // Mock login logic - in a real system, this would validate against a database
+                // For demo purposes, we'll use some hardcoded values to determine role
+                
+                // Define some test users (in a real system, this would come from an API/database)
+                const testUsers = {
+                    'donor123': { role: 'donor', password: 'password123' },
+                    'doctor123': { role: 'medical', password: 'password123' },
+                    'admin123': { role: 'admin', password: 'password123' }
+                };
+                
+                // Check if username exists
+                if (testUsers[username]) {
+                    // Check if password matches
+                    if (testUsers[username].password === password) {
+                        // Redirect based on role
+                        const userRole = testUsers[username].role;
+                        
+                        if (userRole === 'donor') {
+                            // Redirect to donor dashboard
+                            window.location.href = 'donor-dashboard.html';
+                        } else if (userRole === 'medical') {
+                            // Redirect to medical dashboard
+                            window.location.href = 'med-dashboard.html';
+                        } else if (userRole === 'admin') {
+                            // Redirect to admin dashboard
+                            window.location.href = 'dashboard.html';
+                        }
+                    } else {
+                        alert('Incorrect password. Please try again.');
+                    }
+                } else {
+                    alert('Username not found. Please check your username or register for an account.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

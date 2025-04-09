@@ -1,0 +1,540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBOBBS - Donor Dashboard</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Navigation */
+        .mockup-nav {
+            background-color: #f8f8f8;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+        
+        .mockup-nav a {
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+            padding: 5px 0;
+        }
+        
+        .mockup-nav a.active {
+            font-weight: bold;
+            color: #D32F2F;
+            border-bottom: 2px solid #D32F2F;
+        }
+        
+        .mockup-nav a:hover:not(.btn):not(.btn-outline) {
+            color: #D32F2F;
+        }
+        
+        /* Content Area */
+        .mockup-content {
+            padding: 20px;
+        }
+        
+        /* Welcome Banner */
+        .welcome-banner {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        
+        .welcome-text {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .welcome-text h1 {
+            margin-top: 0;
+            color: #D32F2F;
+        }
+        
+        .welcome-actions {
+            flex: 1;
+            min-width: 200px;
+            text-align: right;
+        }
+        
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #D32F2F;
+            margin: 10px 0;
+        }
+        
+        /* Dashboard Cards */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .dashboard-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+        
+        .dashboard-card-header {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .dashboard-card-header h3 {
+            margin: 0;
+            color: #D32F2F;
+        }
+        
+        .dashboard-card-content {
+            padding: 15px;
+        }
+        
+        /* Detail Items */
+        .detail-item {
+            margin-bottom: 10px;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            width: 40%;
+            min-width: 150px;
+        }
+        
+        .detail-value {
+            width: 60%;
+        }
+        
+        /* Status Labels */
+        .status-label {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-eligible {
+            background-color: #e8f5e9;
+            color: #2E7D32;
+        }
+        
+        .status-ineligible {
+            background-color: #ffebee;
+            color: #D32F2F;
+        }
+        
+        .status-pending {
+            background-color: #fff8e1;
+            color: #F57F17;
+        }
+        
+        /* Appointment List */
+        .appointment-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .appointment-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .appointment-item:last-child {
+            border-bottom: none;
+        }
+        
+        .appointment-date {
+            font-weight: bold;
+            color: #D32F2F;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+        
+        table th, table td {
+            padding: 10px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        
+        table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* Impact Section */
+        .impact-section {
+            text-align: center;
+            padding: 20px;
+            background-color: #f8f8f8;
+            border-radius: 5px;
+            margin-bottom: 30px;
+        }
+        
+        .impact-value {
+            font-size: 36px;
+            font-weight: bold;
+            color: #D32F2F;
+            margin: 10px 0;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #D32F2F;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #B71C1C;
+        }
+        
+        .btn-lg {
+            padding: 12px 20px;
+            font-size: 16px;
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: #D32F2F;
+            padding: 7px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #D32F2F;
+            cursor: pointer;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Footer */
+        .mockup-footer {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .welcome-banner {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .welcome-actions {
+                text-align: center;
+                margin-top: 20px;
+            }
+            
+            .detail-label, .detail-value {
+                width: 100%;
+            }
+            
+            .detail-value {
+                margin-bottom: 10px;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            <a href="../index.html" class="nav-logo">
+                <img src="../../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBBS - Donor Portal
+        </div>
+        <div class="mockup-nav">
+            <a href="donor-dashboard.html" class="active">Dashboard</a>
+            <a href="donor-appointments.html">My Appointments</a>
+            <a href="donor-history.html">Donation History</a>
+            <a href="donor-rewards.html">Donor Rewards</a>
+            <a href="../index.html" style="float: right;">Logout</a>
+            <a href="donor-profile.html" style="float: right; margin-right: 5px;">Profile</a>
+        </div>
+        <div class="mockup-content">
+            <div class="welcome-banner">
+                <div class="welcome-text">
+                    <h1>Welcome back, John!</h1>
+                    <p>Thank you for being a blood donor. Your contributions have helped save an estimated 12 lives so far!</p>
+                </div>
+                <div class="welcome-actions">
+                    <a href="donor-schedule.html" class="btn btn-lg">Schedule Donation</a>
+                </div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>Total Donations</div>
+                    <div class="stat-value">4</div>
+                    <div>Since 2020</div>
+                </div>
+                <div class="stat-card">
+                    <div>Last Donation</div>
+                    <div class="stat-value">Jan 15</div>
+                    <div>2025</div>
+                </div>
+                <div class="stat-card">
+                    <div>Next Eligible Date</div>
+                    <div class="stat-value">Mar 12</div>
+                    <div>2025</div>
+                </div>
+                <div class="stat-card">
+                    <div>Donor Status</div>
+                    <div class="stat-value" style="font-size: 18px;">
+                        <span class="status-label status-eligible">Eligible in 16 days</span>
+                    </div>
+                    <div>Based on last donation</div>
+                </div>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3>Your Next Appointment</h3>
+                    </div>
+                    <div class="dashboard-card-content">
+                        <div style="text-align: center; padding: 20px 0;">
+                            <p>You don't have any upcoming appointments.</p>
+                            <a href="donor-schedule.html" class="btn">Schedule Now</a>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3>Your Blood Type: A+</h3>
+                    </div>
+                    <div class="dashboard-card-content">
+                        <p><strong>Current Need Status:</strong> <span class="status-label status-eligible">Good Supply</span></p>
+                        <p><strong>Compatible Blood Types You Can Receive:</strong></p>
+                        <ul>
+                            <li>A+</li>
+                            <li>A-</li>
+                            <li>O+</li>
+                            <li>O-</li>
+                        </ul>
+                        <p><strong>Blood Types You Can Donate To:</strong></p>
+                        <ul>
+                            <li>A+</li>
+                            <li>AB+</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3>Critical Blood Needs</h3>
+                    </div>
+                    <div class="dashboard-card-content">
+                        <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
+                            <div style="padding: 15px; background-color: #ffebee; border-radius: 5px; min-width: 60px; text-align: center;">
+                                <div style="font-weight: bold; color: #D32F2F;">O-</div>
+                                <div style="font-size: 12px;">Critical</div>
+                            </div>
+                            <div style="padding: 15px; background-color: #fff8e1; border-radius: 5px; min-width: 60px; text-align: center;">
+                                <div style="font-weight: bold; color: #F57F17;">B-</div>
+                                <div style="font-size: 12px;">Low</div>
+                            </div>
+                            <div style="padding: 15px; background-color: #fff8e1; border-radius: 5px; min-width: 60px; text-align: center;">
+                                <div style="font-weight: bold; color: #F57F17;">AB-</div>
+                                <div style="font-size: 12px;">Low</div>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 15px;">Even if not your blood type, your donation can help through blood component separation.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Recent Donation History</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Type</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Jan 15, 2025</td>
+                        <td>Central Blood Bank</td>
+                        <td>Whole Blood</td>
+                        <td>Successful</td>
+                    </tr>
+                    <tr>
+                        <td>Oct 10, 2024</td>
+                        <td>Memorial Hospital</td>
+                        <td>Whole Blood</td>
+                        <td>Successful</td>
+                    </tr>
+                    <tr>
+                        <td>Jul 5, 2024</td>
+                        <td>Central Blood Bank</td>
+                        <td>Whole Blood</td>
+                        <td>Successful</td>
+                    </tr>
+                    <tr>
+                        <td>Mar 22, 2024</td>
+                        <td>Community Blood Drive</td>
+                        <td>Whole Blood</td>
+                        <td>Successful</td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="impact-section">
+                <h3>Your Donation Impact</h3>
+                <p>Every donation can save up to 3 lives. Your donations have potentially helped:</p>
+                <div class="impact-value">12 Lives</div>
+                <p>Thank you for making a difference!</p>
+                <a href="donor-rewards.html" class="btn-outline">View Your Rewards</a>
+            </div>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3>Upcoming Blood Drives</h3>
+                    </div>
+                    <div class="dashboard-card-content">
+                        <ul class="appointment-list">
+                            <li class="appointment-item">
+                                <div class="appointment-date">March 15-17, 2025</div>
+                                <p><strong>Community Center Blood Drive</strong><br>
+                                789 Community Blvd, Anytown<br>
+                                10:00 AM - 4:00 PM</p>
+                                <a href="donor-schedule.html?drive=123" class="btn-outline">Schedule Appointment</a>
+                            </li>
+                            <li class="appointment-item">
+                                <div class="appointment-date">March 22, 2025</div>
+                                <p><strong>Downtown Office Complex Drive</strong><br>
+                                101 Business Plaza, Anytown<br>
+                                9:00 AM - 3:00 PM</p>
+                                <a href="donor-schedule.html?drive=124" class="btn-outline">Schedule Appointment</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3>Health Tips for Donors</h3>
+                    </div>
+                    <div class="dashboard-card-content">
+                        <ul>
+                            <li><strong>Before Donation:</strong> Get a good night's sleep, eat a healthy meal, and stay hydrated.</li>
+                            <li><strong>Iron Intake:</strong> Consider foods rich in iron like red meat, spinach, and beans to maintain healthy iron levels.</li>
+                            <li><strong>After Donation:</strong> Drink extra fluids and avoid strenuous activity for 24 hours.</li>
+                            <li><strong>Regular Check-ups:</strong> Keep up with your regular health check-ups to ensure you remain eligible to donate.</li>
+                        </ul>
+                        <p><a href="donor-health-tips.html" class="btn-outline">Learn More</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Calculate next eligible donation date (56 days from last donation)
+            const lastDonationDate = new Date('2025-01-15');
+            const nextEligibleDate = new Date(lastDonationDate);
+            nextEligibleDate.setDate(nextEligibleDate.getDate() + 56); // 56 days = 8 weeks
+            
+            // Calculate days until eligible
+            const today = new Date();
+            const daysUntilEligible = Math.ceil((nextEligibleDate - today) / (1000 * 60 * 60 * 24));
+            
+            // Update eligibility status if needed
+            if (daysUntilEligible <= 0) {
+                document.querySelector('.status-label').textContent = 'Eligible Now';
+            } else {
+                document.querySelector('.status-label').textContent = `Eligible in ${daysUntilEligible} days`;
+            }
+        });
+    </script>
+</body>
+</html>
