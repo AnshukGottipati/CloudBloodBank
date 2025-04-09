@@ -4,20 +4,253 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBOBBS - Blood Inventory</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Navigation */
+        .mockup-nav {
+            background-color: #f8f8f8;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+        
+        .mockup-nav a {
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+            padding: 5px 0;
+        }
+        
+        .mockup-nav a.active {
+            font-weight: bold;
+            color: #D32F2F;
+            border-bottom: 2px solid #D32F2F;
+        }
+        
+        .mockup-nav a:hover:not(.btn):not(.btn-outline) {
+            color: #D32F2F;
+        }
+        
+        /* Content Area */
+        .mockup-content {
+            padding: 20px;
+        }
+        
+        /* Search Controls */
+        .search-bar {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .search-bar input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        
+        table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* Pagination */
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .pagination a {
+            color: #D32F2F;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #D32F2F;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #B71C1C;
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: #D32F2F;
+            padding: 7px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #D32F2F;
+            cursor: pointer;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Action Links */
+        .action-links a {
+            color: #D32F2F;
+            text-decoration: none;
+            margin-right: 5px;
+        }
+        
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        .mockup-footer {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Modal styling */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            width: 60%;
+            max-width: 500px;
+        }
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        
+        .close:hover {
+            color: #D32F2F;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+        }
+        
+        .form-group input, 
+        .form-group textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .search-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-bar input[type="text"] {
+                width: 100%;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="mockup">
         <div class="mockup-header">
-            CBOBBS
+            <a href="../index.html" class="nav-logo">
+                <img src="../../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBBS - Blood Inventory
         </div>
         <div class="mockup-nav">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="inventory.html" class="active">Blood Inventory</a>
+            <a href="med-dashboard.html">Dashboard</a>
+            <a href="blood-inventory.html"class="active">Blood Inventory</a>
             <a href="donors.html">Donors</a>
-            <a href="blood-banks.html">Blood Banks</a>
-            <a href="reports.html">Reports</a>
-            <a href="#" id="logout-btn" style="float: right;">Logout</a>
+            <a href="request-form.html">Request Form</a>
+            <a href="../index.html" style="float: right;">Logout</a>
             <a href="profile.html" style="float: right; margin-right: 5px;">Profile</a>
         </div>
         <div class="mockup-content">
@@ -25,8 +258,8 @@
             
             <div class="search-bar">
                 <input type="text" id="search-inventory" placeholder="Search by blood type, donor, or ID...">
-                <button class="btn" onclick="searchInventory()">Search</button>
-                <a href="inventory-add.html" class="btn-outline" style="float: right;">Add New Entry</a>
+                <a href="#" class="btn" onclick="searchInventory()">Search</a>
+                <a href="inventory-add.html" class="btn-outline" style="margin-left: auto;">Add New Entry</a>
             </div>
             
             <table id="inventory-table">
@@ -49,7 +282,7 @@
                         <td>01/15/2025</td>
                         <td>04/15/2025</td>
                         <td>Available</td>
-                        <td>
+                        <td class="action-links">
                             <a href="inventory-view.html?id=BLD-1001">View</a> | 
                             <a href="inventory-edit.html?id=BLD-1001">Edit</a> | 
                             <a href="#" onclick="allocateBlood('BLD-1001')">Allocate</a>
@@ -62,7 +295,7 @@
                         <td>01/17/2025</td>
                         <td>04/17/2025</td>
                         <td>Available</td>
-                        <td>
+                        <td class="action-links">
                             <a href="inventory-view.html?id=BLD-1002">View</a> | 
                             <a href="inventory-edit.html?id=BLD-1002">Edit</a> | 
                             <a href="#" onclick="allocateBlood('BLD-1002')">Allocate</a>
@@ -75,7 +308,7 @@
                         <td>01/18/2025</td>
                         <td>04/18/2025</td>
                         <td>Reserved</td>
-                        <td>
+                        <td class="action-links">
                             <a href="inventory-view.html?id=BLD-1003">View</a> | 
                             <a href="inventory-edit.html?id=BLD-1003">Edit</a> | 
                             <a href="#" onclick="releaseBlood('BLD-1003')">Release</a>
@@ -88,7 +321,7 @@
                         <td>01/20/2025</td>
                         <td>04/20/2025</td>
                         <td>Available</td>
-                        <td>
+                        <td class="action-links">
                             <a href="inventory-view.html?id=BLD-1004">View</a> | 
                             <a href="inventory-edit.html?id=BLD-1004">Edit</a> | 
                             <a href="#" onclick="allocateBlood('BLD-1004')">Allocate</a>
@@ -101,7 +334,7 @@
                         <td>01/22/2025</td>
                         <td>04/22/2025</td>
                         <td>Available</td>
-                        <td>
+                        <td class="action-links">
                             <a href="inventory-view.html?id=BLD-1005">View</a> | 
                             <a href="inventory-edit.html?id=BLD-1005">Edit</a> | 
                             <a href="#" onclick="allocateBlood('BLD-1005')">Allocate</a>
@@ -115,9 +348,15 @@
                 <span>Page 1 of 5</span> | 
                 <a href="#">Next &raquo;</a>
             </div>
+            
+            <div style="margin-top: 20px;">
+                <a href="export-inventory.html" class="btn">Export Inventory</a>
+                <a href="inventory-report.html" class="btn-outline" style="margin-left: 10px;">Generate Report</a>
+                <a href="expiry-check.html" class="btn-outline" style="margin-left: 10px;">Check Expiring Units</a>
+            </div>
         </div>
         <div class="mockup-footer">
-            © 2025 CBOBBS
+            © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
         </div>
     </div>
 
@@ -153,23 +392,6 @@
     </div>
 
     <script>
-        // Check if user is logged in
-        document.addEventListener('DOMContentLoaded', function() {
-            const loggedInUser = sessionStorage.getItem('loggedInUser');
-            if (!loggedInUser) {
-                // Redirect to login if not logged in
-                window.location.href = 'login.html';
-            }
-            
-            // Handle logout
-            document.getElementById('logout-btn').addEventListener('click', function(e) {
-                e.preventDefault();
-                sessionStorage.removeItem('loggedInUser');
-                sessionStorage.removeItem('userRole');
-                window.location.href = 'login.html';
-            });
-        });
-
         // Search function
         function searchInventory() {
             const searchTerm = document.getElementById('search-inventory').value.toLowerCase();
@@ -184,6 +406,18 @@
                 }
             });
         }
+
+        // Reset search when input is cleared
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-inventory');
+            searchInput.addEventListener('input', function() {
+                if (this.value === '') {
+                    document.querySelectorAll('#inventory-table tbody tr').forEach(row => {
+                        row.style.display = '';
+                    });
+                }
+            });
+        });
 
         // Allocation modal
         const modal = document.getElementById('allocation-modal');
@@ -202,17 +436,17 @@
                 alert(`Blood unit ${bloodId} has been released back to inventory.`);
                 // In a real app, this would update the database
                 // For this demo, we'll just update the table
-                const row = document.querySelector(`tr:has(td:contains('${bloodId}'))`);
-                if (row) {
-                    const statusCell = row.cells[5];
-                    const actionsCell = row.cells[6];
-                    statusCell.textContent = 'Available';
-                    actionsCell.innerHTML = `
-                        <a href="inventory-view.html?id=${bloodId}">View</a> | 
-                        <a href="inventory-edit.html?id=${bloodId}">Edit</a> | 
-                        <a href="#" onclick="allocateBlood('${bloodId}')">Allocate</a>
-                    `;
-                }
+                const rows = document.querySelectorAll('#inventory-table tbody tr');
+                rows.forEach(row => {
+                    if (row.cells[0].textContent === bloodId) {
+                        row.cells[5].textContent = 'Available';
+                        row.cells[6].innerHTML = `
+                            <a href="inventory-view.html?id=${bloodId}">View</a> | 
+                            <a href="inventory-edit.html?id=${bloodId}">Edit</a> | 
+                            <a href="#" onclick="allocateBlood('${bloodId}')">Allocate</a>
+                        `;
+                    }
+                });
             }
         }
 
@@ -253,7 +487,7 @@
             
             modal.style.display = 'none';
             // Reset form
-            document.getElementById('allocation-form').reset
+            document.getElementById('allocation-form').reset();
         });
     </script>
 </body>

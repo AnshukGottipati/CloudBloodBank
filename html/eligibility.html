@@ -4,40 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBOBBS - Eligibility</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
         }
         
-        /* Mockup Container */
-        .mockup {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .nav-logo img {
+            height: 40px;
+            width: auto;
         }
         
-        /* Header */
+        /* Header layout */
         .mockup-header {
-            background-color: #D32F2F;
-            color: white;
+            display: flex;
+            align-items: center;
             padding: 15px;
-            font-size: 20px;
-            font-weight: bold;
         }
         
-        /* Navigation */
-        .mockup-nav {
-            background-color: #f8f8f8;
-            padding: 10px 15px;
-            border-bottom: 1px solid #eee;
-            overflow: hidden;
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
         }
         
         .mockup-nav a {
@@ -267,7 +257,10 @@
 <body>
     <div class="mockup">
         <div class="mockup-header">
-            CBOBBS - Public Portal
+            <a href="index.html" class="nav-logo">
+                <img src="../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBBS - Eligibility
         </div>
         <div class="mockup-nav">
             <a href="index.html">Home</a>

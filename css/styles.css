@@ -1,15 +1,25 @@
-/* Logo styles */
+/* Logo styling */
 .nav-logo {
-    height: 30px;
-    margin-right: 10px;
-    padding: 5px 15px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
 }
 
 .nav-logo img {
-    height: 100%;
-    max-width: 120px;
-    object-fit: contain;
-    vertical-align: middle;
+    height: 40px;
+    width: auto;
+}
+
+/* Header layout */
+.mockup-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.header-title {
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 /* Global Styles */

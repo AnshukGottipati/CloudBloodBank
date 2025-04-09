@@ -4,17 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBOBBS - Create Account</title>
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
         }
         
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
         .container {
             max-width: 800px;
             margin: 20px auto;
@@ -174,7 +189,10 @@
 <body>
     <div class="container">
         <header>
-            <h1>CBOBBS</h1>
+            <a href="index.html" class="nav-logo">
+                <img src="../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            <h1>CBOBBS - Registration</h1>
         </header>
         
         <h2>Create Account</h2>

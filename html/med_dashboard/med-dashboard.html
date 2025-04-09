@@ -4,31 +4,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBOBBS - Medical Dashboard</title>
+    <link rel="stylesheet" href="../../css/styles.css">
     <style>
-        /* Global Styles */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            color: #333;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
         }
         
-        /* Mockup Container */
-        .mockup {
-            max-width: 1200px;
-            margin: 0 auto;
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        .nav-logo img {
+            height: 40px;
+            width: auto;
         }
         
-        /* Header */
+        /* Header layout */
         .mockup-header {
-            background-color: #D32F2F;
-            color: white;
+            display: flex;
+            align-items: center;
             padding: 15px;
-            font-size: 20px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
             font-weight: bold;
         }
         
@@ -382,16 +380,17 @@
 <body>
     <div class="mockup">
         <div class="mockup-header">
+            <a href="../index.html" class="nav-logo">
+                <img src="../../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
             CBOBBS - Medical Portal
         </div>
         <div class="mockup-nav">
             <a href="med-dashboard.html" class="active">Dashboard</a>
             <a href="blood-inventory.html">Blood Inventory</a>
             <a href="donors.html">Donors</a>
-            <a href="blood-requests.html">Requests</a>
-            <a href="blood-banks.html">Blood Banks</a>
-            <a href="reports.html">Reports</a>
-            <a href="index.html" style="float: right;">Logout</a>
+            <a href="request-form.html">Request Form</a>
+            <a href="../index.html" style="float: right;">Logout</a>
             <a href="med-profile.html" style="float: right; margin-right: 5px;">Profile</a>
         </div>
         <div class="mockup-content">
@@ -401,7 +400,7 @@
                     <p>You have <strong>3</strong> pending blood requests waiting for your review.</p>
                 </div>
                 <div class="welcome-actions">
-                    <a href="blood-request.html" class="btn">New Blood Request</a>
+                    <a href="request-form.html" class="btn">New Blood Request</a>
                 </div>
             </div>
             

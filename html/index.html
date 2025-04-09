@@ -4,8 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBOBBS - Public Portal</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../css/styles.css">
     <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
         
         /* Hero Banner */
         .hero-banner {
@@ -15,7 +38,6 @@
             border-radius: 5px;
             margin-bottom: 30px;
         }
-        
         
         /* Two Column Layout */
         .two-column {
@@ -153,16 +175,20 @@
                 margin: 10px auto;
                 max-width: 80%;
             }
+            
+            .nav-logo img {
+                height: 30px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="mockup">
         <div class="mockup-header">
-            <!-- <a href="index.html" class="nav-logo">
+            <a href="index.html" class="nav-logo">
                 <img src="../img/logo_placeholder.png" alt="CBOBBS Logo">
-            </a> -->
-            CBOBBS - Public Portal
+            </a>
+            <div class="header-title">CBOBBS - Public Portal</div>
         </div>
         <div class="mockup-nav">
             <a href="index.html" class="active">Home</a>
@@ -172,6 +198,7 @@
             <a href="login.html" class="btn" style="float: right;">Login</a>
             <a href="register.html" class="btn-outline" style="float: right; margin-right: 10px;">Register</a>
         </div>
+
         <div class="mockup-content">
             <div class="hero-banner">
                 <h1>Donate Blood, Save Lives</h1>

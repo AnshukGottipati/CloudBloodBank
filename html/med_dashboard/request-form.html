@@ -4,16 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CBOBBS - Blood Request Form</title>
-    <link rel="stylesheet" href="../styles.css">
+    <link rel="stylesheet" href="../../css/styles.css">
     <style>
-        /* Header */
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
         .mockup-header {
-            background-color: #D32F2F;
-            color: white;
+            display: flex;
+            align-items: center;
             padding: 15px;
-            font-size: 20px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
             font-weight: bold;
         }
+
+
+
         
         /* Navigation */
         .mockup-nav {
@@ -153,15 +171,17 @@
 <body>
     <div class="mockup">
         <div class="mockup-header">
-            CBOBBS
+            <a href="index.html" class="nav-logo">
+                <img src="../../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBBS - Blood Inventory
         </div>
         <div class="mockup-nav">
-            <a href="dashboard.html">Dashboard</a>
-            <a href="blood-inventory.html" class="active">Blood Inventory</a>
+            <a href="med-dashboard.html">Dashboard</a>
+            <a href="blood-inventory.html">Blood Inventory</a>
             <a href="donors.html">Donors</a>
-            <a href="blood-banks.html">Blood Banks</a>
-            <a href="reports.html">Reports</a>
-            <a href="index.html" style="float: right;">Logout</a>
+            <a href="request-form.html" class="active">Request Form</a>
+            <a href="../index.html" style="float: right;">Logout</a>
             <a href="profile.html" style="float: right; margin-right: 5px;">Profile</a>
         </div>
         <div class="mockup-content">

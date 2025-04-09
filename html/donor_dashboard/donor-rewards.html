@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBOBBS - Donor Rewards</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        
+        /* Navigation */
+        .mockup-nav {
+            background-color: #f8f8f8;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+        
+        .mockup-nav a {
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+            padding: 5px 0;
+        }
+        
+        .mockup-nav a.active {
+            font-weight: bold;
+            color: #D32F2F;
+            border-bottom: 2px solid #D32F2F;
+        }
+        
+        .mockup-nav a:hover:not(.btn):not(.btn-outline) {
+            color: #D32F2F;
+        }
+        
+        /* Content Area */
+        .mockup-content {
+            padding: 20px;
+        }
+        
+        /* Page Header */
+        .page-header {
+            margin-bottom: 30px;
+        }
+        
+        .page-header h1 {
+            color: #D32F2F;
+            margin-bottom: 10px;
+        }
+        
+        /* Stats Cards */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .stat-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 20px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #D32F2F;
+            margin: 10px 0;
+        }
+        
+        /* Progress Bar */
+        .progress-container {
+            background-color: #f8f8f8;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .progress-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+        
+        .progress-bar {
+            height: 20px;
+            background-color: #e0e0e0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 10px;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background-color: #D32F2F;
+            width: 40%; /* This would be dynamic based on progress */
+        }
+        
+        /* Reward Cards */
+        .reward-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        .reward-card {
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        
+        .reward-card-header {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            position: relative;
+        }
+        
+        .reward-card-header h3 {
+            margin: 0;
+            color: #D32F2F;
+        }
+        
+        .reward-points {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: #D32F2F;
+            color: white;
+            padding: 3px 8px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .reward-card-content {
+            padding: 15px;
+        }
+        
+        .reward-card-footer {
+            padding: 15px;
+            background-color: #f8f8f8;
+            border-top: 1px solid #eee;
+            text-align: center;
+        }
+        
+        /* Status Labels */
+        .status-label {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .status-available {
+            background-color: #e8f5e9;
+            color: #2E7D32;
+        }
+        
+        .status-locked {
+            background-color: #ffebee;
+            color: #D32F2F;
+        }
+        
+        .status-redeemed {
+            background-color: #e0e0e0;
+            color: #616161;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #D32F2F;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #B71C1C;
+        }
+        
+        .btn-disabled {
+            background-color: #e0e0e0;
+            color: #9e9e9e;
+            cursor: not-allowed;
+        }
+        
+        .btn-disabled:hover {
+            background-color: #e0e0e0;
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: #D32F2F;
+            padding: 7px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #D32F2F;
+            cursor: pointer;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Footer */
+        .mockup-footer {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            border-bottom: 1px solid #ddd;
+            margin-bottom: 20px;
+        }
+        
+        .tab-link {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+        }
+        
+        .tab-link.active {
+            font-weight: bold;
+            color: #D32F2F;
+            border-bottom: 2px solid #D32F2F;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .tab-nav {
+                flex-wrap: wrap;
+                border-bottom: none;
+            }
+            
+            .tab-link {
+                flex: 1 0 50%;
+                text-align: center;
+                border-bottom: 1px solid #ddd;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            <a href="../index.html" class="nav-logo">
+                <img src="../../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBBS - Donor Portal
+        </div>
+        <div class="mockup-nav">
+            <a href="donor-dashboard.html">Dashboard</a>
+            <a href="donor-appointments.html">My Appointments</a>
+            <a href="donor-history.html">Donation History</a>
+            <a href="donor-rewards.html" class="active">Donor Rewards</a>
+            <a href="../index.html" style="float: right;">Logout</a>
+            <a href="donor-profile.html" style="float: right; margin-right: 5px;">Profile</a>
+        </div>
+        <div class="mockup-content">
+            <div class="page-header">
+                <h1>Donor Rewards Program</h1>
+                <p>Earn points with each donation and redeem them for exclusive rewards.</p>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div>Available Points</div>
+                    <div class="stat-value">250</div>
+                    <div>Ready to use</div>
+                </div>
+                <div class="stat-card">
+                    <div>Lifetime Points</div>
+                    <div class="stat-value">550</div>
+                    <div>From 4 donations</div>
+                </div>
+                <div class="stat-card">
+                    <div>Rewards Redeemed</div>
+                    <div class="stat-value">2</div>
+                    <div>Total value: $25</div>
+                </div>
+                <div class="stat-card">
+                    <div>Donor Level</div>
+                    <div class="stat-value">Silver</div>
+                    <div>4 donations</div>
+                </div>
+            </div>
+            
+            <div class="progress-container">
+                <h3>Progress to Gold Level</h3>
+                <div class="progress-info">
+                    <span>Silver (4 donations)</span>
+                    <span>Gold (10 donations)</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+                <p>You need 6 more donations to reach Gold Level and unlock exclusive rewards!</p>
+            </div>
+            
+            <div class="tab-nav">
+                <div class="tab-link active">Available Rewards</div>
+                <div class="tab-link">Redeemed Rewards</div>
+                <div class="tab-link">Locked Rewards</div>
+            </div>
+            
+            <div class="reward-grid">
+                <div class="reward-card">
+                    <div class="reward-card-header">
+                        <h3>$10 Coffee Shop Gift Card</h3>
+                        <span class="reward-points">200 pts</span>
+                    </div>
+                    <div class="reward-card-content">
+                        <p>Enjoy a free coffee or treat at any participating coffee shop location.</p>
+                        <p><span class="status-label status-available">Available</span></p>
+                    </div>
+                    <div class="reward-card-footer">
+                        <a href="#" class="btn">Redeem Now</a>
+                    </div>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-card-header">
+                        <h3>Movie Theater Ticket</h3>
+                        <span class="reward-points">300 pts</span>
+                    </div>
+                    <div class="reward-card-content">
+                        <p>One free movie ticket at any participating theater.</p>
+                        <p><span class="status-label status-locked">Insufficient Points</span></p>
+                    </div>
+                    <div class="reward-card-footer">
+                        <button class="btn btn-disabled">Redeem (Need 50 more pts)</button>
+                    </div>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-card-header">
+                        <h3>CBOBBS Branded Water Bottle</h3>
+                        <span class="reward-points">150 pts</span>
+                    </div>
+                    <div class="reward-card-content">
+                        <p>High-quality 20oz stainless steel water bottle with CBOBBS logo.</p>
+                        <p><span class="status-label status-available">Available</span></p>
+                    </div>
+                    <div class="reward-card-footer">
+                        <a href="#" class="btn">Redeem Now</a>
+                    </div>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-card-header">
+                        <h3>$25 Restaurant Gift Card</h3>
+                        <span class="reward-points">450 pts</span>
+                    </div>
+                    <div class="reward-card-content">
+                        <p>$25 gift card for use at select participating restaurants.</p>
+                        <p><span class="status-label status-locked">Insufficient Points</span></p>
+                    </div>
+                    <div class="reward-card-footer">
+                        <button class="btn btn-disabled">Redeem (Need 200 more pts)</button>
+                    </div>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-card-header">
+                        <h3>CBOBBS T-Shirt</h3>
+                        <span class="reward-points">200 pts</span>
+                    </div>
+                    <div class="reward-card-content">
+                        <p>Premium cotton t-shirt featuring the CBOBBS logo. Available in multiple sizes.</p>
+                        <p><span class="status-label status-available">Available</span></p>
+                    </div>
+                    <div class="reward-card-footer">
+                        <a href="#" class="btn">Redeem Now</a>
+                    </div>
+                </div>
+                
+                <div class="reward-card">
+                    <div class="reward-card-header">
+                        <h3>First Aid Kit</h3>
+                        <span class="reward-points">250 pts</span>
+                    </div>
+                    <div class="reward-card-content">
+                        <p>Compact first aid kit with essential supplies for home or travel.</p>
+                        <p><span class="status-label status-available">Available</span></p>
+                    </div>
+                    <div class="reward-card-footer">
+                        <a href="#" class="btn">Redeem Now</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div style="text-align: center; margin: 40px 0 20px;">
+                <h3>How to Earn Points</h3>
+                <div style="max-width: 600px; margin: 0 auto; text-align: left;">
+                    <ul>
+                        <li><strong>Whole Blood Donation:</strong> 150 points</li>
+                        <li><strong>Power Red Donation:</strong> 300 points</li>
+                        <li><strong>Platelet Donation:</strong> 250 points</li>
+                        <li><strong>Plasma Donation:</strong> 200 points</li>
+                        <li><strong>Referral Bonus:</strong> 100 points for each new donor you refer</li>
+                        <li><strong>Milestone Bonuses:</strong> Additional points for donation milestones (5th, 10th, 25th, etc.)</li>
+                    </ul>
+                </div>
+                <p>Points expire 2 years after they are earned. <a href="#">View full program details.</a></p>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
+        </div>
+    </div>
+</body>
+</html>
