@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 
 # Create your models here.
 class Donor(models.Model):
@@ -52,7 +53,8 @@ class BloodbankWorker(models.Model):
 
 class Donation(models.Model):
     dono_id = models.BigAutoField(primary_key=True)
-    donation_sate = models.DateField()
+    blood_type = models.CharField(max_length=5, default="n/a")
+    donation_date = models.DateField()
     sent_at = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=10)
     transaction_date = models.DateField(null=True, blank=True)
@@ -73,3 +75,11 @@ class DonorMessage(models.Model):
 
     class Meta:
         unique_together = ('donor', 'message')
+
+
+class Appointment(models.Model):
+    appt_id = models.BigAutoField(primary_key=True)
+    appt_date = models.DateField(default=timezone.now)
+    appt_time = models.DateTimeField(default=timezone.now)
+    donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
+    blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
