@@ -12,3 +12,15 @@ def login(request):
 
 def eligibility(request):
     return render(request, "eligibility.html")
+
+def donor_dash(request):
+    return render(request, "donor/dashboard.html")
+
+def donor_appt(request):
+    return render(request, "donor/appointments.html")
+
+def donor_hist(request):
+    return render(request, "donor/history.html")
+
+def donor_profile(request):
+    return render(request, "donor/profile.html")

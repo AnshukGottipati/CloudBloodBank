@@ -23,10 +23,11 @@
             <div class="header-title">CBOBBS - Public Portal</div>
         </div>
         <div class="mockup-nav">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'find-bloodbanks' %}">Find Blood Banks</a>
-            <a href="{% url 'eligibility' %}">Eligibility</a>
-            <a href="{% url 'login' %}" class="btn" style="float: right;">Login</a>
+            <a href="{% url 'donor-dash' %}">Dashboard</a>
+            <a href="{% url 'donor-appt' %}">My Appointments</a>
+            <a href="{% url 'donor-hist' %}">Donation History</a>
+            <a href="{% url 'home' %}" style="float: right;">Logout</a>
+            <a href="{% url 'donor-profile' %}" style="float: right; margin-right: 5px;">Profile</a>
         </div>
 
         <div class="mockup-content">
