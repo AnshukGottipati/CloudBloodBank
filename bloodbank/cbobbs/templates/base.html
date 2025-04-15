@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        CBOBBS 
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            <a href="index.html" class="nav-logo">
+                <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
+            </a>
+            <div class="header-title">
+                {% block header %}
+                CBOBBS
+                {% endblock %}
+            </div>
+        </div>
+        <div class="mockup-nav">
+            <a href="index.html" class="active">Home</a>
+            <a href="find-centers.html">Find Donation Centers</a>
+            <a href="eligibility.html">Eligibility</a>
+            <a href="login.html" class="btn" style="float: right;">Login</a>
+            <a href="register.html" class="btn-outline" style="float: right; margin-right: 10px;">Register</a>
+        </div>
+
+
+        <div class="mockup-content">
+            {% block content %}
+                Content
+            {% endblock %}
+            
+        </div>
+        <div class="mockup-footer">
+            © 2025 CBOBBS
+        </div>
+    </div>
+
+    <script>
+        // Simple script to handle form interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            const eligibilityBtn = document.querySelector('.full-width');
+            eligibilityBtn.addEventListener('click', function(e) {
+                const age = document.getElementById('quick-age').value;
+                const recentlyDonated = document.querySelector('input[name="donated-recently"]:checked');
+                const medications = document.querySelector('input[name="medications"]:checked');
+                
+                // Simple validation
+                if (!age || !recentlyDonated || !medications) {
+                    e.preventDefault();
+                    alert('Please fill out all fields to check eligibility.');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
