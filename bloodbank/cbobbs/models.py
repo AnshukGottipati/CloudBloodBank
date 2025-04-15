@@ -14,35 +14,35 @@ class Donor(models.Model):
     class Meta:
         unique_together = ('phone', 'email')
 
-class HealthcareWorker(models.Model):
-    hc_worker_id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    password = models.CharField(max_length=50)
-
     class Meta:
         unique_together = ('name', 'email')
 
 class HealthCenter(models.Model):
     hc_id = models.BigIntegerField(primary_key=True)
     address = models.CharField(max_length=512)
-    healthcare_worker = models.ForeignKey(HealthcareWorker, on_delete=models.CASCADE)
-
+    
     class Meta:
         unique_together = ('address',)
+
+class HealthcareWorker(models.Model):
+    hc_worker_id = models.BigAutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    password = models.CharField(max_length=50)
+    health_center = models.ForeignKey(HealthCenter, on_delete=models.CASCADE, default=1)
+
+class BloodBank(models.Model):
+    bb_id = models.BigAutoField(primary_key=True)
+    address = models.CharField(max_length=512, unique=True)    
 
 class BloodbankWorker(models.Model):
     bb_worker_id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50)
     email = models.CharField(max_length=20, unique=True)
     password = models.CharField(max_length=50)
+    blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE, default=1)
 
-class BloodBank(models.Model):
-    bb_id = models.BigAutoField(primary_key=True)
-    address = models.CharField(max_length=512, unique=True)
-    bloodbank_worker = models.ForeignKey(BloodbankWorker, on_delete=models.CASCADE)
-
-class Donations(models.Model):
+class Donation(models.Model):
     dono_id = models.BigAutoField(primary_key=True)
     donation_sate = models.DateField()
     sent_at = models.DateField(null=True, blank=True)
