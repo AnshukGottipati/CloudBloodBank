@@ -17,7 +17,7 @@
 <body>
     <div class="mockup">
         <div class="mockup-header">
-            <a href="index.html" class="nav-logo">
+            <a href="{% url 'home' %}" class="nav-logo">
                 <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
             </a>
             <div class="header-title">
@@ -27,20 +27,19 @@
             </div>
         </div>
         <div class="mockup-nav">
-            <a href="index.html" class="active">Home</a>
-            <a href="find-centers.html">Find Donation Centers</a>
+            <a href="{% url 'home' %}" class="active">Home</a>
+            <a href="{% url 'find-centers' %}">Find Donation Centers</a>
             <a href="eligibility.html">Eligibility</a>
             <a href="login.html" class="btn" style="float: right;">Login</a>
             <a href="register.html" class="btn-outline" style="float: right; margin-right: 10px;">Register</a>
         </div>
 
-
         <div class="mockup-content">
             {% block content %}
                 Content
-            {% endblock %}
-            
+            {% endblock %}            
         </div>
+
         <div class="mockup-footer">
             © 2025 CBOBBS
         </div>
