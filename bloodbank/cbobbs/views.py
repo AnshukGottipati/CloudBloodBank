@@ -6,3 +6,6 @@ def home(request):
     
 def find_centers(request):
     return render(request, "find-centers.html")
+
+def login(request):
+    return render(request, "login.html")

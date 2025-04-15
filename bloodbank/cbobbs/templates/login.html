@@ -1,0 +1,23 @@
+{% extends "base.html" %} 
+{% block title %} CBOBBS - Login{% endblock %}
+{% block header %} CBOBBS - Login{% endblock %}
+{% block content %} 
+    <div class="login-form">
+        <h2>Login</h2>
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+        <div class="button-container">
+            <a href="#" id="login-btn" class="btn" style="color: white;">Login</a>
+            <a href="register.html" class="btn-outline">Create Account</a>
+        </div>
+        <p><a href="forgot-password.html">Forgot Password?</a></p>
+        <p><a href="index.html">Return to Home Page</a></p>
+    </div>
+    </div>
+{% endblock %}
