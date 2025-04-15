@@ -9,3 +9,6 @@ def find_bloodbanks(request):
 
 def login(request):
     return render(request, "login.html")
+
+def eligibility(request):
+    return render(request, "eligibility.html")

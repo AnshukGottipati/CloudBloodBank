@@ -1,0 +1,262 @@
+{% extends "base.html" %} 
+{% block title %} CBOBBS - Blood Donation Eligibility{% endblock %}
+{% block header %} CBOBBS - Blood Donation Eligibility{% endblock %}
+{% block content %} 
+    <div class="hero-banner">
+        <h1>Blood Donation Eligibility</h1>
+        <p>Find out if you're eligible to donate blood and learn about the requirements and restrictions.</p>
+    </div>
+    
+    <div class="eligibility-content">
+        <div class="main-content">
+            <div class="eligibility-section">
+                <h2>Check Your Eligibility</h2>
+                <div class="eligibility-form">
+                    <p>Fill out this form to check if you're eligible to donate blood:</p>
+                    
+                    <div class="form-group">
+                        <label for="age">Age</label>
+                        <input type="number" id="age" min="16" max="100" placeholder="Enter your age">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="weight">Weight (lbs)</label>
+                        <input type="number" id="weight" min="0" placeholder="Enter your weight in pounds">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Have you donated blood in the last 56 days?</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="recent-donation" value="yes"> Yes</label>
+                            <label class="radio-label"><input type="radio" name="recent-donation" value="no"> No</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Do you currently have any cold, flu, or infection symptoms?</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="symptoms" value="yes"> Yes</label>
+                            <label class="radio-label"><input type="radio" name="symptoms" value="no"> No</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Are you currently taking any antibiotics?</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="antibiotics" value="yes"> Yes</label>
+                            <label class="radio-label"><input type="radio" name="antibiotics" value="no"> No</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Have you had any major surgery in the last 6 months?</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="surgery" value="yes"> Yes</label>
+                            <label class="radio-label"><input type="radio" name="surgery" value="no"> No</label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Have you ever been told not to donate blood?</label>
+                        <div class="radio-group">
+                            <label class="radio-label"><input type="radio" name="prevented" value="yes"> Yes</label>
+                            <label class="radio-label"><input type="radio" name="prevented" value="no"> No</label>
+                        </div>
+                    </div>
+                    
+                    <a href="#" class="btn" id="check-eligibility">Check Eligibility</a>
+                    
+                    <div class="result-box eligible" id="eligible-result">
+                        <div class="result-title">You Appear to be Eligible!</div>
+                        <p>Based on your responses, you appear to be eligible to donate blood. However, final eligibility will be determined during your pre-donation screening at the donation center.</p>
+                        <p><a href="{% url 'find-bloodbanks' %}" class="btn">Find a Blood Bank</a></p>
+                    </div>
+                    
+                    <div class="result-box not-eligible" id="not-eligible-result">
+                        <div class="result-title">You May Not Be Eligible at This Time</div>
+                        <p id="ineligible-reason">Based on your responses, you may not be eligible to donate blood at this time.</p>
+                        <p>If you have any questions about your eligibility, please contact your nearest blood donation center for more information.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="eligibility-section">
+                <h2>Basic Eligibility Requirements</h2>
+                <ul>
+                    <li><strong>Age:</strong> You must be at least 16 years old (with parental consent in some states) or 17 years old.</li>
+                    <li><strong>Weight:</strong> You must weigh at least 110 pounds.</li>
+                    <li><strong>Health:</strong> You should be in good health and feeling well on the day of donation.</li>
+                    <li><strong>Time Between Donations:</strong> You must wait at least 56 days (8 weeks) between whole blood donations.</li>
+                </ul>
+            </div>
+            
+            <div class="eligibility-section">
+                <h2>Medical Conditions & Eligibility</h2>
+                <div class="accordion">
+                    <div class="accordion-item">
+                        <div class="accordion-header">Medications</div>
+                        <div class="accordion-content">
+                            <p>Most medications do not disqualify you from donating blood. However, some medications may require a waiting period after your last dose. Common examples include:</p>
+                            <ul>
+                                <li><strong>Blood Thinners:</strong> Typically require a waiting period</li>
+                                <li><strong>Accutane (isotretinoin):</strong> 1 month deferral</li>
+                                <li><strong>Avodart, Proscar:</strong> 6 month deferral</li>
+                                <li><strong>Antibiotics:</strong> Must be finished with treatment and symptom-free</li>
+                            </ul>
+                            <p>Always inform the donation staff about all medications you are taking.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">Diabetes</div>
+                        <div class="accordion-content">
+                            <p>People with diabetes can usually donate blood if:</p>
+                            <ul>
+                                <li>Your diabetes is well-controlled</li>
+                                <li>You have no complications from diabetes</li>
+                                <li>You are not currently experiencing hypoglycemia</li>
+                            </ul>
+                            <p>Insulin use does not disqualify you from donating.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">High Blood Pressure</div>
+                        <div class="accordion-content">
+                            <p>You can donate blood if:</p>
+                            <ul>
+                                <li>Your blood pressure is below 180/100 at the time of donation</li>
+                                <li>You feel well</li>
+                                <li>Your medications for high blood pressure don't disqualify you</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">Anemia</div>
+                        <div class="accordion-content">
+                            <p>Your hemoglobin levels must be adequate to donate:</p>
+                            <ul>
+                                <li>For women: at least 12.5 g/dL</li>
+                                <li>For men: at least 13.0 g/dL</li>
+                            </ul>
+                            <p>A quick test will be performed before donation to check your hemoglobin levels.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="accordion-item">
+                        <div class="accordion-header">Recent Surgery or Vaccinations</div>
+                        <div class="accordion-content">
+                            <p><strong>Surgery:</strong> The deferral period depends on the type of surgery:</p>
+                            <ul>
+                                <li>Minor surgery: When fully healed and no longer taking antibiotics</li>
+                                <li>Major surgery: Usually 6 months to 1 year</li>
+                            </ul>
+                            <p><strong>Vaccinations:</strong> Most vaccinations don't affect eligibility, but some have waiting periods:</p>
+                            <ul>
+                                <li>Flu shot: No waiting period</li>
+                                <li>COVID-19 vaccines: No waiting period for most</li>
+                                <li>Live attenuated vaccines: Usually 2-4 weeks</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+                
+                    
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Accordion functionality
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', function() {
+                    const content = this.nextElementSibling;
+                    content.classList.toggle('active');
+                });
+            });
+            
+            // Eligibility check functionality
+            const checkEligibilityBtn = document.getElementById('check-eligibility');
+            const eligibleResult = document.getElementById('eligible-result');
+            const notEligibleResult = document.getElementById('not-eligible-result');
+            const ineligibleReason = document.getElementById('ineligible-reason');
+            
+            checkEligibilityBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // Get values
+                const age = parseInt(document.getElementById('age').value) || 0;
+                const weight = parseInt(document.getElementById('weight').value) || 0;
+                const recentDonation = document.querySelector('input[name="recent-donation"]:checked')?.value;
+                const symptoms = document.querySelector('input[name="symptoms"]:checked')?.value;
+                const antibiotics = document.querySelector('input[name="antibiotics"]:checked')?.value;
+                const surgery = document.querySelector('input[name="surgery"]:checked')?.value;
+                const prevented = document.querySelector('input[name="prevented"]:checked')?.value;
+                
+                // Hide both result boxes initially
+                eligibleResult.style.display = 'none';
+                notEligibleResult.style.display = 'none';
+                
+                // Form validation
+                if (!age || !weight || !recentDonation || !symptoms || !antibiotics || !surgery || !prevented) {
+                    alert('Please fill out all fields to check your eligibility.');
+                    return;
+                }
+                
+                // Check eligibility criteria
+                let isEligible = true;
+                let reason = 'Based on your responses, you may not be eligible to donate blood at this time. Reasons:';
+                
+                if (age < 16) {
+                    isEligible = false;
+                    reason += '\n- You must be at least 16 years old to donate blood.';
+                }
+                
+                if (weight < 110) {
+                    isEligible = false;
+                    reason += '\n- You must weigh at least 110 pounds to donate blood.';
+                }
+                
+                if (recentDonation === 'yes') {
+                    isEligible = false;
+                    reason += '\n- You must wait at least 56 days between whole blood donations.';
+                }
+                
+                if (symptoms === 'yes') {
+                    isEligible = false;
+                    reason += '\n- You should be symptom-free from cold, flu, or infections to donate.';
+                }
+                
+                if (antibiotics === 'yes') {
+                    isEligible = false;
+                    reason += '\n- You must complete your antibiotic treatment before donating.';
+                }
+                
+                if (surgery === 'yes') {
+                    isEligible = false;
+                    reason += '\n- Recent surgery may require a waiting period.';
+                }
+                
+                if (prevented === 'yes') {
+                    isEligible = false;
+                    reason += '\n- You indicated you were previously told not to donate blood.';
+                }
+                
+                // Display result
+                if (isEligible) {
+                    eligibleResult.style.display = 'block';
+                } else {
+                    ineligibleReason.textContent = reason;
+                    notEligibleResult.style.display = 'block';
+                }
+                
+                // Scroll to result
+                const resultBox = isEligible ? eligibleResult : notEligibleResult;
+                resultBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            });
+        });
+    </script>
+{% endblock %}

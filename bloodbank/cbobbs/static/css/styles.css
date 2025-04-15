@@ -383,3 +383,388 @@ body {
         gap: 0;
     }
 }
+
+ /* Logo styling */
+ .nav-logo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.nav-logo img {
+    height: 40px;
+    width: auto;
+}
+
+/* Header layout */
+.mockup-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.header-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Content Area */
+.mockup-content {
+    padding: 20px;
+}
+
+/* Login Form */
+.login-form {
+    max-width: 400px;
+    margin: 20px auto 40px;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.login-form h2 {
+    margin-top: 0;
+    color: #D32F2F;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    border-color: #D32F2F;
+    outline: none;
+    box-shadow: 0 0 5px rgba(211, 47, 47, 0.2);
+}
+
+/* Button container - centered */
+.button-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background-color: #D32F2F;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+}
+
+.btn:hover {
+    background-color: #B71C1C;
+}
+
+.btn-outline {
+    display: inline-block;
+    background-color: transparent;
+    color: #D32F2F;
+    padding: 9px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid #D32F2F;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+}
+
+.btn-outline:hover {
+    background-color: #ffebee;
+}
+
+/* Links */
+.login-form p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-form a {
+    color: #D32F2F;
+    text-decoration: none;
+}
+
+.login-form a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+.mockup-footer {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Logo styling */
+.nav-logo {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 20px;
+}
+
+.nav-logo img {
+    height: 40px;
+    width: auto;
+}
+
+/* Header layout */
+.mockup-header {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+}
+
+.header-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.mockup-nav a {
+    text-decoration: none;
+    color: #333;
+    margin-right: 15px;
+    padding: 5px 0;
+}
+
+.mockup-nav a.active {
+    font-weight: bold;
+    color: #D32F2F;
+    border-bottom: 2px solid #D32F2F;
+}
+
+.mockup-nav a:hover:not(.btn):not(.btn-outline) {
+    color: #D32F2F;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background-color: #D32F2F;
+    color: white !important;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: normal;
+    border: none;
+    cursor: pointer;
+}
+
+.btn:hover {
+    background-color: #B71C1C;
+}
+
+.btn-outline {
+    display: inline-block;
+    background-color: transparent;
+    color: #D32F2F !important;
+    padding: 7px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid #D32F2F;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.btn-outline:hover {
+    background-color: #ffebee;
+}
+
+/* Content Area */
+.mockup-content {
+    padding: 20px;
+}
+
+/* Hero Banner */
+.hero-banner {
+    background-color: #f8f8f8;
+    padding: 30px;
+    border-radius: 5px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.hero-banner h1 {
+    color: #D32F2F;
+    margin-top: 0;
+}
+
+/* Eligibility Content */
+.eligibility-content {
+    display: flex;
+    gap: 30px;
+}
+
+.main-content {
+    flex: 2;
+}
+
+.sidebar {
+    flex: 1;
+}
+
+.eligibility-section {
+    margin-bottom: 30px;
+}
+
+.eligibility-section h2 {
+    color: #D32F2F;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+/* Cards */
+.card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+    background-color: #fff;
+}
+
+.card h3 {
+    margin-top: 0;
+    color: #D32F2F;
+}
+
+/* Eligibility Form */
+.eligibility-form {
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input, 
+.form-group select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.radio-group {
+    margin-top: 5px;
+}
+
+.radio-label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Accordion */
+.accordion {
+    margin-bottom: 20px;
+}
+
+.accordion-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 10px;
+    overflow: hidden;
+}
+
+.accordion-header {
+    background-color: #f8f8f8;
+    padding: 12px 15px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.accordion-content {
+    padding: 15px;
+    display: none;
+}
+
+.accordion-content.active {
+    display: block;
+}
+
+/* Results */
+.result-box {
+    border: 2px solid #ddd;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    text-align: center;
+    display: none;
+}
+
+.result-box.eligible {
+    border-color: #4CAF50;
+    background-color: #E8F5E9;
+}
+
+.result-box.not-eligible {
+    border-color: #F44336;
+    background-color: #FFEBEE;
+}
+
+.result-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.not-eligible .result-title {
+    color: #D32F2F;
+}
+
+.eligible .result-title {
+    color: #4CAF50;
+}
+
+/* Footer */
+.mockup-footer {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .eligibility-content {
+        flex-direction: column;
+    }
+}
