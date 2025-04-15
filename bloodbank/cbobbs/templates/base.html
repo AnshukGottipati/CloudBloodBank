@@ -20,47 +20,23 @@
             <a href="{% url 'home' %}" class="nav-logo">
                 <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
             </a>
-            <div class="header-title">
-                {% block header %}
-                CBOBBS
-                {% endblock %}
-            </div>
+            <div class="header-title">CBOBBS - Public Portal</div>
         </div>
         <div class="mockup-nav">
             <a href="{% url 'home' %}" class="active">Home</a>
-            <a href="{% url 'find-centers' %}">Find Donation Centers</a>
+            <a href="{% url 'find-bloodbanks' %}">Find Blood Banks</a>
             <a href="eligibility.html">Eligibility</a>
-            <a href="{% url 'login' %}" class="btn" style="float: right;">Login</a>
-            <a href="register.html" class="btn-outline" style="float: right; margin-right: 10px;">Register</a>
+            <a href="login.html" class="btn" style="float: right;">Login</a>
         </div>
 
         <div class="mockup-content">
             {% block content %}
                 Content
-            {% endblock %}            
+            {% endblock %}         
         </div>
-
         <div class="mockup-footer">
             © 2025 CBOBBS
         </div>
     </div>
-
-    <script>
-        // Simple script to handle form interactivity
-        document.addEventListener('DOMContentLoaded', function() {
-            const eligibilityBtn = document.querySelector('.full-width');
-            eligibilityBtn.addEventListener('click', function(e) {
-                const age = document.getElementById('quick-age').value;
-                const recentlyDonated = document.querySelector('input[name="donated-recently"]:checked');
-                const medications = document.querySelector('input[name="medications"]:checked');
-                
-                // Simple validation
-                if (!age || !recentlyDonated || !medications) {
-                    e.preventDefault();
-                    alert('Please fill out all fields to check eligibility.');
-                }
-            });
-        });
-    </script>
 </body>
 </html>

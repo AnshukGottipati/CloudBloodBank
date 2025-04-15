@@ -6,88 +6,35 @@
         <h1>Donate Blood, Save Lives</h1>
         <p>Your donation can make a difference. Each donation can save up to three lives. Find a donation center near you and schedule an appointment today.</p>
         <div class="hero-buttons">
-            <a href="{% url 'find-centers' %}" class="btn">Find Donation Centers</a>
+            <a href="{% url 'find-bloodbanks' %}" class="btn">Find  Blood Banks</a>
             <a href="eligibility.html" class="btn-outline">Learn About Donating</a>
         </div>
-    </div>
-    
-    <div class="two-column">
-        <div class="column card">
-            <h3>Current Blood Needs</h3>
-            <div class="blood-type-grid">
-                <div class="blood-type critical">
-                    <div class="blood-name">O-</div>
-                    <div class="blood-status">Critical</div>
-                </div>
-                <div class="blood-type low">
-                    <div class="blood-name">B-</div>
-                    <div class="blood-status">Low</div>
-                </div>
-                <div class="blood-type low">
-                    <div class="blood-name">AB-</div>
-                    <div class="blood-status">Low</div>
-                </div>
-                <div class="blood-type good">
-                    <div class="blood-name">A+</div>
-                    <div class="blood-status">Good</div>
-                </div>
-                <div class="blood-type good">
-                    <div class="blood-name">O+</div>
-                    <div class="blood-status">Good</div>
-                </div>
+    </div>    
+        
+    <div class="column card">
+        <h3>Quick Eligibility Check</h3>
+        <p>Check if you're eligible to donate blood:</p>
+        <div class="form-group">
+            <label for="quick-age">Age</label>
+            <input type="number" id="quick-age" min="16" max="100">
+        </div>
+        <div class="form-group">
+            <label>Have you donated in the last 56 days?</label>
+            <div>
+                <label class="radio-label"><input type="radio" name="donated-recently"> Yes</label>
+                <label class="radio-label"><input type="radio" name="donated-recently"> No</label>
             </div>
         </div>
-        
-        <div class="column card">
-            <h3>Quick Eligibility Check</h3>
-            <p>Check if you're eligible to donate blood:</p>
-            <div class="form-group">
-                <label for="quick-age">Age</label>
-                <input type="number" id="quick-age" min="16" max="100">
+        <div class="form-group">
+            <label>Are you currently taking any medications?</label>
+            <div>
+                <label class="radio-label"><input type="radio" name="medications"> Yes</label>
+                <label class="radio-label"><input type="radio" name="medications"> No</label>
             </div>
-            <div class="form-group">
-                <label>Have you donated in the last 56 days?</label>
-                <div>
-                    <label class="radio-label"><input type="radio" name="donated-recently"> Yes</label>
-                    <label class="radio-label"><input type="radio" name="donated-recently"> No</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Are you currently taking any medications?</label>
-                <div>
-                    <label class="radio-label"><input type="radio" name="medications"> Yes</label>
-                    <label class="radio-label"><input type="radio" name="medications"> No</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <a href="eligibility.html" class="btn full-width">Check Eligibility</a>
-            </div>
+        </div>
+        <div class="form-group">
+            <a href="eligibility.html" class="btn full-width">Check Eligibility</a>
         </div>
     </div>
     
-    <h3>Upcoming Blood Drives</h3>
-    <div class="location-list">
-        <div class="location-item">
-            <h4>Community Center Blood Drive</h4>
-            <p><strong>Dates:</strong> March 15-17, 2025</p>
-            <p><strong>Times:</strong> 10:00 AM - 4:00 PM</p>
-            <p><strong>Address:</strong> 789 Community Blvd, Anytown, ST 12346</p>
-            <p>
-                <a href="#" class="btn-outline">Schedule Appointment</a>
-                <a href="#" class="btn-outline">Get Directions</a>
-            </p>
-        </div>
-        
-        <div class="location-item">
-            <h4>Downtown Office Complex Drive</h4>
-            <p><strong>Date:</strong> March 22, 2025</p>
-            <p><strong>Times:</strong> 9:00 AM - 3:00 PM</p>
-            <p><strong>Address:</strong> 101 Business Plaza, Anytown, ST 12345</p>
-            <p>
-                <a href="#" class="btn-outline">Schedule Appointment</a>
-                <a href="#" class="btn-outline">Get Directions</a>
-            </p>
-        </div>
-    </div>
-
 {% endblock %}

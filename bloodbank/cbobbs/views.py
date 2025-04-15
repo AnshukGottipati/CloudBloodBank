@@ -4,8 +4,8 @@ from django.shortcuts import render
 def home(request):
     return render(request, "index.html")
     
-def find_centers(request):
-    return render(request, "find-centers.html")
+def find_bloodbanks(request):
+    return render(request, "find-bloodbanks.html")
 
 def login(request):
     return render(request, "login.html")

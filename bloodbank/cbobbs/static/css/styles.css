@@ -1,3 +1,25 @@
+:root {
+    --black: #000;
+    --white: #fff;
+    --pink: #a6808c;
+    --tan: #ccb7ae;
+    --white-secondary: #d6cfcb;
+    --black-secondary: #002626;
+    --red: #8f141b;
+}
+
+html, body {
+    background-color: var(--white);
+    font-family: "Poppins",sans-serif;
+    font-weight: 400;
+    font-size: 18px;
+    margin: 0;
+    padding: 0;
+    height:100%;
+    display:flex;
+    flex-direction: column;
+}
+
 /* Logo styling */
 .nav-logo {
     display: inline-block;
@@ -14,6 +36,10 @@
 .mockup-header {
     display: flex;
     align-items: center;
+    padding: 15px;
+}
+
+.mockup-header .btn {
     padding: 15px;
 }
 
