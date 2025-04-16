@@ -1,11 +1,10 @@
-{% extends "bbworker/base.html" %} 
+{% extends "bbworker/base.html" %}
 {% block title %} CBOBBS - Bloodbank Dashboard{% endblock %}
 {% block header %} CBOBBS - Bloodbank Dashboard{% endblock %}
 {% block content %} 
 <div class="welcome-banner">
     <div class="welcome-text">
-        <h1>Welcome back!</h1>
+        <h1>Welcome back, {{ bb_worker.name }}!</h1>  <!-- Display the name of the first BloodbankWorker -->
     </div>
 </div>
-
 {% endblock %}

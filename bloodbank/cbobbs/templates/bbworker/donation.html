@@ -1,0 +1,47 @@
+{% extends "bbworker/base.html" %}
+{% block title %} CBOBBS - Bloodbank Dashboard{% endblock %}
+{% block header %} CBOBBS - Bloodbank Dashboard{% endblock %}
+{% block content %}
+<h2>Enter Blood Donation</h2>
+
+<form method="post">
+    {% csrf_token %}
+    
+    <label for="blood_type">Blood Type:</label>
+    <input type="text" id="blood_type" name="blood_type" maxlength="5" value="n/a" required><br><br>
+
+    <label for="donation_date">Donation Date:</label>
+    <input type="date" id="donation_date" name="donation_date" required><br><br>
+
+    <label for="sent_at">Sent At:</label>
+    <input type="date" id="sent_at" name="sent_at"><br><br>
+
+    <label for="status">Status:</label>
+    <input type="text" id="status" name="status" maxlength="10" required><br><br>
+
+    <label for="transaction_date">Transaction Date:</label>
+    <input type="date" id="transaction_date" name="transaction_date"><br><br>
+
+    <label for="blood_bank">Blood Bank:</label>
+    <select id="blood_bank" name="blood_bank" required>
+        <option value="">Select a Blood Bank</option>
+        {% for bank in blood_banks %}
+        <option value="{{ bank.bb_id }}">{{ bank.name }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label for="donor_email">Donor Email:</label>
+    <input type="email" id="donor_email" name="donor_email" required><br><br>
+
+    <button type="submit">Add Donation</button>
+</form>
+
+{% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li class="message">{{ message }}</li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}

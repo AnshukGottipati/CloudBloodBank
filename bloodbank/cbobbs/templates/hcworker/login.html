@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %} CBOBBS - Login{% endblock %}
-{% block header %} CBOBBS - Login{% endblock %}
+{% block title %} CBOBBS - Health Center Login{% endblock %}
+{% block header %} CBOBBS - Health Center Login{% endblock %}
 {% block content %}
     <div class="login-form">
-        <h2>Login</h2>
+        <h2>Login - Health Center</h2>
         <form method="POST">
             {% csrf_token %}
             <div class="form-group">
@@ -19,10 +19,5 @@
             {% endif %}
             <button type="submit" class="btn">Login</button>
         </form>
-        
-        <div class="login-buttons">
-            <a href="{% url 'bb-login' %}" class="btn-outline">Bloodbank Worker Login</a>  <!-- Link to bloodbank worker login -->
-            <a href="{% url 'hc-login' %}" class="btn-outline">Health Center Worker Login</a>  <!-- Link to health center worker login -->
-        </div>
     </div>
 {% endblock %}

@@ -4,8 +4,8 @@
 {% block content %} 
     <div class="welcome-banner">
         <div class="welcome-text">
-            <h1>Welcome back, John!</h1>
-            <p>Thank you for being a blood donor. Your contributions have helped save an estimated 12 lives so far!</p>
+            <h1>Welcome back, {{ donor.name }}!</h1>
+            <p>Thank you for being a blood donor. Your contributions have helped save an estimated {{ estimated_lives_saved }} lives so far!</p>
         </div>
         <div class="welcome-actions">
             <a href="{% url 'donor-appt' %}" class="btn btn-lg">Schedule Donation</a>
@@ -15,83 +15,7 @@
     <div class="stats-grid">
         <div class="stat-card">
             <div>Total Donations</div>
-            <div class="stat-value">4</div>
-            <div>Since 2020</div>
-        </div>
-        <div class="stat-card">
-            <div>Last Donation</div>
-            <div class="stat-value">Jan 15</div>
-            <div>2025</div>
-        </div>
-        <div class="stat-card">
-            <div>Next Eligible Date</div>
-            <div class="stat-value">Mar 12</div>
-            <div>2025</div>
-        </div>
-        <div class="stat-card">
-            <div>Donor Status</div>
-            <div class="stat-value" style="font-size: 18px;">
-                <span class="status-label status-eligible">Eligible in 16 days</span>
-            </div>
-            <div>Based on last donation</div>
-        </div>
-    </div>
-
-    <div class="dashboard-grid">
-        <div class="dashboard-card">
-            <div class="dashboard-card-header">
-                <h3>Your Next Appointment</h3>
-            </div>
-            <div class="dashboard-card-content">
-                <div style="text-align: center; padding: 20px 0;">
-                    <p>You don't have any upcoming appointments.</p>
-                    <a href="{% url 'donor-appt' %}" class="btn">Schedule Now</a>
-                </div>
-            </div>
-        </div>
-        
-        <div class="dashboard-card">
-            <div class="dashboard-card-header">
-                <h3>Your Blood Type: A+</h3>
-            </div>
-            <div class="dashboard-card-content">
-                <p><strong>Current Need Status:</strong> <span class="status-label status-eligible">Good Supply</span></p>
-                <p><strong>Compatible Blood Types You Can Receive:</strong></p>
-                <ul>
-                    <li>A+</li>
-                    <li>A-</li>
-                    <li>O+</li>
-                    <li>O-</li>
-                </ul>
-                <p><strong>Blood Types You Can Donate To:</strong></p>
-                <ul>
-                    <li>A+</li>
-                    <li>AB+</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="dashboard-card">
-            <div class="dashboard-card-header">
-                <h3>Critical Blood Needs</h3>
-            </div>
-            <div class="dashboard-card-content">
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-                    <div style="padding: 15px; background-color: #ffebee; border-radius: 5px; min-width: 60px; text-align: center;">
-                        <div style="font-weight: bold; color: #D32F2F;">O-</div>
-                        <div style="font-size: 12px;">Critical</div>
-                    </div>
-                    <div style="padding: 15px; background-color: #fff8e1; border-radius: 5px; min-width: 60px; text-align: center;">
-                        <div style="font-weight: bold; color: #F57F17;">B-</div>
-                        <div style="font-size: 12px;">Low</div>
-                    </div>
-                    <div style="padding: 15px; background-color: #fff8e1; border-radius: 5px; min-width: 60px; text-align: center;">
-                        <div style="font-weight: bold; color: #F57F17;">AB-</div>
-                        <div style="font-size: 12px;">Low</div>
-                    </div>
-                </div>
-                <p style="text-align: center; margin-top: 15px;">Even if not your blood type, your donation can help through blood component separation.</p>
-            </div>
+            <div class="stat-value">{{ total_donations }}</div>
         </div>
     </div>
 
@@ -106,73 +30,26 @@
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>Jan 15, 2025</td>
-                <td>Central Blood Bank</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
-            <tr>
-                <td>Oct 10, 2024</td>
-                <td>Memorial Hospital</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
-            <tr>
-                <td>Jul 5, 2024</td>
-                <td>Central Blood Bank</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
-            <tr>
-                <td>Mar 22, 2024</td>
-                <td>Community Blood Drive</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
+            {% for donation in donations %}
+                <tr>
+                    <td>{{ donation.donation_date }}</td>
+                    <td>{{ donation.blood_bank.name}}</td>
+                    <td>{{ donation.blood_type }}</td>
+                    <td>{{ donation.status }}</td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">No donations found for this donor.</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
     <div class="impact-section">
         <h3>Your Donation Impact</h3>
         <p>Every donation can save up to 3 lives. Your donations have potentially helped:</p>
-        <div class="impact-value">12 Lives</div>
+        <div class="impact-value">{{ estimated_lives_saved }} Lives</div>
         <p>Thank you for making a difference!</p>
     </div>
 
-    <div class="dashboard-grid">        
-        <div class="dashboard-card">
-            <div class="dashboard-card-header">
-                <h3>Health Tips for Donors</h3>
-            </div>
-            <div class="dashboard-card-content">
-                <ul>
-                    <li><strong>Before Donation:</strong> Get a good night's sleep, eat a healthy meal, and stay hydrated.</li>
-                    <li><strong>Iron Intake:</strong> Consider foods rich in iron like red meat, spinach, and beans to maintain healthy iron levels.</li>
-                    <li><strong>After Donation:</strong> Drink extra fluids and avoid strenuous activity for 24 hours.</li>
-                    <li><strong>Regular Check-ups:</strong> Keep up with your regular health check-ups to ensure you remain eligible to donate.</li>
-                </ul>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Calculate next eligible donation date (56 days from last donation)
-            const lastDonationDate = new Date('2025-01-15');
-            const nextEligibleDate = new Date(lastDonationDate);
-            nextEligibleDate.setDate(nextEligibleDate.getDate() + 56); // 56 days = 8 weeks
-            
-            // Calculate days until eligible
-            const today = new Date();
-            const daysUntilEligible = Math.ceil((nextEligibleDate - today) / (1000 * 60 * 60 * 24));
-            
-            // Update eligibility status if needed
-            if (daysUntilEligible <= 0) {
-                document.querySelector('.status-label').textContent = 'Eligible Now';
-            } else {
-                document.querySelector('.status-label').textContent = `Eligible in ${daysUntilEligible} days`;
-            }
-        });
-    </script>
 {% endblock %}

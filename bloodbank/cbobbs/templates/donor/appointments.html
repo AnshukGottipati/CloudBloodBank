@@ -7,50 +7,46 @@
     <p>Manage your upcoming blood donation appointments.</p>
 </div>
 
-<div class="no-appointments">
-    <h2>You don't have any upcoming appointments</h2>
-    <p>Schedule your next blood donation appointment to help save lives.</p>
-    <a href="donor-schedule.html" class="btn btn-lg">Schedule New Appointment</a>
-</div>
+{% if appointments %}
+    <h2>Appointment History</h2>
+    <div class="appointment-grid">
+        {% for appt in appointments %}
+            <div class="appointment-card">
+                <div class="appointment-card-title">Whole Blood Donation</div>
+                <div class="appointment-card-date">
+                    {{ appt.appt_date|date:"F j, Y" }} - {{ appt.appt_time|time:"g:i A" }}
+                </div>
+                <div class="appointment-card-location">
+                    {{ appt.blood_bank.name }}, {{ appt.blood_bank.address }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-appointments">
+        <h2>You don't have any upcoming appointments</h2>
+        <p>Schedule your next blood donation appointment to help save lives.</p>
+    </div>
+{% endif %}
 
-<h2>Appointment History</h2>
-<div class="appointment-grid">
-    <div class="appointment-card">
-        <div class="appointment-card-title">Whole Blood Donation</div>
-        <div class="appointment-card-date">January 15, 2025 - 2:30 PM</div>
-        <div class="appointment-card-location">Central Blood Bank, 123 Main St, Anytown</div>
-        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
-        <p>Thank you for your donation! You helped save up to 3 lives.</p>
-    </div>
-    
-    <div class="appointment-card">
-        <div class="appointment-card-title">Whole Blood Donation</div>
-        <div class="appointment-card-date">October 10, 2024 - 10:15 AM</div>
-        <div class="appointment-card-location">Memorial Hospital, 456 Health Ave, Anytown</div>
-        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
-        <p>Thank you for your donation! You helped save up to 3 lives.</p>
-    </div>
-    
-    <div class="appointment-card">
-        <div class="appointment-card-title">Whole Blood Donation</div>
-        <div class="appointment-card-date">July 5, 2024 - 3:45 PM</div>
-        <div class="appointment-card-location">Central Blood Bank, 123 Main St, Anytown</div>
-        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
-        <p>Thank you for your donation! You helped save up to 3 lives.</p>
-    </div>
-    
-    <div class="appointment-card">
-        <div class="appointment-card-title">Whole Blood Donation</div>
-        <div class="appointment-card-date">March 22, 2024 - 11:00 AM</div>
-        <div class="appointment-card-location">Community Blood Drive, 789 Community Blvd, Anytown</div>
-        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
-        <p>Thank you for your donation! You helped save up to 3 lives.</p>
-    </div>
-</div>
+<h2 style="margin-top: 40px;">Schedule a New Appointment</h2>
+<form method="post" class="appointment-form">
+    {% csrf_token %}
+    <label for="appt_date">Date:</label>
+    <input type="date" id="appt_date" name="appt_date" required>
 
-<div style="text-align: center; margin-top: 30px;">
-    <h3>Eligible for Next Donation: March 12, 2025</h3>
-    <p>You'll be eligible to donate whole blood again in 16 days.</p>
-    <a href="donor-schedule.html" class="btn">Schedule Next Donation</a>
-</div>
+    <label for="appt_time">Time:</label>
+    <input type="time" id="appt_time" name="appt_time" required>
+
+    <label for="blood_bank_id">Blood Bank:</label>
+    <select name="blood_bank_id" id="blood_bank_id" required>
+        {% for bank in blood_banks %}
+            <option value="{{ bank.bb_id }}">{{ bank.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit" class="btn">Add Appointment</button>
+</form>
+
+
 {% endblock %}

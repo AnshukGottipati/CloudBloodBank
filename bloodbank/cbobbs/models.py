@@ -58,7 +58,7 @@ class Donation(models.Model):
     sent_at = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=10)
     transaction_date = models.DateField(null=True, blank=True)
-    health_center = models.OneToOneField(HealthCenter, on_delete=models.CASCADE)  # due to unique constraint
+    health_center = models.OneToOneField(HealthCenter, on_delete=models.CASCADE, null=True, blank=True)
     blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
 
