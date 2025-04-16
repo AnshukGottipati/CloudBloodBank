@@ -2,4 +2,55 @@
 {% block title %} CBOBBS - Appointments{% endblock %}
 {% block header %} CBOBBS - Appointments{% endblock %}
 {% block content %} 
+<div class="page-header">
+    <h1>My Appointments</h1>
+    <p>Manage your upcoming blood donation appointments.</p>
+</div>
+
+<div class="no-appointments">
+    <h2>You don't have any upcoming appointments</h2>
+    <p>Schedule your next blood donation appointment to help save lives.</p>
+    <a href="donor-schedule.html" class="btn btn-lg">Schedule New Appointment</a>
+</div>
+
+<h2>Appointment History</h2>
+<div class="appointment-grid">
+    <div class="appointment-card">
+        <div class="appointment-card-title">Whole Blood Donation</div>
+        <div class="appointment-card-date">January 15, 2025 - 2:30 PM</div>
+        <div class="appointment-card-location">Central Blood Bank, 123 Main St, Anytown</div>
+        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
+        <p>Thank you for your donation! You helped save up to 3 lives.</p>
+    </div>
+    
+    <div class="appointment-card">
+        <div class="appointment-card-title">Whole Blood Donation</div>
+        <div class="appointment-card-date">October 10, 2024 - 10:15 AM</div>
+        <div class="appointment-card-location">Memorial Hospital, 456 Health Ave, Anytown</div>
+        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
+        <p>Thank you for your donation! You helped save up to 3 lives.</p>
+    </div>
+    
+    <div class="appointment-card">
+        <div class="appointment-card-title">Whole Blood Donation</div>
+        <div class="appointment-card-date">July 5, 2024 - 3:45 PM</div>
+        <div class="appointment-card-location">Central Blood Bank, 123 Main St, Anytown</div>
+        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
+        <p>Thank you for your donation! You helped save up to 3 lives.</p>
+    </div>
+    
+    <div class="appointment-card">
+        <div class="appointment-card-title">Whole Blood Donation</div>
+        <div class="appointment-card-date">March 22, 2024 - 11:00 AM</div>
+        <div class="appointment-card-location">Community Blood Drive, 789 Community Blvd, Anytown</div>
+        <div style="color: #2E7D32; font-weight: bold;">Completed</div>
+        <p>Thank you for your donation! You helped save up to 3 lives.</p>
+    </div>
+</div>
+
+<div style="text-align: center; margin-top: 30px;">
+    <h3>Eligible for Next Donation: March 12, 2025</h3>
+    <p>You'll be eligible to donate whole blood again in 16 days.</p>
+    <a href="donor-schedule.html" class="btn">Schedule Next Donation</a>
+</div>
 {% endblock %}

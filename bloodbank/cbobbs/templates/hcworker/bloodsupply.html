@@ -1,0 +1,237 @@
+{% extends "hcworker/base.html" %} 
+{% block title %} CBOBBS - Health Center {% endblock %}
+{% block header %} CBOBBS - Health Center {% endblock %}
+{% block content %} 
+<h2>Blood Inventory</h2>
+            
+            <div class="search-bar">
+                <input type="text" id="search-inventory" placeholder="Search by blood type, donor, or ID...">
+                <a href="#" class="btn" onclick="searchInventory()">Search</a>
+                <a href="inventory-add.html" class="btn-outline" style="margin-left: auto;">Add New Entry</a>
+            </div>
+            
+            <table id="inventory-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Blood Type</th>
+                        <th>Donor Name</th>
+                        <th>Donation Date</th>
+                        <th>Expiration Date</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>BLD-1001</td>
+                        <td>A+</td>
+                        <td>John Smith</td>
+                        <td>01/15/2025</td>
+                        <td>04/15/2025</td>
+                        <td>Available</td>
+                        <td class="action-links">
+                            <a href="inventory-view.html?id=BLD-1001">View</a> | 
+                            <a href="inventory-edit.html?id=BLD-1001">Edit</a> | 
+                            <a href="#" onclick="allocateBlood('BLD-1001')">Allocate</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BLD-1002</td>
+                        <td>O-</td>
+                        <td>Mary Johnson</td>
+                        <td>01/17/2025</td>
+                        <td>04/17/2025</td>
+                        <td>Available</td>
+                        <td class="action-links">
+                            <a href="inventory-view.html?id=BLD-1002">View</a> | 
+                            <a href="inventory-edit.html?id=BLD-1002">Edit</a> | 
+                            <a href="#" onclick="allocateBlood('BLD-1002')">Allocate</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BLD-1003</td>
+                        <td>B+</td>
+                        <td>Robert Davis</td>
+                        <td>01/18/2025</td>
+                        <td>04/18/2025</td>
+                        <td>Reserved</td>
+                        <td class="action-links">
+                            <a href="inventory-view.html?id=BLD-1003">View</a> | 
+                            <a href="inventory-edit.html?id=BLD-1003">Edit</a> | 
+                            <a href="#" onclick="releaseBlood('BLD-1003')">Release</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BLD-1004</td>
+                        <td>AB-</td>
+                        <td>Jennifer Wilson</td>
+                        <td>01/20/2025</td>
+                        <td>04/20/2025</td>
+                        <td>Available</td>
+                        <td class="action-links">
+                            <a href="inventory-view.html?id=BLD-1004">View</a> | 
+                            <a href="inventory-edit.html?id=BLD-1004">Edit</a> | 
+                            <a href="#" onclick="allocateBlood('BLD-1004')">Allocate</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>BLD-1005</td>
+                        <td>O+</td>
+                        <td>Michael Brown</td>
+                        <td>01/22/2025</td>
+                        <td>04/22/2025</td>
+                        <td>Available</td>
+                        <td class="action-links">
+                            <a href="inventory-view.html?id=BLD-1005">View</a> | 
+                            <a href="inventory-edit.html?id=BLD-1005">Edit</a> | 
+                            <a href="#" onclick="allocateBlood('BLD-1005')">Allocate</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <a href="#">&laquo; Previous</a> | 
+                <span>Page 1 of 5</span> | 
+                <a href="#">Next &raquo;</a>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <a href="export-inventory.html" class="btn">Export Inventory</a>
+                <a href="inventory-report.html" class="btn-outline" style="margin-left: 10px;">Generate Report</a>
+                <a href="expiry-check.html" class="btn-outline" style="margin-left: 10px;">Check Expiring Units</a>
+            </div>
+        </div>
+
+
+    <!-- Modal for allocation -->
+    <div id="allocation-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Allocate Blood Unit</h3>
+            <p id="allocation-unit-info"></p>
+            <form id="allocation-form">
+                <div class="form-group">
+                    <label for="recipient-hospital">Recipient Hospital</label>
+                    <input type="text" id="recipient-hospital" required>
+                </div>
+                <div class="form-group">
+                    <label for="recipient-doctor">Requesting Doctor</label>
+                    <input type="text" id="recipient-doctor" required>
+                </div>
+                <div class="form-group">
+                    <label for="allocation-date">Allocation Date</label>
+                    <input type="date" id="allocation-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="allocation-notes">Notes</label>
+                    <textarea id="allocation-notes"></textarea>
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn">Confirm Allocation</button>
+                    <button type="button" class="btn-outline modal-cancel">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Search function
+        function searchInventory() {
+            const searchTerm = document.getElementById('search-inventory').value.toLowerCase();
+            const rows = document.querySelectorAll('#inventory-table tbody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    row.style.display = '';
+                } else {
+                    row.style.display = 'none';
+                }
+            });
+        }
+
+        // Reset search when input is cleared
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-inventory');
+            searchInput.addEventListener('input', function() {
+                if (this.value === '') {
+                    document.querySelectorAll('#inventory-table tbody tr').forEach(row => {
+                        row.style.display = '';
+                    });
+                }
+            });
+        });
+
+        // Allocation modal
+        const modal = document.getElementById('allocation-modal');
+        const closeBtn = document.querySelector('.close');
+        const cancelBtn = document.querySelector('.modal-cancel');
+        let currentBloodId = '';
+
+        function allocateBlood(bloodId) {
+            currentBloodId = bloodId;
+            document.getElementById('allocation-unit-info').textContent = `Allocating blood unit: ${bloodId}`;
+            modal.style.display = 'block';
+        }
+
+        function releaseBlood(bloodId) {
+            if (confirm(`Are you sure you want to release blood unit ${bloodId} back to inventory?`)) {
+                alert(`Blood unit ${bloodId} has been released back to inventory.`);
+                // In a real app, this would update the database
+                // For this demo, we'll just update the table
+                const rows = document.querySelectorAll('#inventory-table tbody tr');
+                rows.forEach(row => {
+                    if (row.cells[0].textContent === bloodId) {
+                        row.cells[5].textContent = 'Available';
+                        row.cells[6].innerHTML = `
+                            <a href="inventory-view.html?id=${bloodId}">View</a> | 
+                            <a href="inventory-edit.html?id=${bloodId}">Edit</a> | 
+                            <a href="#" onclick="allocateBlood('${bloodId}')">Allocate</a>
+                        `;
+                    }
+                });
+            }
+        }
+
+        closeBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        cancelBtn.onclick = function() {
+            modal.style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        document.getElementById('allocation-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const hospital = document.getElementById('recipient-hospital').value;
+            const doctor = document.getElementById('recipient-doctor').value;
+            
+            alert(`Blood unit ${currentBloodId} has been allocated to ${hospital}.`);
+            
+            // In a real app, this would update the database
+            // For this demo, we'll just update the table
+            const rows = document.querySelectorAll('#inventory-table tbody tr');
+            rows.forEach(row => {
+                if (row.cells[0].textContent === currentBloodId) {
+                    row.cells[5].textContent = 'Reserved';
+                    row.cells[6].innerHTML = `
+                        <a href="inventory-view.html?id=${currentBloodId}">View</a> | 
+                        <a href="inventory-edit.html?id=${currentBloodId}">Edit</a> | 
+                        <a href="#" onclick="releaseBlood('${currentBloodId}')">Release</a>
+                    `;
+                }
+            });
+            
+            modal.style.display = 'none';
+            // Reset form
+            document.getElementById('allocation-form').reset();
+        });
+{% endblock %}

@@ -13,6 +13,7 @@ def login(request):
 def eligibility(request):
     return render(request, "eligibility.html")
 
+
 def donor_dash(request):
     return render(request, "donor/dashboard.html")
 
@@ -24,3 +25,34 @@ def donor_hist(request):
 
 def donor_profile(request):
     return render(request, "donor/profile.html")
+
+
+def bbworker_dash(request):
+    return render(request, "bbworker/dashboard.html")
+
+def bbworker_donors(request):
+    return render(request, "bbworker/donors.html")
+
+def bbworker_profile(request):
+    return render(request, "bbworker/profile.html")
+
+def bbworker_reg_donor(request):
+    return render(request, "bbworker/register-donor.html")
+
+def bbworker_reg_worker(request):
+    return render(request, "bbworker/register-worker.html")
+
+
+def hcworker_dash(request):
+    return render(request, "hcworker/dashboard.html")
+
+def hcworker_bloodsupply(request):
+    return render(request, "hcworker/bloodsupply.html")
+
+def hcworker_profile(request):
+    return render(request, "hcworker/profile.html")
+
+def hcworker_reg_worker(request):
+    return render(request, "hcworker/register-worker.html")
+
+
