@@ -20,7 +20,7 @@ class Donor(models.Model):
 
 
 class HealthCenter(models.Model):
-    hc_id = models.BigIntegerField(primary_key=True)
+    hc_id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50, default="Health Center")
     address = models.CharField(max_length=512)
     
