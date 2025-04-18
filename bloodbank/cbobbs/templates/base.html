@@ -3,40 +3,47 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cloud Based Online Blood Bank System">
+    <meta name="keywords" content="app free blood donation">
     <title>
         {% block title %}
         CBOBBS 
         {% endblock %}
-    </title>
+    </title>    
+    <link rel="shortcut icon" type="image/png" href="i{% static 'img/logo_placeholder.png' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        
-    </style>
 </head>
 <body>
-    <div class="mockup">
-        <div class="mockup-header">
+    <header>
+        <div class='title'>                
             <a href="{% url 'home' %}" class="nav-logo">
                 <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
             </a>
-            <div class="header-title">CBOBBS - Public Portal</div>
+            <h1>{% block header %}CBOBBS{% endblock %} </h1> 
         </div>
-        <div class="mockup-nav">
-            <a href="{% url 'home' %}">Home</a>
-            <a href="{% url 'find-bloodbanks' %}">Find Blood Banks</a>
-            <a href="{% url 'eligibility' %}">Eligibility</a>
-            <a href="{% url 'login' %}" class="btn" style="float: right;">Login</a>
+    
+        <div class="header-right">
+            <div class="dropdown">
+                <button class="dropbtn">Menu &#9662;</button>
+                <nav class="dropdown-content">
+                    <a href="{% url 'home' %}">Home</a>
+                    <a href="{% url 'find-bloodbanks' %}">Find Blood Banks</a>
+                    <a href="{% url 'eligibility' %}">Eligibility</a>
+                </nav>
+            </div>
+            <a href="{% url 'login' %}" class="login">Login</a>
         </div>
-
-        <div class="mockup-content">
-            {% block content %}
-                Content
-            {% endblock %}         
-        </div>
-        <div class="mockup-footer">
-            © 2025 CBOBBS
-        </div>
-    </div>
+    </header>
+    
+    <main>
+        {% block content %}
+            Content
+        {% endblock %}         
+    </main> 
+    <footer>
+        © 2025 CBOBBS
+    </footer>
 </body>
 </html>

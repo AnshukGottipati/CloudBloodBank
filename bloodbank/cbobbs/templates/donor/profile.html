@@ -1,6 +1,6 @@
 {% extends "donor/base.html" %} 
-{% block title %} CBOBBS - Profile{% endblock %}
-{% block header %} CBOBBS - Profile{% endblock %}
+{% block title %} Profile{% endblock %}
+{% block header %} Profile{% endblock %}
 {% block content %}
 <div class="page-header">
     <h1>My Profile</h1>
@@ -13,10 +13,10 @@
                 <h3>Donor Summary</h3>
             </div>
             <div class="profile-card-content">
-                <p><strong>Donor ID:</strong> {{ donor.donor_id }}</p> <!-- Should display the donor_id -->
-                <p><strong>Name:</strong> {{ donor.name }}</p> <!-- Should display the name -->
-                <p><strong>Phone:</strong> {{ donor.phone }}</p> <!-- Should display the phone -->
-                <p><strong>Email:</strong> {{ donor.email }}</p> <!-- Ensure this field is displayed correctly -->
+                <p><strong>Donor ID:</strong> {{ donor.donor_id }}</p> 
+                <p><strong>Name:</strong> {{ donor.name }}</p> 
+                <p><strong>Phone:</strong> {{ donor.phone }}</p> 
+                <p><strong>Email:</strong> {{ donor.email }}</p>
                 <hr>
                 <div style="text-align: center; margin-top: 15px;">
                     <a href="{% url 'donor-hist' %}" class="btn-outline">View Donation History</a>
