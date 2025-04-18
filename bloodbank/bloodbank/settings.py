@@ -81,11 +81,11 @@ WSGI_APPLICATION = 'bloodbank.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bloodbankdb',
+        'NAME': 'bloodbankDB',
         'USER': 'postgres',
         'PASSWORD': os.getenv('db_password'),
         'HOST': 'localhost',
-        'PORT': '5432',
+        'PORT': '5433',
     }}
 
 

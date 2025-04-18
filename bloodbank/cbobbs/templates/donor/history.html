@@ -1,6 +1,6 @@
 {% extends "donor/base.html" %} 
-{% block title %} CBOBBS - Donor History{% endblock %}
-{% block header %} CBOBBS - Donor History{% endblock %}
+{% block title %} Donor History{% endblock %}
+{% block header %} Donor History{% endblock %}
 {% block content %} 
 <div class="page-header">
     <h1>Donation History</h1>
@@ -10,227 +10,52 @@
 <div class="stats-grid">
     <div class="stat-card">
         <div>Total Donations</div>
-        <div class="stat-value">4</div>
-        <div>Since 2020</div>
-    </div>
-    <div class="stat-card">
-        <div>Lives Potentially Saved</div>
-        <div class="stat-value">12</div>
-        <div>Based on donations</div>
-    </div>
-    <div class="stat-card">
-        <div>Total Volume</div>
-        <div class="stat-value">1.8L</div>
-        <div>Of blood donated</div>
-    </div>
-    <div class="stat-card">
-        <div>Donor Level</div>
-        <div class="stat-value">Silver</div>
-        <div>Regular donor</div>
+        <div class="stat-value">{{ donations.count }}</div>
     </div>
 </div>
 
-<div class="filter-bar">
-    <select class="filter-select">
-        <option>All Years</option>
-        <option>2025</option>
-        <option>2024</option>
-        <option>2023</option>
-        <option>2022</option>
-        <option>2021</option>
-        <option>2020</option>
+<form method="get" class="filter-bar">
+    <select name="year" class="filter-select">
+        <option value="">All Years</option>
+        {% for y in years %}
+            <option value="{{ y }}" {% if y|stringformat:"s" == request.GET.year %}selected{% endif %}>{{ y }}</option>
+        {% endfor %}
     </select>
-    <select class="filter-select">
-        <option>All Donation Types</option>
-        <option>Whole Blood</option>
-        <option>Plasma</option>
-        <option>Platelets</option>
+
+    <select name="location" class="filter-select">
+        <option value="">All Locations</option>
+        {% for bank in bloodbanks %}
+            <option value="{{ bank.id }}" {% if request.GET.location == bank.id|stringformat:"s" %}selected{% endif %}>
+                {{ bank.name }}
+            </option>
+        {% endfor %}
     </select>
-    <select class="filter-select">
-        <option>All Locations</option>
-        <option>Central Blood Bank</option>
-        <option>Memorial Hospital</option>
-        <option>Community Blood Drive</option>
-    </select>
-</div>
 
-<div class="donation-detail">
-    <h3>January 15, 2025 - Whole Blood Donation</h3>
-    <div class="detail-grid">
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Donation Type:</span>
-                Whole Blood
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Location:</span>
-                Central Blood Bank, 123 Main St, Anytown
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Time:</span>
-                2:30 PM
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Status:</span>
-                Successful
-            </div>
-        </div>
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Hemoglobin Level:</span>
-                14.5 g/dL
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Blood Pressure:</span>
-                120/80 mmHg
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Pulse:</span>
-                72 bpm
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Temperature:</span>
-                98.6°F
-            </div>
-        </div>
-    </div>
-    <p><strong>Notes:</strong> Successful donation. No adverse reactions.</p>
-</div>
+    <button type="submit" class="btn">Filter</button>
+</form>
 
-<div class="donation-detail">
-    <h3>October 10, 2024 - Whole Blood Donation</h3>
-    <div class="detail-grid">
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Donation Type:</span>
-                Whole Blood
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Location:</span>
-                Memorial Hospital, 456 Health Ave, Anytown
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Time:</span>
-                10:15 AM
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Status:</span>
-                Successful
-            </div>
-        </div>
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Hemoglobin Level:</span>
-                15.0 g/dL
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Blood Pressure:</span>
-                118/78 mmHg
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Pulse:</span>
-                68 bpm
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Temperature:</span>
-                98.4°F
-            </div>
-        </div>
-    </div>
-    <p><strong>Notes:</strong> Successful donation. No adverse reactions.</p>
-</div>
-
-<div class="donation-detail">
-    <h3>July 5, 2024 - Whole Blood Donation</h3>
-    <div class="detail-grid">
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Donation Type:</span>
-                Whole Blood
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Location:</span>
-                Central Blood Bank, 123 Main St, Anytown
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Time:</span>
-                3:45 PM
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Status:</span>
-                Successful
-            </div>
-        </div>
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Hemoglobin Level:</span>
-                14.8 g/dL
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Blood Pressure:</span>
-                122/82 mmHg
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Pulse:</span>
-                70 bpm
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Temperature:</span>
-                98.7°F
-            </div>
-        </div>
-    </div>
-    <p><strong>Notes:</strong> Successful donation. No adverse reactions.</p>
-</div>
-
-<div class="donation-detail">
-    <h3>March 22, 2024 - Whole Blood Donation</h3>
-    <div class="detail-grid">
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Donation Type:</span>
-                Whole Blood
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Location:</span>
-                Community Blood Drive, 789 Community Blvd, Anytown
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Time:</span>
-                11:00 AM
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Status:</span>
-                Successful
-            </div>
-        </div>
-        <div>
-            <div class="detail-item">
-                <span class="detail-label">Hemoglobin Level:</span>
-                15.2 g/dL
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Blood Pressure:</span>
-                124/84 mmHg
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Pulse:</span>
-                74 bpm
-            </div>
-            <div class="detail-item">
-                <span class="detail-label">Temperature:</span>
-                98.5°F
-            </div>
-        </div>
-    </div>
-    <p><strong>Notes:</strong> Successful donation. No adverse reactions.</p>
-</div>
-
-<div class="impact-section">
-    <h3>Your Donation Impact</h3>
-    <p>Every donation can save up to 3 lives. Your donations have potentially helped:</p>
-    <div class="impact-value">12 Lives</div>
-    <p>Thank you for being a blood donor!</p>
-    <a href="{% url 'donor-appt' %}" class="btn">Schedule Next Donation</a>
-</div>
+<table class="donation-table">
+    <thead>
+        <tr>
+            <th>Donation Date</th>
+            <th>Blood Type</th>
+            <th>Status</th>
+            <th>Blood Bank</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for d in donations %}
+        <tr>
+            <td>{{ d.donation_date }}</td>
+            <td>{{ d.blood_type }}</td>
+            <td>{{ d.status }}</td>
+            <td>{{ d.blood_bank.name }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No donation records found.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
 {% endblock %}

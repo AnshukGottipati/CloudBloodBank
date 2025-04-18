@@ -3,46 +3,50 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Cloud Based Online Blood Bank System">
+    <meta name="keywords" content="app free blood donation">
     <title>
         {% block title %}
         CBOBBS 
         {% endblock %}
-    </title>
+    </title>    
+    <link rel="shortcut icon" type="image/png" href="i{% static 'img/logo_placeholder.png' %}">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <style>
-        
-    </style>
+    <link rel="stylesheet" href="{% static 'css/worker.css' %}">
 </head>
 <body>
-    <div class="mockup">
-        <div class="mockup-header">
-            <a href="{% url 'home' %}" class="nav-logo">
+    <header>
+        <div class='title'>                
+            <a href="{% url 'bb-dash' %}" class="nav-logo">
                 <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
             </a>
-            <div class="header-title">CBOBBS - Blood Bank Portal</div>
+            <h1>{% block header %}CBOBBS{% endblock %} </h1> 
         </div>
-        <div class="mockup-nav">
+    
+        <div class="header-right">
+            <div class="dropdown">
+                <button class="dropbtn">Menu &#9662;</button>
+                <nav class="dropdown-content">
+                    
             <a href="{% url 'bb-dash' %}">Dashboard</a>
-            <a href="{% url 'bb-donors' %}">Donors</a>
+            <a href="{% url 'bb-donors' %}">Donors</a>            
+            <a href="{% url 'bb-donation' %}">Donation</a>
             <a href="{% url 'bb-reg-worker' %}">Register Worker</a>
-            <a href="{% url 'home' %}" style="float: right;">Logout</a>
-            {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                        <li class="{{ message.tags }}">{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+                </nav>
+            </div>
+            <a href="{% url 'home' %}" class="login">Logout</a>
         </div>
-        <div class="mockup-content">
-            {% block content %}
-                Content
-            {% endblock %}         
-        </div>
-        <div class="mockup-footer">
-            © 2025 CBOBBS
-        </div>
-    </div>
+    </header>
+    
+    <main>
+        {% block content %}
+            Content
+        {% endblock %}         
+    </main> 
+    <footer>
+        © 2025 CBOBBS
+    </footer>
 </body>
 </html>

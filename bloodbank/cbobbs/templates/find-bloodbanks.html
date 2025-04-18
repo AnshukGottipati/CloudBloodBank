@@ -1,6 +1,6 @@
 {% extends "base.html" %} 
-{% block title %} CBOBBS - Find Blood Banks{% endblock %}
-{% block header %} CBOBBS - Find Blood Banks{% endblock %}
+{% block title %} Find Blood Banks{% endblock %}
+{% block header %} Find Blood Banks{% endblock %}
 {% block content %} 
 <div class="hero-banner">
     <h1>Find Blood Banks</h1>
@@ -21,39 +21,18 @@
 
 <h2> Blood Banks Near You</h2>
 <div class="location-list">
+    {% for bloodbank in bloodbanks %}
     <div class="location-item">
         <div class="location-info">
-            <h3>Central Blood Bank</h3>
-            <p><span class="location-badge badge-open">Open Now</span> <span class="location-badge badge-special">Appointments Available Today</span></p>
-            <p><strong>Address:</strong> 123 Main St, Anytown, ST 12345</p>
-            <p><strong>Phone:</strong> (555) 123-4567</p>
-            <p><strong>Distance:</strong> 1.2 miles</p>
-        </div>
-        <div class="location-actions">
-            <a href="schedule-appointment.html?id=BB001" class="btn">Schedule Appointment</a>
-            <a href="#" class="btn-outline">Get Directions</a>
-            <a href="center-details.html?id=BB001" class="btn-outline">View Details</a>
+            <h3>{{ bloodbank.name }}</h3>
+            <p><span class="location-badge badge-open">Open Now</span></p>  <!-- You can customize based on real-time data -->
+            <p><strong>Address:</strong> {{ bloodbank.address }}</p>
+            <p><strong>Phone:</strong> {{ bloodbank.phone }}</p>
         </div>
     </div>
-    
-    <div class="location-item">
-        <div class="location-info">
-            <h3>Memorial Hospital Blood Center</h3>
-            <p><span class="location-badge badge-open">Open Now</span> <span class="location-badge badge-special">Walk-ins Welcome</span></p>
-            <p><strong>Address:</strong> 456 Hospital Ave, Anytown, ST 12345</p>
-            <p><strong>Phone:</strong> (555) 987-6543</p>
-            <p><strong>Hours:</strong> 24/7 for emergency donations, Regular hours: Mon-Sun: 7am-8pm</p>
-            <p><strong>Distance:</strong> 2.8 miles</p>
-            <p><strong>Current Needs:</strong> Critical need for O- and platelets</p>
-        </div>
-        <div class="location-actions">
-            <a href="schedule-appointment.html?id=BB002" class="btn">Schedule Appointment</a>
-            <a href="#" class="btn-outline">Get Directions</a>
-            <a href="center-details.html?id=BB002" class="btn-outline">View Details</a>
-        </div>
-    </div>
-     
+    {% empty %}
+    <p>No blood banks available at the moment.</p>
+    {% endfor %}
 </div>
-
 </div>
 {% endblock %}
