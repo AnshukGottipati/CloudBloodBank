@@ -2,77 +2,50 @@
 {% block title %} CBOBBS - Health Center Register Worker{% endblock %}
 {% block header %} CBOBBS - Health Center Register Worker{% endblock %}
 {% block content %} 
-<h2>Create Worker Account</h2>        
-       
-<!-- Medical Personnel Registration Form -->
-<div class="tab-content" id="medical-content">
-    <form id="medical-form">
+
+<h2>Create Health Care Worker Account</h2>
+
+<div class="tab-content">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
         <div class="form-group">
-            <label for="medical-name" class="required">Full Name</label>
-            <input type="text" id="medical-name" placeholder="Enter your full name" required>
+            {{ form.first_name.label_tag }} {{ form.first_name }}
+            {{ form.first_name.errors }}
         </div>
         
         <div class="form-group">
-            <label for="medical-email" class="required">Email</label>
-            <input type="email" id="medical-email" placeholder="Enter your email" required>
+            {{ form.last_name.label_tag }} {{ form.last_name }}
+            {{ form.last_name.errors }}
         </div>
         
+        
+        <div class="form-group" >
+            {{ form.email.label_tag }} {{ form.email }}
+            {{ form.email.errors }}
+        </div>
+        
+        <div class="form-group">
+            {{ form.role.label_tag }} {{ form.role }}
+            {{ form.role.errors }}
+        </div>
+
         <div class="form-row">
             <div class="form-group">
-                <label for="medical-password" class="required">Password</label>
-                <input type="password" id="medical-password" placeholder="Choose a strong password" required>
+                {{ form.password1.label_tag }} {{ form.password1 }}
+                {{ form.password1.errors }}
             </div>
             
             <div class="form-group">
-                <label for="medical-confirm-password" class="required">Confirm Password</label>
-                <input type="password" id="medical-confirm-password" placeholder="Confirm your password" required>
+                {{ form.password2.label_tag }} {{ form.password2 }}
+                {{ form.password2.errors }}
             </div>
         </div>
-        
+
         <div class="button-container">
-            <button type="submit" class="button">Register Health Center Worker</button>
+            <button type="submit" class="button">Register Health Care Worker</button>
         </div>
     </form>
 </div>
-
-</div>
-
-<script>
-// Form validation for medical registration
-const medicalForm = document.getElementById('medical-form');
-medicalForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    
-    // Validate password match
-    const password = document.getElementById('medical-password').value;
-    const confirmPassword = document.getElementById('medical-confirm-password').value;
-    
-    if (password !== confirmPassword) {
-        alert('Passwords do not match. Please try again.');
-        return;
-    }
-    
-    // Check email format
-    const email = document.getElementById('medical-email').value;
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-        alert('Please enter a valid email address.');
-        return;
-    }
-    
-    // Validate required medical fields
-    const license = document.getElementById('medical-license').value;
-    const position = document.getElementById('medical-position').value;
-    const facility = document.getElementById('medical-facility').value;
-    
-    if (!license || !position || !facility) {
-        alert('Please fill out all required medical personnel fields.');
-        return;
-    }
-    
-    // If validation passes
-    alert('Medical personnel registration successful! You can now log in with your credentials.');
-    window.location.href = 'login.html';
-});
-</script>
 {% endblock %}

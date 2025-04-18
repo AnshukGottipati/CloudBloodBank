@@ -28,6 +28,13 @@
             <a href="{% url 'donor-hist' %}">Donation History</a>
             <a href="{% url 'home' %}" style="float: right;">Logout</a>
             <a href="{% url 'donor-profile' %}" style="float: right; margin-right: 5px;">Profile</a>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
 
         <div class="mockup-content">

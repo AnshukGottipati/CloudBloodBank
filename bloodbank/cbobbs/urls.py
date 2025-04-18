@@ -4,7 +4,11 @@ from . import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("find-bloodbanks/", views.find_bloodbanks, name="find-bloodbanks"),
-    path("login/", views.login, name="login"),
+
+    #login and logout url
+    path("login/", views.login_user, name="login"),
+    path("logout/",views.logout_user,name="logout"),
+
     path("eligibility/", views.eligibility, name="eligibility"),
 
     path("donor/dash/", views.donor_dash, name="donor-dash"),

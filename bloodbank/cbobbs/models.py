@@ -1,22 +1,23 @@
 from django.db import models
 from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 class Donor(models.Model):
-    donor_id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    address = models.CharField(max_length=512)
-    phone = models.CharField(max_length=10)
-    birth_date = models.DateField()
-    blood_type = models.CharField(max_length=5)
-    password = models.CharField(max_length=25)
-    email = models.CharField(max_length=30)
+    donor_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="donor") # required
+    name = models.CharField(max_length=50)  # required
+    address = models.CharField(max_length=512, blank=True)  # optional for testing
+    phone = models.CharField(max_length=10, blank=True)     # optional for testing
+    birth_date = models.DateField(null=True, blank=True)    # optional for testing
+    blood_type = models.CharField(max_length=5, blank=True) # optional for testing
+    email = models.CharField(max_length=30)  # required
 
     class Meta:
-        unique_together = ('phone', 'email')
-
-    class Meta:
-        unique_together = ('name', 'email')
+        unique_together = [
+            ('phone', 'email'),
+            ('name', 'email'),
+        ]
+        
 
 
 class HealthCenter(models.Model):
@@ -29,11 +30,16 @@ class HealthCenter(models.Model):
 
 
 class HealthcareWorker(models.Model):
-    hc_worker_id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=255)
-    email = models.CharField(max_length=255)
-    password = models.CharField(max_length=50)
-    health_center = models.ForeignKey(HealthCenter, on_delete=models.CASCADE, default=1)
+    hc_worker_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name="hcworker")
+    name = models.CharField(max_length=310)
+    email = models.CharField(max_length=254)
+    health_center = models.ForeignKey(HealthCenter, on_delete=models.CASCADE)
+    role = models.CharField(
+        max_length=50,
+        choices=[('admin', 'Admin'), ('employee', 'Employee')],
+        default='employee',
+    )
+
 
 
 class BloodBank(models.Model):
@@ -44,11 +50,15 @@ class BloodBank(models.Model):
 
 
 class BloodbankWorker(models.Model):
-    bb_worker_id = models.BigAutoField(primary_key=True)
-    name = models.CharField(max_length=50)
-    email = models.CharField(max_length=20, unique=True)
-    password = models.CharField(max_length=50)
-    blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE, default=1)
+    bb_worker_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name="bbworker")
+    name = models.CharField(max_length=310)
+    email = models.CharField(max_length=254, unique=True,)
+    blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
+    role = models.CharField(
+        max_length=50,
+        choices=[('admin', 'Admin'), ('employee', 'Employee')],
+        default='employee',
+    )
 
 
 class Donation(models.Model):

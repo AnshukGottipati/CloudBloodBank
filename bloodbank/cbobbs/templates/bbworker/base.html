@@ -27,6 +27,13 @@
             <a href="{% url 'bb-donors' %}">Donors</a>
             <a href="{% url 'bb-reg-worker' %}">Register Worker</a>
             <a href="{% url 'home' %}" style="float: right;">Logout</a>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
         <div class="mockup-content">
             {% block content %}

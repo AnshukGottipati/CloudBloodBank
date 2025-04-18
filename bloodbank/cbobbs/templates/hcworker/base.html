@@ -26,7 +26,15 @@
             <a href="{% url 'hc-dash' %}">Dashboard</a>
             <a href="{% url 'hc-bloodsupply' %}">Blood Supply</a>
             <a href="{% url 'home' %}" style="float: right;">Logout</a>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
         </div>
+            
         <div class="mockup-content">
             {% block content %}
                 Content

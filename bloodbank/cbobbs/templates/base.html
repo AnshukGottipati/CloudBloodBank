@@ -27,6 +27,14 @@
             <a href="{% url 'find-bloodbanks' %}">Find Blood Banks</a>
             <a href="{% url 'eligibility' %}">Eligibility</a>
             <a href="{% url 'login' %}" class="btn" style="float: right;">Login</a>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+
         </div>
 
         <div class="mockup-content">
