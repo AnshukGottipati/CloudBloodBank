@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBOBBS - Donor Management</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+        /* Navigation */
+        .mockup-nav {
+            background-color: #f8f8f8;
+            padding: 10px 15px;
+            border-bottom: 1px solid #eee;
+            overflow: hidden;
+        }
+        
+        .mockup-nav a {
+            text-decoration: none;
+            color: #333;
+            margin-right: 15px;
+            padding: 5px 0;
+        }
+        
+        .mockup-nav a.active {
+            font-weight: bold;
+            color: #D32F2F;
+            border-bottom: 2px solid #D32F2F;
+        }
+        
+        .mockup-nav a:hover:not(.btn):not(.btn-outline) {
+            color: #D32F2F;
+        }
+        
+        /* Content Area */
+        .mockup-content {
+            padding: 20px;
+        }
+        
+        /* Search Controls */
+        .search-controls {
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        
+        .search-controls input[type="text"] {
+            padding: 8px;
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+        }
+        
+        table th, table td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        
+        table th {
+            background-color: #f8f8f8;
+            font-weight: bold;
+        }
+        
+        table tr:hover {
+            background-color: #f9f9f9;
+        }
+        
+        /* Pagination */
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .pagination a {
+            color: #D32F2F;
+            text-decoration: none;
+            margin: 0 5px;
+        }
+        
+        .pagination a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            background-color: #D32F2F;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .btn:hover {
+            background-color: #B71C1C;
+        }
+        
+        .btn-outline {
+            display: inline-block;
+            background-color: transparent;
+            color: #D32F2F;
+            padding: 7px 14px;
+            border-radius: 4px;
+            text-decoration: none;
+            border: 1px solid #D32F2F;
+            cursor: pointer;
+        }
+        
+        .btn-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        /* Action Links */
+        .action-links a {
+            color: #D32F2F;
+            text-decoration: none;
+            margin-right: 5px;
+        }
+        
+        .action-links a:hover {
+            text-decoration: underline;
+        }
+        
+        /* Footer */
+        .mockup-footer {
+            background-color: #f8f8f8;
+            padding: 15px;
+            border-top: 1px solid #eee;
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+        }
+        
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            .search-controls {
+                flex-direction: column;
+                align-items: stretch;
+            }
+            
+            .search-controls input[type="text"] {
+                width: 100%;
+            }
+            
+            table {
+                display: block;
+                overflow-x: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            <a href="index.html" class="nav-logo">
+                <img src="../../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            CBOBB - Donor Management
+        </div>
+        <div class="mockup-nav">
+            <a href="med-dashboard.html">Dashboard</a>
+            <a href="blood-inventory.html">Blood Inventory</a>
+            <a href="donors.html" class="active">Donors</a>
+            <a href="request-form.html">Request Form</a>
+            <a href="../index.html" style="float: right;">Logout</a>
+            <a href="profile.html" style="float: right; margin-right: 5px;">Profile</a>
+        </div>
+        <div class="mockup-content">
+            <h2>Donor Management</h2>
+            
+            <div class="search-controls">
+                <input type="text" placeholder="Search by name, blood type, or ID...">
+                <a href="#" class="btn">Search</a>
+                <a href="add-donor.html" class="btn-outline" style="margin-left: auto;">Add New Donor</a>
+            </div>
+            
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Name</th>
+                        <th>Blood Type</th>
+                        <th>Contact</th>
+                        <th>Last Donation</th>
+                        <th>Organ Donor</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>DNR-1001</td>
+                        <td>John Smith</td>
+                        <td>A+</td>
+                        <td>john@example.com</td>
+                        <td>01/15/2025</td>
+                        <td>Yes</td>
+                        <td class="action-links">
+                            <a href="donor-details.html?id=DNR-1001">View</a> | 
+                            <a href="edit-donor.html?id=DNR-1001">Edit</a> | 
+                            <a href="donor-history.html?id=DNR-1001">History</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DNR-1002</td>
+                        <td>Mary Johnson</td>
+                        <td>O-</td>
+                        <td>mary@example.com</td>
+                        <td>01/17/2025</td>
+                        <td>No</td>
+                        <td class="action-links">
+                            <a href="donor-details.html?id=DNR-1002">View</a> | 
+                            <a href="edit-donor.html?id=DNR-1002">Edit</a> | 
+                            <a href="donor-history.html?id=DNR-1002">History</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DNR-1003</td>
+                        <td>Robert Davis</td>
+                        <td>B+</td>
+                        <td>robert@example.com</td>
+                        <td>01/18/2025</td>
+                        <td>Yes</td>
+                        <td class="action-links">
+                            <a href="donor-details.html?id=DNR-1003">View</a> | 
+                            <a href="edit-donor.html?id=DNR-1003">Edit</a> | 
+                            <a href="donor-history.html?id=DNR-1003">History</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DNR-1004</td>
+                        <td>Jennifer Wilson</td>
+                        <td>AB-</td>
+                        <td>jennifer@example.com</td>
+                        <td>01/20/2025</td>
+                        <td>No</td>
+                        <td class="action-links">
+                            <a href="donor-details.html?id=DNR-1004">View</a> | 
+                            <a href="edit-donor.html?id=DNR-1004">Edit</a> | 
+                            <a href="donor-history.html?id=DNR-1004">History</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DNR-1005</td>
+                        <td>Michael Brown</td>
+                        <td>O+</td>
+                        <td>michael@example.com</td>
+                        <td>01/22/2025</td>
+                        <td>Yes</td>
+                        <td class="action-links">
+                            <a href="donor-details.html?id=DNR-1005">View</a> | 
+                            <a href="edit-donor.html?id=DNR-1005">Edit</a> | 
+                            <a href="donor-history.html?id=DNR-1005">History</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DNR-1006</td>
+                        <td>Sarah Thompson</td>
+                        <td>A-</td>
+                        <td>sarah@example.com</td>
+                        <td>01/25/2025</td>
+                        <td>No</td>
+                        <td class="action-links">
+                            <a href="donor-details.html?id=DNR-1006">View</a> | 
+                            <a href="edit-donor.html?id=DNR-1006">Edit</a> | 
+                            <a href="donor-history.html?id=DNR-1006">History</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>DNR-1007</td>
+                        <td>David Wilson</td>
+                        <td>B-</td>
+                        <td>david@example.com</td>
+                        <td>01/27/2025</td>
+                        <td>Yes</td>
+                        <td class="action-links">
+                            <a href="donor-details.html?id=DNR-1007">View</a> | 
+                            <a href="edit-donor.html?id=DNR-1007">Edit</a> | 
+                            <a href="donor-history.html?id=DNR-1007">History</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            
+            <div class="pagination">
+                <a href="#">&laquo; Previous</a> | 
+                <span>Page 1 of 8</span> | 
+                <a href="#">Next &raquo;</a>
+            </div>
+            
+            <div style="margin-top: 20px;">
+                <a href="export-donors.html" class="btn">Export Donor List</a>
+                <a href="schedule-donation.html" class="btn-outline" style="margin-left: 10px;">Schedule Donation</a>
+                <a href="donor-reminders.html" class="btn-outline" style="margin-left: 10px;">Send Reminders</a>
+            </div>
+        </div>
+        <div class="mockup-footer">
+            © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
+        </div>
+    </div>
+
+    <script>
+        // Simple interactivity for donors page
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.querySelector('.search-controls input');
+            const searchBtn = document.querySelector('.search-controls .btn');
+            const tableRows = document.querySelectorAll('tbody tr');
+            
+            // Search functionality
+            searchBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                const searchTerm = searchInput.value.toLowerCase();
+                
+                tableRows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    if (text.includes(searchTerm)) {
+                        row.style.display = '';
+                    } else {
+                        row.style.display = 'none';
+                    }
+                });
+            });
+            
+            // Reset search when input is cleared
+            searchInput.addEventListener('input', function() {
+                if (this.value === '') {
+                    tableRows.forEach(row => {
+                        row.style.display = '';
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

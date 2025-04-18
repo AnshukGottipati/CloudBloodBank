@@ -1,0 +1,59 @@
+{% extends "base.html" %} 
+{% block title %} CBOBBS - Find Blood Banks{% endblock %}
+{% block header %} CBOBBS - Find Blood Banks{% endblock %}
+{% block content %} 
+<div class="hero-banner">
+    <h1>Find Blood Banks</h1>
+    <p>Locate your nearest blood donation center or upcoming blood drive. Every donation can save up to three lives.</p>
+</div>
+
+<div class="search-controls">
+    <input type="text" placeholder="Enter your address, city, or zip code...">
+    <a href="#" class="btn"> Blood Banks</a>
+</div>
+
+<div class="map-container">
+    <div class="map-placeholder">
+        <div style="font-size: 18px; margin-bottom: 10px;">Interactive Map</div>
+        <div style="font-size: 14px; color: #666;">(Shows nearby blood banks)</div>
+    </div>
+</div>
+
+<h2> Blood Banks Near You</h2>
+<div class="location-list">
+    <div class="location-item">
+        <div class="location-info">
+            <h3>Central Blood Bank</h3>
+            <p><span class="location-badge badge-open">Open Now</span> <span class="location-badge badge-special">Appointments Available Today</span></p>
+            <p><strong>Address:</strong> 123 Main St, Anytown, ST 12345</p>
+            <p><strong>Phone:</strong> (555) 123-4567</p>
+            <p><strong>Distance:</strong> 1.2 miles</p>
+        </div>
+        <div class="location-actions">
+            <a href="schedule-appointment.html?id=BB001" class="btn">Schedule Appointment</a>
+            <a href="#" class="btn-outline">Get Directions</a>
+            <a href="center-details.html?id=BB001" class="btn-outline">View Details</a>
+        </div>
+    </div>
+    
+    <div class="location-item">
+        <div class="location-info">
+            <h3>Memorial Hospital Blood Center</h3>
+            <p><span class="location-badge badge-open">Open Now</span> <span class="location-badge badge-special">Walk-ins Welcome</span></p>
+            <p><strong>Address:</strong> 456 Hospital Ave, Anytown, ST 12345</p>
+            <p><strong>Phone:</strong> (555) 987-6543</p>
+            <p><strong>Hours:</strong> 24/7 for emergency donations, Regular hours: Mon-Sun: 7am-8pm</p>
+            <p><strong>Distance:</strong> 2.8 miles</p>
+            <p><strong>Current Needs:</strong> Critical need for O- and platelets</p>
+        </div>
+        <div class="location-actions">
+            <a href="schedule-appointment.html?id=BB002" class="btn">Schedule Appointment</a>
+            <a href="#" class="btn-outline">Get Directions</a>
+            <a href="center-details.html?id=BB002" class="btn-outline">View Details</a>
+        </div>
+    </div>
+     
+</div>
+
+</div>
+{% endblock %}

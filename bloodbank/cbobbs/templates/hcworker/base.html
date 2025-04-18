@@ -1,0 +1,48 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+        CBOBBS 
+        {% endblock %}
+    </title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        
+    </style>
+</head>
+<body>
+    <div class="mockup">
+        <div class="mockup-header">
+            <a href="{% url 'home' %}" class="nav-logo">
+                <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
+            </a>
+            <div class="header-title">CBOBBS - Blood Bank Portal</div>
+        </div>
+        <div class="mockup-nav">
+            <a href="{% url 'hc-dash' %}">Dashboard</a>
+            <a href="{% url 'hc-bloodsupply' %}">Blood Supply</a>
+            <a href="{% url 'home' %}" style="float: right;">Logout</a>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="{{ message.tags }}">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+            
+        <div class="mockup-content">
+            {% block content %}
+                Content
+            {% endblock %}         
+        </div>
+        <div class="mockup-footer">
+            © 2025 CBOBBS
+        </div>
+    </div>
+</body>
+</html>

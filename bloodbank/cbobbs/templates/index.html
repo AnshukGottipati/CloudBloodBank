@@ -1,0 +1,56 @@
+{% extends "base.html" %} 
+{% block title %} CBOBBS {% endblock %}
+{% block header %} CBOBBS {% endblock %}
+{% block content %} 
+    <div class="hero-banner">
+        <h1>Donate Blood, Save Lives</h1>
+        <p>Your donation can make a difference. Each donation can save up to three lives. Find a donation center near you and schedule an appointment today.</p>
+        <div class="hero-buttons">
+            <a href="{% url 'find-bloodbanks' %}" class="btn">Find  Blood Banks</a>
+        </div>
+    </div>    
+        
+    <div class="column card">
+        <h3>Quick Eligibility Check</h3>
+        <p>Check if you're eligible to donate blood:</p>
+        <div class="form-group">
+            <label for="quick-age">Age</label>
+            <input type="number" id="quick-age" min="16" max="100">
+        </div>
+        <div class="form-group">
+            <label>Have you donated in the last 56 days?</label>
+            <div>
+                <label class="radio-label"><input type="radio" name="donated-recently"> Yes</label>
+                <label class="radio-label"><input type="radio" name="donated-recently"> No</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label>Are you currently taking any medications?</label>
+            <div>
+                <label class="radio-label"><input type="radio" name="medications"> Yes</label>
+                <label class="radio-label"><input type="radio" name="medications"> No</label>
+            </div>
+        </div>
+        <div class="form-group">
+            <a href="{% url 'eligibility' %}" class="btn full-width">Check Eligibility</a>
+        </div>
+    </div>
+    
+    <script>
+        // Simple script to handle form interactivity
+        document.addEventListener('DOMContentLoaded', function() {
+            const eligibilityBtn = document.querySelector('.full-width');
+            eligibilityBtn.addEventListener('click', function(e) {
+                const age = document.getElementById('quick-age').value;
+                const recentlyDonated = document.querySelector('input[name="donated-recently"]:checked');
+                const medications = document.querySelector('input[name="medications"]:checked');
+                
+                // Simple validation
+                if (!age || !recentlyDonated || !medications) {
+                    e.preventDefault();
+                    alert('Please fill out all fields to check eligibility.');
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBOBBS - Create Account</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <style>
+        /* Logo styling */
+        .nav-logo {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 20px;
+        }
+        
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+        }
+        
+        /* Header layout */
+        .mockup-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+        }
+        
+        .header-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 20px;
+        }
+        
+        header {
+            background-color: #D32F2F;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            border-radius: 8px 8px 0 0;
+            margin: -20px -20px 20px;
+        }
+        
+        h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        
+        h2 {
+            color: #D32F2F;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        /* Tab System */
+        .tab-buttons {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        
+        .tab-button {
+            flex: 1;
+            padding: 15px;
+            text-align: center;
+            background-color: #f8f8f8;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .tab-button:first-child {
+            border-radius: 4px 0 0 0;
+        }
+        
+        .tab-button:last-child {
+            border-radius: 0 4px 0 0;
+        }
+        
+        .tab-button.active {
+            background-color: #D32F2F;
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+        }
+        
+        .tab-content.active {
+            display: block;
+        }
+        
+        /* Form Elements */
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        .required::after {
+            content: " *";
+            color: #D32F2F;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+        }
+        
+        .radio-group {
+            margin-top: 5px;
+        }
+        
+        .radio-label {
+            display: inline-block;
+            margin-right: 15px;
+            font-weight: normal;
+        }
+        
+        .button {
+            background-color: #D32F2F;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            display: inline-block;
+            text-decoration: none;
+        }
+        
+        .button:hover {
+            background-color: #B71C1C;
+        }
+        
+        .button-outline {
+            background-color: transparent;
+            border: 1px solid #D32F2F;
+            color: #D32F2F;
+        }
+        
+        .button-outline:hover {
+            background-color: #ffebee;
+        }
+        
+        .button-container {
+            text-align: center;
+            margin-top: 25px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        @media (max-width: 600px) {
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <a href="index.html" class="nav-logo">
+                <img src="../img/logo_placeholder.png" alt="CBOBBS Logo">
+            </a>
+            <h1>CBOBBS - Registration</h1>
+        </header>
+        
+        <h2>Create Account</h2>
+        
+        <div class="tab-buttons">
+            <div class="tab-button active" id="donor-tab">Donor Registration</div>
+            <div class="tab-button" id="medical-tab">Medical Personnel</div>
+        </div>
+        
+        <!-- Donor Registration Form -->
+        <div class="tab-content active" id="donor-content">
+            <form id="donor-form">
+                <div class="form-group">
+                    <label for="donor-name" class="required">Full Name</label>
+                    <input type="text" id="donor-name" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="donor-email" class="required">Email</label>
+                    <input type="email" id="donor-email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="donor-phone" class="required">Phone Number</label>
+                        <input type="tel" id="donor-phone" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donor-dob" class="required">Date of Birth</label>
+                        <input type="date" id="donor-dob" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="donor-address">Address</label>
+                    <input type="text" id="donor-address" placeholder="Enter your address">
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="donor-blood-type">Blood Type (if known)</label>
+                        <select id="donor-blood-type">
+                            <option value="">Select blood type</option>
+                            <option value="A+">A+</option>
+                            <option value="A-">A-</option>
+                            <option value="B+">B+</option>
+                            <option value="B-">B-</option>
+                            <option value="AB+">AB+</option>
+                            <option value="AB-">AB-</option>
+                            <option value="O+">O+</option>
+                            <option value="O-">O-</option>
+                            <option value="unknown">Unknown</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donor-last-donation">Last Donation Date (if applicable)</label>
+                        <input type="date" id="donor-last-donation">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Are you currently taking any medications?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="donor-medications" value="yes"> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="donor-medications" value="no"> No
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Would you like to be an organ donor as well?</label>
+                    <div class="radio-group">
+                        <label class="radio-label">
+                            <input type="radio" name="donor-organ" value="yes"> Yes
+                        </label>
+                        <label class="radio-label">
+                            <input type="radio" name="donor-organ" value="no"> No
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="donor-username" class="required">Username</label>
+                    <input type="text" id="donor-username" placeholder="Choose a username" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="donor-password" class="required">Password</label>
+                        <input type="password" id="donor-password" placeholder="Choose a strong password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="donor-confirm-password" class="required">Confirm Password</label>
+                        <input type="password" id="donor-confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+                
+                <div class="button-container">
+                    <button type="submit" class="button">Register as Donor</button>
+                </div>
+            </form>
+        </div>
+        
+        <!-- Medical Personnel Registration Form -->
+        <div class="tab-content" id="medical-content">
+            <form id="medical-form">
+                <div class="form-group">
+                    <label for="medical-name" class="required">Full Name</label>
+                    <input type="text" id="medical-name" placeholder="Enter your full name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="medical-email" class="required">Email</label>
+                    <input type="email" id="medical-email" placeholder="Enter your email" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="medical-phone" class="required">Phone Number</label>
+                        <input type="tel" id="medical-phone" placeholder="Enter your phone number" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="medical-dob" class="required">Date of Birth</label>
+                        <input type="date" id="medical-dob" required>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="medical-address">Address</label>
+                    <input type="text" id="medical-address" placeholder="Enter your address">
+                </div>
+                
+                <div class="form-group">
+                    <label for="medical-license" class="required">Medical License/ID Number</label>
+                    <input type="text" id="medical-license" placeholder="Enter your medical license or ID number" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="medical-position" class="required">Position/Title</label>
+                    <input type="text" id="medical-position" placeholder="Enter your position or title" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="medical-facility" class="required">Medical Facility</label>
+                    <input type="text" id="medical-facility" placeholder="Enter your hospital or facility name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="medical-specialty">Specialty (if applicable)</label>
+                    <input type="text" id="medical-specialty" placeholder="Enter your medical specialty">
+                </div>
+                
+                <div class="form-group">
+                    <label for="medical-username" class="required">Username</label>
+                    <input type="text" id="medical-username" placeholder="Choose a username" required>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="medical-password" class="required">Password</label>
+                        <input type="password" id="medical-password" placeholder="Choose a strong password" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="medical-confirm-password" class="required">Confirm Password</label>
+                        <input type="password" id="medical-confirm-password" placeholder="Confirm your password" required>
+                    </div>
+                </div>
+                
+                <div class="button-container">
+                    <button type="submit" class="button">Register as Medical Personnel</button>
+                </div>
+            </form>
+        </div>
+        
+        <div class="button-container">
+            <a href="login.html" class="button button-outline">Back to Login</a>
+        </div>
+        
+        <footer>
+            © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const donorTab = document.getElementById('donor-tab');
+            const medicalTab = document.getElementById('medical-tab');
+            const donorContent = document.getElementById('donor-content');
+            const medicalContent = document.getElementById('medical-content');
+            
+            donorTab.addEventListener('click', function() {
+                // Switch to donor tab
+                donorTab.classList.add('active');
+                medicalTab.classList.remove('active');
+                donorContent.classList.add('active');
+                medicalContent.classList.remove('active');
+            });
+            
+            medicalTab.addEventListener('click', function() {
+                // Switch to medical tab
+                medicalTab.classList.add('active');
+                donorTab.classList.remove('active');
+                medicalContent.classList.add('active');
+                donorContent.classList.remove('active');
+            });
+            
+            // Form validation for donor registration
+            const donorForm = document.getElementById('donor-form');
+            donorForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate password match
+                const password = document.getElementById('donor-password').value;
+                const confirmPassword = document.getElementById('donor-confirm-password').value;
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match. Please try again.');
+                    return;
+                }
+                
+                // Check email format
+                const email = document.getElementById('donor-email').value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                
+                // If validation passes
+                alert('Donor registration successful! You can now log in with your credentials.');
+                window.location.href = 'login.html';
+            });
+            
+            // Form validation for medical registration
+            const medicalForm = document.getElementById('medical-form');
+            medicalForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Validate password match
+                const password = document.getElementById('medical-password').value;
+                const confirmPassword = document.getElementById('medical-confirm-password').value;
+                
+                if (password !== confirmPassword) {
+                    alert('Passwords do not match. Please try again.');
+                    return;
+                }
+                
+                // Check email format
+                const email = document.getElementById('medical-email').value;
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Please enter a valid email address.');
+                    return;
+                }
+                
+                // Validate required medical fields
+                const license = document.getElementById('medical-license').value;
+                const position = document.getElementById('medical-position').value;
+                const facility = document.getElementById('medical-facility').value;
+                
+                if (!license || !position || !facility) {
+                    alert('Please fill out all required medical personnel fields.');
+                    return;
+                }
+                
+                // If validation passes
+                alert('Medical personnel registration successful! You can now log in with your credentials.');
+                window.location.href = 'login.html';
+            });
+        });</script>
