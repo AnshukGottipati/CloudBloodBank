@@ -1,5 +1,5 @@
 from django.shortcuts import render,redirect
-from django.contrib.auth import authenticate, login,logout
+from django.contrib.auth import authenticate, login, logout
 from django .contrib import messages
 from .forms import BloodBankWorkerRegistrationForm, HealthCareWorkerRegistrationForm, DonorRegistrationForm
 from django.db import transaction
@@ -38,7 +38,7 @@ def login_user(request):
             elif(hasattr(user,'donor')):
                 return redirect('donor-dash')
             else:
-                messages.error(request,"WHy are you here")
+                messages.error(request,"Why are you here")
         else:
             messages.error(request,"Invalid email or password.")
     return render(request, "login.html")
@@ -74,6 +74,11 @@ def bbworker_donors(request):
 def bbworker_profile(request):
     return render(request, "bbworker/profile.html")
 
+
+def bbworker_donation(request):
+    return render(request, "bbworker/donation.html")
+
+
 def bbworker_reg_donor(request):
     if request.method == 'POST':
         form = DonorRegistrationForm(request.POST)
@@ -104,7 +109,7 @@ def bbworker_reg_donor(request):
     else:
         form = DonorRegistrationForm()
     return render(request, 'bbworker/register-donor.html', {'form': form})
-
+    
 
 def bbworker_reg_worker(request):
     if request.method == 'POST':

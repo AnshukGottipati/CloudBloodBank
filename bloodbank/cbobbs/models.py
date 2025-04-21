@@ -10,12 +10,11 @@ class Donor(models.Model):
     phone = models.CharField(max_length=10, blank=True)     # optional for testing
     birth_date = models.DateField(null=True, blank=True)    # optional for testing
     blood_type = models.CharField(max_length=5, blank=True) # optional for testing
-    email = models.CharField(max_length=30)  # required
+    email = models.CharField(max_length=50)  # required
 
     class Meta:
         unique_together = [
-            ('phone', 'email'),
-            ('name', 'email'),
+            ('phone', 'email')
         ]
         
 
@@ -68,7 +67,7 @@ class Donation(models.Model):
     sent_at = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=10)
     transaction_date = models.DateField(null=True, blank=True)
-    health_center = models.OneToOneField(HealthCenter, on_delete=models.CASCADE)  # due to unique constraint
+    health_center = models.OneToOneField(HealthCenter, null=True, on_delete=models.CASCADE)  # due to unique constraint
     blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
 
