@@ -130,16 +130,6 @@
             flex: 1;
         }
         
-        .radio-group {
-            margin-top: 5px;
-        }
-        
-        .radio-label {
-            display: inline-block;
-            margin-right: 15px;
-            font-weight: normal;
-        }
-        
         .button {
             background-color: #D32F2F;
             color: white;
@@ -217,75 +207,6 @@
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label for="donor-phone" class="required">Phone Number</label>
-                        <input type="tel" id="donor-phone" placeholder="Enter your phone number" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="donor-dob" class="required">Date of Birth</label>
-                        <input type="date" id="donor-dob" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="donor-address">Address</label>
-                    <input type="text" id="donor-address" placeholder="Enter your address">
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="donor-blood-type">Blood Type (if known)</label>
-                        <select id="donor-blood-type">
-                            <option value="">Select blood type</option>
-                            <option value="A+">A+</option>
-                            <option value="A-">A-</option>
-                            <option value="B+">B+</option>
-                            <option value="B-">B-</option>
-                            <option value="AB+">AB+</option>
-                            <option value="AB-">AB-</option>
-                            <option value="O+">O+</option>
-                            <option value="O-">O-</option>
-                            <option value="unknown">Unknown</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="donor-last-donation">Last Donation Date (if applicable)</label>
-                        <input type="date" id="donor-last-donation">
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Are you currently taking any medications?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="donor-medications" value="yes"> Yes
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="donor-medications" value="no"> No
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label>Would you like to be an organ donor as well?</label>
-                    <div class="radio-group">
-                        <label class="radio-label">
-                            <input type="radio" name="donor-organ" value="yes"> Yes
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="donor-organ" value="no"> No
-                        </label>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="donor-username" class="required">Username</label>
-                    <input type="text" id="donor-username" placeholder="Choose a username" required>
-                </div>
-                
-                <div class="form-row">
-                    <div class="form-group">
                         <label for="donor-password" class="required">Password</label>
                         <input type="password" id="donor-password" placeholder="Choose a strong password" required>
                     </div>
@@ -315,46 +236,13 @@
                     <input type="email" id="medical-email" placeholder="Enter your email" required>
                 </div>
                 
-                <div class="form-row">
-                    <div class="form-group">
-                        <label for="medical-phone" class="required">Phone Number</label>
-                        <input type="tel" id="medical-phone" placeholder="Enter your phone number" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="medical-dob" class="required">Date of Birth</label>
-                        <input type="date" id="medical-dob" required>
-                    </div>
-                </div>
-                
-                <div class="form-group">
-                    <label for="medical-address">Address</label>
-                    <input type="text" id="medical-address" placeholder="Enter your address">
-                </div>
-                
-                <div class="form-group">
-                    <label for="medical-license" class="required">Medical License/ID Number</label>
-                    <input type="text" id="medical-license" placeholder="Enter your medical license or ID number" required>
-                </div>
-                
                 <div class="form-group">
                     <label for="medical-position" class="required">Position/Title</label>
-                    <input type="text" id="medical-position" placeholder="Enter your position or title" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="medical-facility" class="required">Medical Facility</label>
-                    <input type="text" id="medical-facility" placeholder="Enter your hospital or facility name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="medical-specialty">Specialty (if applicable)</label>
-                    <input type="text" id="medical-specialty" placeholder="Enter your medical specialty">
-                </div>
-                
-                <div class="form-group">
-                    <label for="medical-username" class="required">Username</label>
-                    <input type="text" id="medical-username" placeholder="Choose a username" required>
+                    <select id="medical-position" required>
+                        <option value="">Select position</option>
+                        <option value="admin">Admin</option>
+                        <option value="worker">Worker</option>
+                    </select>
                 </div>
                 
                 <div class="form-row">
@@ -457,13 +345,10 @@
                     return;
                 }
                 
-                // Validate required medical fields
-                const license = document.getElementById('medical-license').value;
+                // Validate position is selected
                 const position = document.getElementById('medical-position').value;
-                const facility = document.getElementById('medical-facility').value;
-                
-                if (!license || !position || !facility) {
-                    alert('Please fill out all required medical personnel fields.');
+                if (!position) {
+                    alert('Please select a position/title.');
                     return;
                 }
                 
@@ -471,4 +356,7 @@
                 alert('Medical personnel registration successful! You can now log in with your credentials.');
                 window.location.href = 'login.html';
             });
-        });</script>
+        });
+    </script>
+</body>
+</html>

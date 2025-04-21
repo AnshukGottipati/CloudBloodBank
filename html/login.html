@@ -23,6 +23,8 @@
             display: flex;
             align-items: center;
             padding: 15px;
+            background-color: #D32F2F;
+            color: white;
         }
         
         .header-title {
@@ -30,15 +32,47 @@
             font-weight: bold;
         }
         
-        /* Content Area */
-        .mockup-content {
+        /* Split Layout */
+        .split-container {
+            display: flex;
+            min-height: calc(100vh - 115px); /* Adjust for header and footer height */
+        }
+        
+        .logo-section {
+            flex: 2;
             padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-right: 1px solid #eee;
+        }
+        
+        .login-section {
+            flex: 1;
+            background-color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        /* Logo Section Styling */
+        .big-logo {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        
+        .big-logo img {
+            max-width: 100%;
+            height: auto;
         }
         
         /* Login Form */
         .login-form {
             max-width: 400px;
-            margin: 20px auto 40px;
+            width: 100%;
             padding: 30px;
             border: 1px solid #eee;
             border-radius: 5px;
@@ -143,6 +177,22 @@
             font-size: 14px;
             color: #666;
         }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .split-container {
+                flex-direction: column;
+            }
+            
+            .login-section, .logo-section {
+                flex: none;
+                width: 100%;
+            }
+            
+            .login-section {
+                padding: 20px 10px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -151,27 +201,44 @@
             <a href="index.html" class="nav-logo">
                 <img src="../img/logo_placeholder.png" alt="CBOBBS Logo">
             </a>
-            CBOBBS - Login
+            <div class="header-title">CBOBBS - Blood Bank System</div>
         </div>
-        <div class="mockup-content">
-            <div class="login-form">
-                <h2>Login</h2>
-                <div class="form-group">
-                    <label for="username">Username</label>
-                    <input type="text" id="username" placeholder="Enter your username">
+        
+        <div class="split-container">
+            <!-- Logo Section - 2/3 of the width on the left -->
+            <div class="logo-section">
+                <div class="big-logo">
+                    <img src="../img/logo_placeholder.png" alt="CBOBBS Logo" style="width: 250px; height: auto; margin-bottom: 30px;">
                 </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" placeholder="Enter your password">
-                </div>
+                <h2 style="text-align: center; margin-bottom: 20px;">Community Blood and Organ Bank System</h2>
+                <p style="text-align: center; margin-bottom: 30px; font-size: 18px; color: #666;">Connecting donors with those in need</p>
                 <div class="button-container">
-                    <a href="#" id="login-btn" class="btn" style="color: white;">Login</a>
-                    <a href="register.html" class="btn-outline">Create Account</a>
+                    <a href="find-centers.html" class="btn" style="color: white;">Find Nearest Blood Bank</a>
                 </div>
-                <p><a href="forgot-password.html">Forgot Password?</a></p>
-                <p><a href="index.html">Return to Home Page</a></p>
+            </div>
+            
+            <!-- Login Section - 1/3 of the width on the right, now centered vertically and horizontally -->
+            <div class="login-section">
+                <div class="login-form">
+                    <h2>Login</h2>
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter your username">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password">
+                    </div>
+                    <div class="button-container">
+                        <a href="#" id="login-btn" class="btn" style="color: white;">Login</a>
+                        <a href="register.html" class="btn-outline">Create Account</a>
+                    </div>
+                    <p><a href="forgot-password.html">Forgot Password?</a></p>
+                    <p><a href="index.html">Return to Home Page</a></p>
+                </div>
             </div>
         </div>
+        
         <div class="mockup-footer">
             © 2025 CBOBBS | Privacy Policy | Terms of Service | Contact Us
         </div>
