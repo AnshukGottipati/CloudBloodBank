@@ -1,0 +1,30 @@
+{% extends "donor/base.html" %} 
+{% block title %}Appointments{% endblock %}
+{% block header %}Appointments{% endblock %}
+{% block content %} 
+<div class="page-header">
+    <h1>Blood Bank Appointments</h1>
+</div>
+
+{% if appointments %}
+    <h2>Appointment History</h2>
+    <div class="appointment-grid">
+        {% for appt in appointments %}
+            <div class="appointment-card">
+                <div class="appointment-card-title">Whole Blood Donation</div>
+                <div class="appointment-card-date">
+                    {{ appt.appt_date|date:"F j, Y" }} - {{ appt.appt_time|time:"g:i A" }}
+                </div>
+                <div class="appointment-card-location">
+                    {{ appt.blood_bank.name }}, {{ appt.blood_bank.address }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="no-appointments">
+        <h2>No upcoming appointments</h2>
+    </div>
+{% endif %}
+
+{% endblock %}

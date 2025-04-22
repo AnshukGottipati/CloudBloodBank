@@ -1,6 +1,6 @@
 {% extends "bbworker/base.html" %} 
-{% block title %} CBOBBS - Bloodbank Register Donor{% endblock %}
-{% block header %} CBOBBS - Bloodbank Register Donor{% endblock %}
+{% block title %} Register Donor {% endblock %}
+{% block header %} Register Donor {% endblock %}
 {% block content %} 
 
 <h2>Create Donor Account</h2>
@@ -20,12 +20,30 @@
             {{ form.last_name.errors }}
         </div>
         
-        
-        <div class="form-group" >
+        <div class="form-group">
             {{ form.email.label_tag }} {{ form.email }}
             {{ form.email.errors }}
         </div>
-        
+
+        <div class="form-group">
+            {{ form.address.label_tag }} {{ form.address }}
+            {{ form.address.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.phone.label_tag }} {{ form.phone }}
+            {{ form.phone.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.birth_date.label_tag }} {{ form.birth_date }}
+            {{ form.birth_date.errors }}
+        </div>
+
+        <div class="form-group">
+            {{ form.blood_type.label_tag }} {{ form.blood_type }}
+            {{ form.blood_type.errors }}
+        </div>
 
         <div class="form-row">
             <div class="form-group">
@@ -40,7 +58,7 @@
         </div>
 
         <div class="button-container">
-            <button type="submit" class="button">Register Donor Worker</button>
+            <button type="submit" class='btn'>Register Donor</button>
         </div>
     </form>
 </div>

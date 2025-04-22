@@ -1,10 +1,10 @@
-{% extends "bbworker/base.html" %}
-{% block title %} Bloodbank{% endblock %}
-{% block header %} Bloodbank{% endblock %}
-{% block content %} 
-<div class="welcome-banner">
-    <div class="welcome-text">
-        <h1>Welcome back, {{ bb_worker.name }}!</h1>  <!-- Display the name of the first BloodbankWorker -->
-    </div>
+{% extends "hcworker/base.html" %} 
+{% block title %} Health Center {% endblock %}
+{% block header %} Health Center {% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Welcome, {{ request.user.first_name }}!</h1>
+    <p>Manage your personal information and preferences.</p>
 </div>
 {% endblock %}

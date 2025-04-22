@@ -4,11 +4,10 @@ from . import views
 urlpatterns = [
     path("", views.home, name="home"),
     path("find-bloodbanks/", views.find_bloodbanks, name="find-bloodbanks"),
+    path("eligibility/", views.eligibility, name="eligibility"),
 
     path("login/", views.login_user, name="login"),
     path("logout/",views.logout_user,name="logout"),
-
-    path("eligibility/", views.eligibility, name="eligibility"),
 
     path("donor/", views.donor_dash, name="donor-dash"),
     path("donor/appt/", views.donor_appt, name="donor-appt"),
@@ -18,12 +17,12 @@ urlpatterns = [
     path("bbworker/", views.bbworker_dash, name="bb-dash"),
     path("bbworker/donors/", views.bbworker_donors, name="bb-donors"),
     path("bbworker/donation/", views.bbworker_donation, name="bb-donation"),
-    path("bbworker/profile/", views.bbworker_profile, name="bb-profile"),
-    path("bbworker/reg/donor/", views.bbworker_reg_donor, name="bb-reg-donor"),
-    path("bbworker/reg/worker/", views.bbworker_reg_worker, name="bb-reg-worker"),
+    path("bbworker/appt/", views.bbworker_appt, name="bb-appt"),
     
     path("hcworker/", views.hcworker_dash, name="hc-dash"),
     path("hcworker/bloodsupply/", views.hcworker_bloodsupply, name="hc-bloodsupply"),
-    path("hcworker/profile/", views.hcworker_profile, name="hc-profile"),
-    path("hcworker/reg/worker/", views.hcworker_reg_worker, name="hc-reg-worker")
+
+    path("register/donor/", views.register_donor, name="donor-registration"),
+    path("register/bbworker", views.register_bbworker, name="bbworker-registration"),
+    path("register/hcworker", views.register_hcworker, name="hcworker-registration")
 ]

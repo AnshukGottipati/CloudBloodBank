@@ -40,3 +40,4 @@ venv.bak/
 __pycache__/
 *.pyc
 bloodbank/bloodbank/.env
+*.pyc

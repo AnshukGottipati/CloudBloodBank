@@ -101,11 +101,12 @@ nav a:hover:not(.btn):not(.btn-outline) {
 
 .dropbtn {
     background-color: var(--black-secondary);
-    color: var(--white);
+    color: var(--white-secondary);
     padding: 10px 15px;
     font-size: 16px;
     border: none;
     cursor: pointer;
+    font-weight: bold;
 }
 
 .dropdown {
@@ -139,12 +140,6 @@ nav a:hover:not(.btn):not(.btn-outline) {
     color: var(--red);
 }
 
-.login {
-    text-decoration: none;
-    font-weight: bold;
-    color: var(--black-secondary);
-    padding: 8px 12px;
-}
 
 .btn {
     display: inline-block;
@@ -355,4 +350,114 @@ footer {
     .eligibility-content {
         flex-direction: column;
     }
+}
+
+/* Login Form */
+.login-form {
+    max-width: 400px;
+    margin: 20px auto 40px;
+    padding: 30px;
+    border: 1px solid #eee;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+}
+
+.login-form h2 {
+    margin-top: 0;
+    color: var(--red);
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+.form-group input:focus {
+    border-color: var(--red);
+    outline: none;
+    box-shadow: 0 0 5px rgba(211, 47, 47, 0.2);
+}
+
+/* Button container - centered */
+.button-container {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Buttons */
+.btn {
+    display: inline-block;
+    background-color: var(--red);
+    color: white;
+    padding: 10px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+}
+
+
+.btn:hover {
+    background-color: #B71C1C;
+}
+
+.btn-outline {
+    display: inline-block;
+    background-color: transparent;
+    color: var(--red);
+    padding: 9px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    border: 1px solid var(--red);
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 5px;
+}
+
+.btn-outline:hover {
+    background-color: #ffebee;
+}
+
+/* Links */
+.login-form p {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.login-form a {
+    color: var(--red);
+    text-decoration: none;
+}
+
+.login-form a:hover {
+    text-decoration: underline;
+}
+
+/* Footer */
+.mockup-footer {
+    background-color: #f8f8f8;
+    padding: 15px;
+    border-top: 1px solid #eee;
+    text-align: center;
+    font-size: 14px;
+    color: #666;
 }

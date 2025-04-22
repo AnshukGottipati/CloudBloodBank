@@ -1,40 +1,43 @@
 {% extends "donor/base.html" %} 
-{% block title %} CBOBBS - Donor Dashboard{% endblock %}
-{% block header %} CBOBBS - Donor Dashboard{% endblock %}
+{% block title %} Donor {% endblock %}
+{% block header %} Donor {% endblock %}
 {% block content %} 
     <div class="welcome-banner">
         <div class="welcome-text">
-            <h1>Welcome back, John!</h1>
-            <p>Thank you for being a blood donor. Your contributions have helped save an estimated 12 lives so far!</p>
+            <h1>Welcome back, {{ donor.user.first_name }}!</h1>
+            <p>Thank you for being a blood donor. Your contributions have helped save an estimated {{ lives_saved }} lives so far!</p>
         </div>
         <div class="welcome-actions">
             <a href="{% url 'donor-appt' %}" class="btn btn-lg">Schedule Donation</a>
         </div>
     </div>
 
-    <div class="stats-grid">
-        <div class="stat-card">
-            <div>Total Donations</div>
-            <div class="stat-value">4</div>
-            <div>Since 2020</div>
-        </div>
-        <div class="stat-card">
-            <div>Last Donation</div>
-            <div class="stat-value">Jan 15</div>
-            <div>2025</div>
-        </div>
-        <div class="stat-card">
-            <div>Next Eligible Date</div>
-            <div class="stat-value">Mar 12</div>
-            <div>2025</div>
-        </div>
-        <div class="stat-card">
-            <div>Donor Status</div>
-            <div class="stat-value" style="font-size: 18px;">
-                <span class="status-label status-eligible">Eligible in 16 days</span>
-            </div>
-            <div>Based on last donation</div>
-        </div>
+    <div class="stat-card">
+        <div>Total Donations</div>
+        <div class="stat-value">{{ total_donations }}</div>
+        <div>Since {{ donor.date_registered.year }}</div> <!-- assuming this field exists -->
+    </div>
+    
+    <div class="stat-card">
+        <div>Last Donation</div>
+        {% if last_donation %}
+            <div class="stat-value">{{ last_donation.date|date:"M d" }}</div>
+            <div>{{ last_donation.date|date:"Y" }}</div>
+        {% else %}
+            <div class="stat-value">None yet</div>
+            <div></div>
+        {% endif %}
+    </div>
+    
+    <div class="stat-card">
+        <div>Next Eligible Date</div>
+        {% if next_eligible_date %}
+            <div class="stat-value">{{ next_eligible_date|date:"M d" }}</div>
+            <div>{{ next_eligible_date|date:"Y" }}</div>
+        {% else %}
+            <div class="stat-value">Soon</div>
+            <div></div>
+        {% endif %}
     </div>
 
     <div class="dashboard-grid">
@@ -49,70 +52,23 @@
                 </div>
             </div>
         </div>
-        
-        
-        
-        <div class="dashboard-card">
-            <div class="dashboard-card-header">
-                <h3>Critical Blood Needs</h3>
-            </div>
-            <div class="dashboard-card-content">
-                <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center;">
-                    <div style="padding: 15px; background-color: #ffebee; border-radius: 5px; min-width: 60px; text-align: center;">
-                        <div style="font-weight: bold; color: #D32F2F;">O-</div>
-                        <div style="font-size: 12px;">Critical</div>
-                    </div>
-                    <div style="padding: 15px; background-color: #fff8e1; border-radius: 5px; min-width: 60px; text-align: center;">
-                        <div style="font-weight: bold; color: #F57F17;">B-</div>
-                        <div style="font-size: 12px;">Low</div>
-                    </div>
-                    <div style="padding: 15px; background-color: #fff8e1; border-radius: 5px; min-width: 60px; text-align: center;">
-                        <div style="font-weight: bold; color: #F57F17;">AB-</div>
-                        <div style="font-size: 12px;">Low</div>
-                    </div>
-                </div>
-                <p style="text-align: center; margin-top: 15px;">Even if not your blood type, your donation can help through blood component separation.</p>
-            </div>
-        </div>
     </div>
 
-    <h2>Recent Donation History</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Date</th>
-                <th>Location</th>
-                <th>Type</th>
-                <th>Status</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Jan 15, 2025</td>
-                <td>Central Blood Bank</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
-            <tr>
-                <td>Oct 10, 2024</td>
-                <td>Memorial Hospital</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
-            <tr>
-                <td>Jul 5, 2024</td>
-                <td>Central Blood Bank</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
-            <tr>
-                <td>Mar 22, 2024</td>
-                <td>Community Blood Drive</td>
-                <td>Whole Blood</td>
-                <td>Successful</td>
-            </tr>
-        </tbody>
-    </table>
+    <h3>Your Next Appointment</h3>
+    {% if appointments %}
+        <ul class="appointment-list">
+            {% for appt in appointments %}
+                <li style="margin: 10px 0;">
+                    <strong>{{ appt.appt_date|date:"M d, Y" }}</strong> at 
+                    {{ appt.appt_time|time:"H:i" }} –
+                    {{ appt.blood_bank.name }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You don't have any upcoming appointments.</p>
+        <a href="{% url 'donor-appt' %}" class="btn">Schedule Now</a>
+    {% endif %}
 
     <div class="impact-section">
         <h3>Your Donation Impact</h3>
@@ -137,23 +93,4 @@
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Calculate next eligible donation date (56 days from last donation)
-            const lastDonationDate = new Date('2025-01-15');
-            const nextEligibleDate = new Date(lastDonationDate);
-            nextEligibleDate.setDate(nextEligibleDate.getDate() + 56); // 56 days = 8 weeks
-            
-            // Calculate days until eligible
-            const today = new Date();
-            const daysUntilEligible = Math.ceil((nextEligibleDate - today) / (1000 * 60 * 60 * 24));
-            
-            // Update eligibility status if needed
-            if (daysUntilEligible <= 0) {
-                document.querySelector('.status-label').textContent = 'Eligible Now';
-            } else {
-                document.querySelector('.status-label').textContent = `Eligible in ${daysUntilEligible} days`;
-            }
-        });
-    </script>
 {% endblock %}

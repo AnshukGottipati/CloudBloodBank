@@ -7,16 +7,19 @@
     <p>Manage your personal information and preferences.</p>
 </div>
 
-    <div class="profile-sidebar">
+<div class="profile-content" style="display: flex; gap: 20px;">
+    <div class="profile-sidebar" style="flex: 1;">
         <div class="profile-card">
             <div class="profile-card-header">
                 <h3>Donor Summary</h3>
             </div>
             <div class="profile-card-content">
-                <p><strong>Donor ID:</strong> {{ donor.donor_id }}</p> 
                 <p><strong>Name:</strong> {{ donor.name }}</p> 
                 <p><strong>Phone:</strong> {{ donor.phone }}</p> 
                 <p><strong>Email:</strong> {{ donor.email }}</p>
+                <p><strong>Blood Type:</strong> {{ donor.blood_type }}</p>
+                <p><strong>Date of Birth:</strong> {{ donor.date_of_birth|date:"F j, Y" }}</p>
+                <p><strong>Address:</strong> {{ donor.address }}</p>
                 <hr>
                 <div style="text-align: center; margin-top: 15px;">
                     <a href="{% url 'donor-hist' %}" class="btn-outline">View Donation History</a>
@@ -25,41 +28,15 @@
         </div>
     </div>
 
-    <div class="profile-main">
+    <div class="profile-main" style="flex: 2;">
         <div class="profile-card">
             <div class="profile-card-header">
-                <h3>Personal Information</h3>
+                <h3>Update Personal Information</h3>
             </div>
             <div class="profile-card-content">
                 <form method="POST">
                     {% csrf_token %}
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">First Name</label>
-                            <input type="text" class="form-input" name="first_name" value="{{ donor.first_name }}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Last Name</label>
-                            <input type="text" class="form-input" name="last_name" value="{{ donor.last_name }}">
-                        </div>
-                    </div>
                     
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label">Date of Birth</label>
-                            <input type="date" class="form-input" name="date_of_birth" value="{{ donor.date_of_birth|date:'Y-m-d' }}">
-                        </div>
-                        <div class="form-group">
-                            <label class="form-label">Gender</label>
-                            <select class="form-select" name="gender">
-                                <option value="male" {% if donor.gender == "male" %}selected{% endif %}>Male</option>
-                                <option value="female" {% if donor.gender == "female" %}selected{% endif %}>Female</option>
-                                <option value="other" {% if donor.gender == "other" %}selected{% endif %}>Other</option>
-                                <option value="prefer_not" {% if donor.gender == "prefer_not" %}selected{% endif %}>Prefer not to say</option>
-                            </select>
-                        </div>
-                    </div>
-
                     <div class="form-group">
                         <label class="form-label">Email Address</label>
                         <input type="email" class="form-input" name="email" value="{{ donor.email }}">
@@ -76,8 +53,7 @@
                     </div>
 
                     <div style="text-align: right; margin-top: 20px;">
-                        <button type="button" class="btn-outline" style="margin-right: 10px;">Cancel</button>
-                        <button type="submit" class="btn">Save Changes</button>
+                        <button type="submit" class="btn-outline">Save Changes</button>
                     </div>
                 </form>
             </div>

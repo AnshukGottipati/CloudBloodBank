@@ -641,6 +641,8 @@ table tr:hover {
     border-bottom: 2px solid var(--red);
 }
 
+
+
 /* Responsive Adjustments */
 @media (max-width: 768px) {
     .profile-container {

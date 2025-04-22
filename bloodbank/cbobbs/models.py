@@ -9,15 +9,21 @@ class Donor(models.Model):
     address = models.CharField(max_length=512, blank=True)  # optional for testing
     phone = models.CharField(max_length=10, blank=True)     # optional for testing
     birth_date = models.DateField(null=True, blank=True)    # optional for testing
-    blood_type = models.CharField(max_length=5, blank=True) # optional for testing
     email = models.CharField(max_length=50)  # required
+
+    BLOOD_TYPE_CHOICES = [
+        ('A+', 'A+'), ('A-', 'A-'),
+        ('B+', 'B+'), ('B-', 'B-'),
+        ('AB+', 'AB+'), ('AB-', 'AB-'),
+        ('O+', 'O+'), ('O-', 'O-'),
+    ]
+    blood_type = models.CharField(max_length=3, choices=BLOOD_TYPE_CHOICES)
 
     class Meta:
         unique_together = [
             ('phone', 'email')
         ]
         
-
 
 class HealthCenter(models.Model):
     hc_id = models.BigAutoField(primary_key=True)
@@ -38,7 +44,6 @@ class HealthcareWorker(models.Model):
         choices=[('admin', 'Admin'), ('employee', 'Employee')],
         default='employee',
     )
-
 
 
 class BloodBank(models.Model):

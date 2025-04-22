@@ -1,6 +1,6 @@
 {% extends "donor/base.html" %} 
-{% block title %} Appointments{% endblock %}
-{% block header %} Appointments{% endblock %}
+{% block title %}Appointments{% endblock %}
+{% block header %}Appointments{% endblock %}
 {% block content %} 
 <div class="page-header">
     <h1>My Appointments</h1>
@@ -32,12 +32,20 @@
 <h2 style="margin-top: 40px;">Schedule a New Appointment</h2>
 <form method="post" class="appointment-form">
     {% csrf_token %}
+    
+    <!-- Date Input with Restriction on Past Dates -->
     <label for="appt_date">Date:</label>
-    <input type="date" id="appt_date" name="appt_date" required>
+    <input type="date" id="appt_date" name="appt_date" required min="{{ today|date:'Y-m-d' }}">
 
+    <!-- Time Input with Available Slots (8 AM to 5 PM, excluding 1-2 PM) -->
     <label for="appt_time">Time:</label>
-    <input type="time" id="appt_time" name="appt_time" required>
+    <select name="appt_time" id="appt_time" required>
+        {% for time in time_slots %}
+            <option value="{{ time }}">{{ time }}</option>
+        {% endfor %}
+    </select>
 
+    <!-- Blood Bank Dropdown -->
     <label for="blood_bank_id">Blood Bank:</label>
     <select name="blood_bank_id" id="blood_bank_id" required>
         {% for bank in blood_banks %}
@@ -47,6 +55,5 @@
 
     <button type="submit" class="btn">Add Appointment</button>
 </form>
-
 
 {% endblock %}

@@ -1,0 +1,81 @@
+{% extends "bbworker/base.html" %} 
+{% block title %} Register Worker{% endblock %}
+{% block header %} Register Worker{% endblock %}
+{% block content %}
+
+<h2>Create Blood Bank Worker Account</h2>
+
+<div class="tab-content">
+    <form method="post" novalidate>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        
+        <div class="form-group">
+            <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+            {{ form.first_name }}
+            <div class="errors">
+                {% for error in form.first_name.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+            {{ form.last_name }}
+            <div class="errors">
+                {% for error in form.last_name.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>        
+        
+        <div class="form-group">
+            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
+            {{ form.email }}
+            <div class="errors">
+                {% for error in form.email.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.role.id_for_label }}">{{ form.role.label }}</label>
+            {{ form.role }}
+            <div class="errors">
+                {% for error in form.role.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+                {{ form.password1 }}
+                <div class="errors">
+                    {% for error in form.password1.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+                {{ form.password2 }}
+                <div class="errors">
+                    {% for error in form.password2.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="button-container">
+            <button type="submit" class='btn-outline'>Register Blood Bank Worker</button>
+        </div>
+    </form>
+</div>
+
+{% endblock %}

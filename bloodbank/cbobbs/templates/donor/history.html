@@ -46,7 +46,7 @@
     <tbody>
         {% for d in donations %}
         <tr>
-            <td>{{ d.donation_date }}</td>
+            <td>{{ d.donation_date|date:"F j, Y" }}</td>
             <td>{{ d.blood_type }}</td>
             <td>{{ d.status }}</td>
             <td>{{ d.blood_bank.name }}</td>
