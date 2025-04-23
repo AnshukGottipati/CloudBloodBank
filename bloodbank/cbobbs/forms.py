@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from .models import BloodbankWorker, HealthcareWorker, Donor
+from .models import BloodbankWorker, HealthcareWorker, Donor, BloodBank, HealthCenter
 from django.utils.translation import gettext_lazy as _
 
 ROLE_CHOICES = [
@@ -43,12 +43,14 @@ class BloodBankWorkerRegistrationForm(UserCreationForm):
         last_name = self.cleaned_data['last_name']
         full_name = f"{first_name} {last_name}"
         role = self.cleaned_data['role']
-
-        # Safely get the blood_bank from the logged-in user
+        
         if hasattr(self.request.user, 'bbworker'):
             blood_bank = self.request.user.bbworker.blood_bank
         else:
-            raise ValidationError("Your account is not linked to a blood bank.")
+            #raise ValidationError("Your account is not linked to a blood bank.")
+            blood_bank = BloodBank.objects.first()  # Gets the first BloodBank entry
+            if not blood_bank:
+                raise ValidationError("No blood bank available to assign to this worker.")
 
         BloodbankWorker.objects.create(
             bb_worker_id=user,
@@ -97,7 +99,10 @@ class HealthCareWorkerRegistrationForm(UserCreationForm):
         try:
             health_center = self.request.user.hcworker.health_center.first()
         except AttributeError:
-            raise ValidationError("Your account is not linked to a health center.")
+            #raise ValidationError("Your account is not linked to a health center.")
+            health_center = HealthCenter.objects.first()  # Gets the first BloodBank entry
+            if not health_center:
+                raise ValidationError("No blood bank available to assign to this worker.")
 
         HealthcareWorker.objects.create(
             hc_worker_id=user,

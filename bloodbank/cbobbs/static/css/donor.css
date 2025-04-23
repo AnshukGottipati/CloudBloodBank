@@ -13,60 +13,6 @@ main {
     padding: 15px;
 }
 
-/* Appointment Cards */
-.appointment-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
-    margin-bottom: 30px;
-}
-
-.appointment-card {
-    background-color: var(--white);
-    border: 1px solid var(--white-secondary);
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-}
-
-.appointment-card-title {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--red);
-    margin-bottom: 10px;
-}
-
-.appointment-card-date {
-    font-size: 16px;
-    color: #333;
-    margin-bottom: 5px;
-}
-
-.appointment-card-location {
-    font-size: 14px;
-    color: #666;
-    margin-bottom: 15px;
-}
-
-.appointment-card-actions {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
-}
-
-/* No Appointments */
-.no-appointments {
-    background-color: #f8f8f8;
-    border-radius: 5px;
-    padding: 30px;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-.no-appointments h2 {
-    color: #666;
-    margin-bottom: 15px;
-}
 
 /* Buttons */
 .btn {

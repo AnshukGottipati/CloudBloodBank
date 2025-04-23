@@ -23,6 +23,6 @@ urlpatterns = [
     path("hcworker/bloodsupply/", views.hcworker_bloodsupply, name="hc-bloodsupply"),
 
     path("register/donor/", views.register_donor, name="donor-registration"),
-    path("register/bbworker", views.register_bbworker, name="bbworker-registration"),
-    path("register/hcworker", views.register_hcworker, name="hcworker-registration")
+    path("register/bbworker/", views.register_bbworker, name="bbworker-registration"),
+    path("register/hcworker/", views.register_hcworker, name="hcworker-registration")
 ]

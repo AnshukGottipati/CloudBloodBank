@@ -69,7 +69,7 @@ class Donation(models.Model):
     dono_id = models.BigAutoField(primary_key=True)
     blood_type = models.CharField(max_length=5, default="n/a")
     donation_date = models.DateField()
-    sent_at = models.DateField(null=True, blank=True)
+    transfer_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=10)
     transaction_date = models.DateField(null=True, blank=True)
     health_center = models.OneToOneField(HealthCenter, null=True, on_delete=models.CASCADE)  # due to unique constraint

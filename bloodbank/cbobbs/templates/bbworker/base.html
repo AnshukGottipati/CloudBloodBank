@@ -28,16 +28,6 @@
             <h1>{% block header %}CBOBBS{% endblock %} </h1> 
         </div>
     
-
-        {% if messages %}
-            <ul class="messages">
-                {% for message in messages %}
-                    <div class="alert alert-primary" role="alert">
-                        {{ message }}
-                    </div>
-                {% endfor %}
-            </ul>
-        {% endif %}
     
         <div class="header-right">
             <div class="dropdown">
@@ -53,6 +43,17 @@
             <a href="{% url 'logout' %}" class="login">Logout</a>
         </div>
     </header>
+    
+
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <div class="alert alert-primary" role="alert">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </ul>
+    {% endif %}
     
     <main>
         {% block content %}

@@ -30,7 +30,7 @@ def login_user(request):
             messages.success(request,"You have Successfully Logged In!")
             
             if hasattr(user, 'bbworker') and user.bbworker.role == "admin":
-                return redirect('bbworker-registation')
+                return redirect('bbworker-registration')
             elif(hasattr(user,'bbworker') and user.bbworker.role == "employee"):
                 return redirect('bb-dash')
             
@@ -219,7 +219,7 @@ def bbworker_donation(request):
 
 #@bbworker_required
 def bbworker_appt(request):
-    bbworker = request.user.HealthcareWorker     
+    bbworker = request.user.bbworker
     appointments = Appointment.objects.filter(blood_bank=bbworker.blood_bank).order_by('-appt_date', '-appt_time')
     return render(request, 'bbworker/appointments.html', {'appointments': appointments})
 
@@ -230,8 +230,6 @@ def hcworker_dash(request):
 #@hcworker_required
 def hcworker_bloodsupply(request):
     return render(request, "hcworker/bloodsupply.html")
-
-    return render(request, "hcworker/profile.html")
 
 #@bbworker_required
 def register_donor(request):
@@ -259,7 +257,7 @@ def register_bbworker(request):
     else:
         form = BloodBankWorkerRegistrationForm(request=request)
 
-    return render(request, 'hcworker/register-bbworker.html', {'form': form})
+    return render(request, 'bbworker/register-bbworker.html', {'form': form})
 
 #@hcworker_admin_required
 def register_hcworker(request):
