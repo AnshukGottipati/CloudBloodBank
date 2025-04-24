@@ -420,7 +420,7 @@ def bbworker_appt(request):
                         donor=donor,
                         blood_bank=blood_bank
                     )
-                    messages.success(request, "Appointment created successfully.")
+                    messages.success(request, f"Appointment created successfully.")
             except Exception as e:
                 messages.error(request, f"Error creating appointment: {e}")
         else:
@@ -439,11 +439,11 @@ def bbworker_appt(request):
         time_slots.append(start_time.strftime("%I:%M %p"))
         start_time += timedelta(minutes=30)
 
-    appointments = Appointment.objects.filter(donor=donor).order_by('-appt_date', '-appt_time')
+    appointments = Appointment.objects.filter(blood_bank=blood_bank).order_by('-appt_date', '-appt_time')
     for appt in appointments:
         appt.is_future = appt.appt_time > now
 
-    return render(request, 'donor/appointments.html', {
+    return render(request, 'bbworker/appointments.html', {
         'appointments': appointments,
         'time_slots': time_slots,
         'today': now,
