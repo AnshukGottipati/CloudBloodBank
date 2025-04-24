@@ -1,7 +1,6 @@
 # decorators.py
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
-from django.core.exceptions import PermissionDenied
+from django.shortcuts import render
 
 def donor_required(view_func):
     @login_required
@@ -18,7 +17,6 @@ def hcworker_required(view_func):
             return view_func(request, *args, **kwargs)
         return render(request, 'access-denied.html', status=403)
     return _wrapped_view
-
 
 
 def hcworker_admin_required(view_func):

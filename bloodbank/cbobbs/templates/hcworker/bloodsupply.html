@@ -3,8 +3,6 @@
 {% block header %} Blood Supply {% endblock %}
 
 {% block content %}
-<h2>Blood Inventory Overview</h2>
-
 <style>
     .tag {
         display: inline-block;
@@ -49,16 +47,23 @@
     }
 </style>
 
-<form method="POST">
+<h2>Blood Inventory Overview</h2>
+
+<div class="search-controls" style="display: flex; justify-content: flex-end;">
+    <a href="{% url 'hc-request-blood' %}" class="login">Send Blood Request</a>
+</div>
+
+
+<form method="POST" class="form-group">
     {% csrf_token %}
-    <label for="blood_type">Mark unit as used (by Blood Type):</label>
+    <label for="blood_type">Mark unit as used:</label>
     <select name="blood_type" id="blood_type">
         <option value="">Select Blood Type</option>
         {% for bt in blood_types %}
             <option value="{{ bt }}">{{ bt }}</option>
         {% endfor %}
-    </select>
-    <button type="submit">Use First Matching Unit</button>
+    </select>    
+    <button type="submit" class="btn-outline" style="margin:10px 0px;">Update Blood Supply</button>
 </form>
 
 <div class="section">

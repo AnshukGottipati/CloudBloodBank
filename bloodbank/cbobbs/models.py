@@ -60,7 +60,6 @@ class BloodBank(models.Model):
         return self.name
 
 
-
 class BloodbankWorker(models.Model):
     bb_worker_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True,related_name="bbworker")
     name = models.CharField(max_length=310)
@@ -80,23 +79,9 @@ class Donation(models.Model):
     transfer_date = models.DateField(null=True, blank=True)
     status = models.CharField(max_length=10)
     transaction_date = models.DateField(null=True, blank=True)
-    health_center = models.OneToOneField(HealthCenter, null=True, on_delete=models.CASCADE)  # due to unique constraint
+    health_center = models.ForeignKey(HealthCenter, null=True, on_delete=models.CASCADE) 
     blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
-
-
-class Message(models.Model):
-    message_id = models.BigAutoField(primary_key=True)
-    title = models.CharField(max_length=50)
-    body = models.TextField()
-
-
-class DonorMessage(models.Model):
-    donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
-    message = models.ForeignKey(Message, on_delete=models.CASCADE)
-
-    class Meta:
-        unique_together = ('donor', 'message')
 
 
 class Appointment(models.Model):
@@ -105,3 +90,23 @@ class Appointment(models.Model):
     appt_time = models.DateTimeField(default=timezone.now)
     donor = models.ForeignKey(Donor, on_delete=models.CASCADE)
     blood_bank = models.ForeignKey(BloodBank, on_delete=models.CASCADE)
+
+
+class Message(models.Model):
+    message_id = models.BigAutoField(primary_key=True)
+    title = models.CharField(max_length=50)
+    body = models.TextField()
+    
+    def __str__(self):
+        return self.title
+    
+
+class MessageRecipient(models.Model):
+    message = models.ForeignKey(Message, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    recipient_type = models.CharField(max_length=20, choices=[('donor', 'Donor'), ('blood_bank_worker', 'Blood Bank Worker'), ('hc_worker', 'Healthcare Worker')])
+    send_date = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f"Message to {self.user.username}"
+

@@ -1,0 +1,66 @@
+{% extends "hcworker/base.html" %} 
+{% block title %} Send Message {% endblock %}
+{% block header %} Send Message {% endblock %}
+{% block content %}
+<h2>Request Blood</h2>
+
+<div class="notice-form">
+    <form action="#" method="post">        
+        {% csrf_token %}
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="priority">Priority Level <span style="color: #D32F2F;">*</span></label>
+                <select id="priority" name="priority" required>
+                    <option value="">Select priority level</option>
+                    <option value="routine">Routine</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="critical">Critical</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label>Blood Types Needed (select all that apply) <span style="color: #D32F2F;">*</span></label>
+            <div class="blood-types">
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="a-pos" name="blood-types[]" value="A+">
+                    <label for="a-pos">A+</label>
+                </div>
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="a-neg" name="blood-types[]" value="A-">
+                    <label for="a-neg">A-</label>
+                </div>
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="b-pos" name="blood-types[]" value="B+">
+                    <label for="b-pos">B+</label>
+                </div>
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="b-neg" name="blood-types[]" value="B-">
+                    <label for="b-neg">B-</label>
+                </div>
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="ab-pos" name="blood-types[]" value="AB+">
+                    <label for="ab-pos">AB+</label>
+                </div>
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="ab-neg" name="blood-types[]" value="AB-">
+                    <label for="ab-neg">AB-</label>
+                </div>
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="o-pos" name="blood-types[]" value="O+">
+                    <label for="o-pos">O+</label>
+                </div>
+                <div class="blood-type-checkbox">
+                    <input type="checkbox" id="o-neg" name="blood-types[]" value="O-">
+                    <label for="o-neg">O-</label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group" style="margin-top: 30px;">
+            <button type="submit" class="btn-outline">Send Notice To All Banks</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

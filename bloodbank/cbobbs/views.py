@@ -5,7 +5,7 @@ from .forms import BloodBankWorkerRegistrationForm, HealthCareWorkerRegistration
 from django.db import transaction 
 from .decorators import donor_required, hcworker_required, hcworker_admin_required, bbworker_required, bbworker_admin_required
 
-from .models import BloodbankWorker, BloodBank, HealthcareWorker, Donor, Appointment, Donation
+from .models import BloodbankWorker, BloodBank, HealthcareWorker, Donor, Appointment, Donation, Message, MessageRecipient
 from datetime import timedelta, datetime
 from django.utils import timezone
 from django.utils.dateparse import parse_date
@@ -242,7 +242,18 @@ def bbworker_donor_notes(request):
     if request.method == 'POST' and donor:
         donor.medical_notes = request.POST.get('notes')
         donor.save()
-        messages.success(request, "Note saved")
+        
+        title = "Medical Notes Updated"
+        body = (
+            f"Dear {donor.name},\n\n"
+            "Your medical notes have been updated in our system. "
+            "Please check your profile for more details or reach out to us if you have any questions.\n\n"
+            "Thank you for being a valued donor."
+        )
+        
+        send_donor_message(donor, title, body)
+
+        messages.success(request, "Note saved and donor notified.")
         
     return render(request, 'bbworker/donor-notes.html', {'donor': donor, 'email': email})
 
@@ -277,10 +288,15 @@ def bbworker_donation(request):
                         donor=donor,
                         blood_bank=bb
                     )
+                    send_donor_message(
+                        donor,
+                        "Thank You for Donating!",
+                        f"Your donation on {d_date} at {bb.name} has been logged and is now being processed. Thank you!"
+                    )
                     messages.success(request, "Donation logged.")
                 except Donor.DoesNotExist:
                     messages.error(request, "Donor not found.")
-                    
+            
         elif form_type == 'status':
             status_form = UpdateStatusForm(request.POST)
             if status_form.is_valid():
@@ -289,10 +305,15 @@ def bbworker_donation(request):
                     donation = Donation.objects.get(donor=donor, donation_date=status_form.cleaned_data['donation_date'], blood_bank=bb)
                     donation.status = status_form.cleaned_data['status']
                     donation.save()
+                    send_donor_message(
+                        donor,
+                        "Donation Status Updated",
+                        f"The status of your donation on {donation.donation_date} is now: {donation.status}."
+                    )
                     messages.success(request, "Status updated.")
                 except (Donor.DoesNotExist, Donation.DoesNotExist):
                     messages.error(request, "Donation not found.")
-                    
+
         elif form_type == 'transaction':
             transaction_form = LogTransactionForm(request.POST)
             if transaction_form.is_valid():
@@ -301,20 +322,57 @@ def bbworker_donation(request):
                     donation = Donation.objects.get(donor=donor, donation_date=transaction_form.cleaned_data['donation_date'], blood_bank=bb)
                     donation.transaction_date = transaction_form.cleaned_data['transaction_date']
                     donation.save()
+                    send_donor_message(
+                        donor,
+                        "Donation Transaction Date Recorded",
+                        f"Your donation on {donation.donation_date} a recorded transaction date of {donation.transaction_date}."
+                    )
                     messages.success(request, "Transaction date logged.")
                 except (Donor.DoesNotExist, Donation.DoesNotExist):
                     messages.error(request, "Donation not found.")
-                    
+    
         elif form_type == 'transport':
             transport_form = TransportForm(request.POST)
             if transport_form.is_valid():
-                donations = Donation.objects.filter(blood_type=transport_form.cleaned_data['blood_type'], blood_bank=bb)
+                blood_type = transport_form.cleaned_data['blood_type']
+                transfer_date = transport_form.cleaned_data['transfer_date']
+                health_center = transport_form.cleaned_data['health_center']
+
+                donations = Donation.objects.filter(
+                    blood_type=blood_type,
+                    blood_bank=bb,                    
+                    health_center__isnull=True
+                )
+
                 for donation in donations:
-                    donation.transfer_date = transport_form.cleaned_data['transfer_date']
-                    donation.health_center = transport_form.cleaned_data['health_center']
+                    donation.transfer_date = transfer_date
+                    donation.health_center = health_center
                     donation.status = 'delivered'
                     donation.save()
-                messages.success(request, f"Transported {donations.count()} donations.")
+
+                count = donations.count()
+                messages.success(request, f"Transported {count} donations.")
+               
+                send_donor_message(
+                    donation.donor,
+                    "Your Donation Was Delivered",
+                    f"Your donation (blood type {donation.blood_type}) has been delivered to a healthcare center."
+                )
+
+                title = f"Incoming {blood_type} Donations"
+                body = (
+                    f"{count} units of {blood_type} blood have been dispatched to your health center "
+                    f"({health_center.name}) and are marked as delivered.\n\n"
+                    f"Transfer Date: {transfer_date.strftime('%Y-%m-%d')}"
+                )
+
+                hc_workers = HealthcareWorker.objects.filter(health_center=health_center)
+                for hc_worker in hc_workers:
+                    MessageRecipient.objects.create(
+                        message=Message.objects.create(title=title, body=body),
+                        user=hc_worker.hc_worker_id,
+                        recipient_type='hc_worker'
+                    )
 
     context = {
         'log_form': log_form,
@@ -351,7 +409,6 @@ def bbworker_appt(request):
         'appointments': appointments,
         'blood_banks': BloodBank.objects.all(),
     })
-
 
 @bbworker_admin_required
 def bbworker_workers(request):
@@ -406,6 +463,63 @@ def hcworker_bloodsupply(request):
         "blood_types": BLOOD_TYPES
     })
 
+@hcworker_required
+def hcworker_request_blood(request):    
+    if request.method == "POST":
+        priority = request.POST.get('priority')
+        blood_types = request.POST.getlist('blood-types[]')
+        
+        if not priority or not blood_types:
+            messages.error(request, "Priority and blood types are required.")
+            return redirect('hcworker:send_message')
+        
+        title = f"{priority.capitalize()} - {', '.join(blood_types)} requested"        
+        try:
+            hc_worker = HealthcareWorker.objects.get(hc_worker_id=request.user)
+            center = hc_worker.health_center
+            body = (
+                f"Blood types needed: {', '.join(blood_types)}\n\n"
+                f"Health Center Details:\n"
+                f"Name: {center.name}\n"
+                f"Address: {center.address}\n"
+                f"Phone: {center.phone}"
+            )
+        except HealthcareWorker.DoesNotExist:
+            messages.error(request, "HealthCareWorker not found.")
+            return redirect('hcworker:send_message')     
+
+        bb_message = Message.objects.create(title=title, body=body)
+        for bb_worker in BloodbankWorker.objects.all():
+            MessageRecipient.objects.create(
+                message=bb_message,
+                user=bb_worker.bb_worker_id,
+                recipient_type='blood_bank_worker'
+            )
+
+        donor_title = "Urgent Need for Your Blood Type"
+        donor_body = (
+            f"Dear Donor, "
+            f"We are currently experiencing a {priority} need for blood donations of your blood type "
+            f"at {center.name}. Please consider donating soon to help save lives. "
+            f"Location: {center.address} || Phone: {center.phone}"
+        )
+        donor_message = Message.objects.create(title=donor_title, body=donor_body)
+        for donor in Donor.objects.filter(blood_type__in=blood_types):
+            MessageRecipient.objects.create(
+                message=donor_message,
+                user=donor.donor_id, 
+                recipient_type='donor'
+            )
+
+        messages.success(request, "Messages successfully sent to blood banks and eligible donors.")
+    
+    return render(request, 'hcworker/send-message.html')
+
+@hcworker_admin_required
+def hcworker_workers(request):
+    healthcenter = request.user.hcworker.health_center
+    workers = HealthcareWorker.objects.filter(health_center=healthcenter)
+    return render(request, 'bbworker/workers.html', {'workers': workers})
 
 @bbworker_required
 def register_donor(request):
@@ -449,3 +563,31 @@ def register_hcworker(request):
         form = HealthCareWorkerRegistrationForm(request=request)
 
     return render(request, 'hcworker/register-hcworker.html', {'form': form})
+
+
+@donor_required
+def donor_inbox(request):
+    user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
+    return render(request, 'donor/inbox.html', {'messages': user_messages})
+
+
+@bbworker_required
+def bbworker_inbox(request):
+    user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
+    return render(request, 'bbworker/inbox.html', {'messages': user_messages})
+
+@hcworker_required
+def hcworker_inbox(request):
+    user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
+    return render(request, 'hcworker/inbox.html', {'messages': user_messages})
+
+def send_donor_message(donor, title, body):
+    message = Message.objects.create(
+        title=title,
+        body=body
+    )
+    MessageRecipient.objects.create(
+        message=message,
+        user=donor.donor_id,  
+        recipient_type='donor'
+    )

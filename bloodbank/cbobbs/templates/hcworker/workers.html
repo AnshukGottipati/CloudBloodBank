@@ -1,4 +1,4 @@
-{% extends "bbworker/base.html" %}
+{% extends "hcworker/base.html" %}
 {% block title %} Workers {% endblock %}
 {% block header %} Workers {% endblock %}
 {% block content %}
@@ -21,7 +21,7 @@
         </tr>
         {% empty %}
         <tr>
-            <td colspan="4">No workers found for your blood bank.</td>
+            <td colspan="4">No workers found for your health center.</td>
         </tr>
         {% endfor %}
     </tbody>

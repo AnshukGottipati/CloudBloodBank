@@ -33,6 +33,11 @@
                 <button class="dropbtn">Menu &#9662;</button>
                 <nav class="dropdown-content">      
                     <a href="{% url 'hc-bloodsupply' %}">Blood Supply</a>
+                    {% if request.user.is_authenticated and request.user.hcworker.role|lower == "admin" %}
+                        <a href="{% url 'hc-workers' %}">View Workers</a>
+                        <a href="{% url 'hcworker-registration' %}">Register Worker</a>
+                    {% endif %}
+                    <a href="{% url 'hc-inbox' %}">Inbox</a>
                 </nav>
             </div>
             <a href="{% url 'logout' %}" class="login">Logout</a>
