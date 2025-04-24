@@ -385,29 +385,69 @@ def bbworker_donation(request):
 @bbworker_required
 def bbworker_appt(request):
     bbworker = request.user.bbworker
-    appointments = Appointment.objects.filter(blood_bank=bbworker.blood_bank).order_by('-appt_date', '-appt_time')
-    
-    if request.method == "POST":
-        appt_date = request.POST.get('appt_date')
-        appt_time = request.POST.get('appt_time')
+    blood_bank = bbworker.blood_bank
+    appointments = Appointment.objects.filter(blood_bank=blood_bank).order_by('-appt_date', '-appt_time')
+    now = timezone.now()
+
+    if request.method == 'POST':
+  
         donor_email = request.POST.get('donor_email')
+        date_str = request.POST.get('appt_date')  # format: 'YYYY-MM-DD'
+        time_str = request.POST.get('appt_time')  # format: 'HH:MM AM/PM'
 
-        try:
-            donor = Donor.objects.get(Donor, email=donor_email)
-        except Donor.DoesNotExist:
-            messages.error(request, "Donor not found.")            
-        
-        appointment = Appointment.objects.create(
-            appt_date=appt_date,
-            appt_time=appt_time,
-            donor=donor,
-            blood_bank=bbworker.blood_bank 
-        )
-        messages.success(request, "Appointment booked successfully!")
+        if donor_email and date_str and time_str:
+            try:
+                donor = Donor.objects.get(email=donor_email)
+                appt_date = parse_date(date_str)
+                appt_time_obj = datetime.strptime(time_str, "%I:%M %p")
 
-    return render(request, 'bbworker/appointments.html', {
+                appt_datetime = datetime.combine(appt_date, appt_time_obj.time())
+
+                last_appt = Appointment.objects.filter(donor=donor).order_by('-appt_time').first()
+
+                if timezone.is_naive(appt_datetime):
+                    appt_datetime = timezone.make_aware(appt_datetime, timezone.get_current_timezone())
+
+                if last_appt:
+                    min_eligible_date = last_appt.appt_time + timedelta(days=56)
+                    if appt_datetime < min_eligible_date:
+                        messages.error(request, f"You must wait 56 days between appointments. Next eligible date: {min_eligible_date.date()}")
+                        return redirect('donor-appt')
+    
+                    Appointment.objects.create(
+                        appt_date=appt_date,
+                        appt_time=appt_datetime,
+                        donor=donor,
+                        blood_bank=blood_bank
+                    )
+                    messages.success(request, "Appointment created successfully.")
+            except Exception as e:
+                messages.error(request, f"Error creating appointment: {e}")
+        else:
+            messages.error(request, "Please fill out all fields to create an appointment.")
+
+        return redirect('donor-appt')
+
+    time_slots = []
+    start_time = datetime.strptime("08:00", "%H:%M")
+    end_time = datetime.strptime("17:00", "%H:%M")
+
+    while start_time < end_time:
+        if start_time.hour == 13:
+            start_time += timedelta(hours=1)
+            continue
+        time_slots.append(start_time.strftime("%I:%M %p"))
+        start_time += timedelta(minutes=30)
+
+    appointments = Appointment.objects.filter(donor=donor).order_by('-appt_date', '-appt_time')
+    for appt in appointments:
+        appt.is_future = appt.appt_time > now
+
+    return render(request, 'donor/appointments.html', {
         'appointments': appointments,
-        'blood_banks': BloodBank.objects.all(),
+        'time_slots': time_slots,
+        'today': now,
+        'blood_banks': blood_bank
     })
 
 @bbworker_admin_required
