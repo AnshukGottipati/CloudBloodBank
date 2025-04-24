@@ -9,6 +9,7 @@ from .models import BloodbankWorker, BloodBank, HealthcareWorker, Donor, Appoint
 from datetime import timedelta, datetime
 from django.utils import timezone
 from django.utils.dateparse import parse_date
+from collections import defaultdict
 
 # Create your views here.
 def home(request):
@@ -25,7 +26,7 @@ def home(request):
             if hasattr(user, 'bbworker') and user.bbworker.role == "admin":
                 return redirect('bbworker-registration')
             elif(hasattr(user,'bbworker') and user.bbworker.role == "employee"):
-                return redirect('bb-registration')
+                return redirect('bb-appt')
             
             elif hasattr(user, 'hcworker') and user.hcworker.role == "admin":
                 return redirect('hcworker-registration')
@@ -57,7 +58,7 @@ def login_user(request):
             if hasattr(user, 'bbworker') and user.bbworker.role == "admin":
                 return redirect('bbworker-registration')
             elif(hasattr(user,'bbworker') and user.bbworker.role == "employee"):
-                return redirect('bb-donation')
+                return redirect('bb-appt')
             
             elif hasattr(user, 'hcworker') and user.hcworker.role == "admin":
                 return redirect('hcworker-registration')
@@ -217,17 +218,35 @@ def donor_profile(request):
         'appointments': appointments
     })
 
-#@bbworker_required
+@bbworker_required
 def bbworker_dash(request):
     return render(request, "bbworker/dashboard.html")
 
-#@bbworker_required
-def bbworker_donors(request):
-    donations = Donation.objects.select_related('donor').all() 
+@bbworker_required
+def bbworker_donors(request):    
+    bbworker = request.user.bbworker 
+
+    bb_donations = Donation.objects.filter(blood_bank=bbworker.blood_bank)
+    donations = bb_donations.order_by('-donation_date')
      
     return render(request, 'bbworker/donors.html', {'donations': donations})
 
-#@bbworker_required
+@bbworker_required
+def bbworker_donor_notes(request): 
+    donor = None
+    email = request.GET.get('email')
+    
+    if email:
+        donor = Donor.objects.filter(email=email).first()
+
+    if request.method == 'POST' and donor:
+        donor.medical_notes = request.POST.get('notes')
+        donor.save()
+        messages.success(request, "Note saved")
+        
+    return render(request, 'bbworker/donor-notes.html', {'donor': donor, 'email': email})
+
+@bbworker_required
 def bbworker_donation(request):
     log_form = LogDonationForm()
     status_form = UpdateStatusForm()
@@ -243,8 +262,7 @@ def bbworker_donation(request):
             return redirect('bb-donors')
 
         bb = user.bbworker.blood_bank
-
-        # Handle Log Donation
+        
         if form_type == 'log':
             log_form = LogDonationForm(request.POST)
             if log_form.is_valid():
@@ -309,21 +327,49 @@ def bbworker_donation(request):
     }
     return render(request, 'bbworker/donation.html', context)
 
-#@bbworker_required
+@bbworker_required
 def bbworker_appt(request):
     bbworker = request.user.bbworker
     appointments = Appointment.objects.filter(blood_bank=bbworker.blood_bank).order_by('-appt_date', '-appt_time')
     return render(request, 'bbworker/appointments.html', {'appointments': appointments})
 
-#@hcworker_required
-def hcworker_dash(request):
-    return render(request, "hcworker/dashboard.html")
+@bbworker_admin_required
+def bbworker_workers(request):
+    bloodbank = request.user.bbworker.blood_bank
+    workers = BloodbankWorker.objects.filter(blood_bank=bloodbank)
+    return render(request, 'bbworker/workers.html', {'workers': workers})
 
-#@hcworker_required
+@hcworker_required
 def hcworker_bloodsupply(request):
-    return render(request, "hcworker/bloodsupply.html")
+    user = request.user
+    try:
+        worker = HealthcareWorker.objects.select_related('health_center').get(hc_worker_id=user)
+        user_center = worker.health_center
+    except HealthcareWorker.DoesNotExist:
+        return render(request, "hcworker/bloodsupply.html", {
+            "bloodbank_stats": {},
+            "healthcenter_stats": {},
+        })
 
-#@bbworker_required
+    BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
+    bloodbank_stats = defaultdict(lambda: {bt: 0 for bt in BLOOD_TYPES})
+    healthcenter_stats = {user_center.name: {bt: 0 for bt in BLOOD_TYPES}}
+
+    donations = Donation.objects.select_related('blood_bank', 'health_center').all()
+
+    for d in donations:
+        if d.status != 'delivered':
+            bloodbank_stats[d.blood_bank.name][d.blood_type] += 1
+
+        if d.health_center == user_center and d.status != 'used':
+            healthcenter_stats[user_center.name][d.blood_type] += 1
+
+    return render(request, "hcworker/bloodsupply.html", {
+        "bloodbank_stats": dict(bloodbank_stats),
+        "healthcenter_stats": healthcenter_stats
+    })
+
+@bbworker_required
 def register_donor(request):
     if request.method == 'POST':
         form = DonorRegistrationForm(request.POST)
@@ -337,7 +383,7 @@ def register_donor(request):
     
     return render(request, 'bbworker/register-donor.html', {'form': form})
     
-#@bbworker_admin_required
+@bbworker_admin_required
 def register_bbworker(request):
     if request.method == 'POST':
         form = BloodBankWorkerRegistrationForm(request.POST, request=request)
@@ -352,7 +398,7 @@ def register_bbworker(request):
 
     return render(request, 'bbworker/register-bbworker.html', {'form': form})
 
-#@hcworker_admin_required
+@hcworker_admin_required
 def register_hcworker(request):
     if request.method == 'POST':
         form = HealthCareWorkerRegistrationForm(request.POST, request=request)

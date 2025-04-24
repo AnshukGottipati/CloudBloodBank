@@ -5,12 +5,13 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Donor(models.Model):
     donor_id = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="donor") # required
-    name = models.CharField(max_length=50)  # required
-    address = models.CharField(max_length=512, blank=True)  # optional for testing
-    phone = models.CharField(max_length=10, blank=True)     # optional for testing
-    birth_date = models.DateField(null=True, blank=True)    # optional for testing
-    email = models.CharField(max_length=50)  # required
-
+    name = models.CharField(max_length=50) 
+    address = models.CharField(max_length=512, blank=True) 
+    phone = models.CharField(max_length=10, blank=True) 
+    birth_date = models.DateField(null=True, blank=True)  
+    email = models.CharField(max_length=50) 
+    medical_notes = models.TextField(blank=True, null=True)
+    
     BLOOD_TYPE_CHOICES = [
         ('A+', 'A+'), ('A-', 'A-'),
         ('B+', 'B+'), ('B-', 'B-'),

@@ -1,34 +1,95 @@
-{% extends "hcworker/base.html" %} 
-{% block title %} Health Center {% endblock %}
-{% block header %} Health Center {% endblock %}
-{% block content %} 
+{% extends "hcworker/base.html" %}
+{% block title %} Blood Supply {% endblock %}
+{% block header %} Blood Supply {% endblock %}
+
+{% block content %}
 <h2>Blood Inventory Overview</h2>
 
-<div class="section">
-    <h3>By Blood Bank</h3>
-    <div class="card-container">
-        {% for bank, blood_data in bloodbank_stats.items %}
-            <div class="card">
-                <h4>{{ bank }}</h4>
-                {% for blood_type, count in blood_data.items %}
-                    <div class="stat">{{ blood_type }}: {{ count }}</div>
-                {% endfor %}
-            </div>
-        {% endfor %}
-    </div>
-</div>
+<style>
+    .tag {
+        display: inline-block;
+        padding: 2px 6px;
+        margin-left: 8px;
+        font-size: 0.75em;
+        border-radius: 4px;
+        font-weight: bold;
+    }
+    .low-tag {
+        background-color: orange;
+        color: white;
+    }
+    .critical-tag {
+        background-color: #8f141b;
+        color: white;
+    }
+    .stat-card {
+        border: 1px solid #ccc;
+        padding: 8px 12px;
+        border-radius: 8px;
+        margin: 5px;
+        display: inline-block;
+        min-width: 100px;
+        text-align: center;
+        background-color: #f9f9f9;
+    }
+    .section {
+        margin-bottom: 40px;
+    }
+    .card {
+        background-color: #ffffff;
+        padding: 16px;
+        border-radius: 12px;
+        box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        margin-bottom: 20px;
+    }
+    .card-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 16px;
+    }
+</style>
 
 <div class="section">
-    <h3>By Health Center</h3>
+    <h3>Health Center</h3>
     <div class="card-container">
         {% for center, blood_data in healthcenter_stats.items %}
             <div class="card">
                 <h4>{{ center }}</h4>
                 {% for blood_type, count in blood_data.items %}
-                    <div class="stat">{{ blood_type }}: {{ count }}</div>
+                    <div class="stat-card">
+                        <strong>{{ blood_type }}</strong>: {{ count }}
+                        {% if count < 5 %}
+                            <div class="tag critical-tag">Critically Low</div>
+                        {% elif count < 10 %}
+                            <div class="tag low-tag">Low</div>
+                        {% endif %}
+                    </div>
                 {% endfor %}
             </div>
         {% endfor %}
     </div>
 </div>
+
+<div class="section">
+    <h3>Blood Banks</h3>
+    <div class="card-container">
+        {% for bank, blood_data in bloodbank_stats.items %}
+            <div class="card">
+                <h4>{{ bank }}</h4>
+                {% for blood_type, count in blood_data.items %}
+                    <div class="stat-card">
+                        <strong>{{ blood_type }}</strong>: {{ count }}
+                        {% if count < 5 %}
+                            <div class="tag critical-tag">Critically Low</div>
+                        {% elif count < 10 %}
+                            <div class="tag low-tag">Low</div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+
 {% endblock %}

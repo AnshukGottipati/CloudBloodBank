@@ -15,8 +15,10 @@ urlpatterns = [
     path("donor/profile/", views.donor_profile, name="donor-profile"),
 
     path("bbworker/donors/", views.bbworker_donors, name="bb-donors"),
+    path("bbworker/donor-notes/", views.bbworker_donor_notes, name="bb-donor-notes"),
     path("bbworker/donation/", views.bbworker_donation, name="bb-donation"),
     path("bbworker/appt/", views.bbworker_appt, name="bb-appt"),
+    path("bbworker/workers/", views.bbworker_workers, name="bb-workers"),
     
     path("hcworker/bloodsupply/", views.hcworker_bloodsupply, name="hc-bloodsupply"),
 

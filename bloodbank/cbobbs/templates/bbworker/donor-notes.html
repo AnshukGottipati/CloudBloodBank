@@ -1,0 +1,41 @@
+{% extends "bbworker/base.html" %}
+{% block title %} Add Donor Notes {% endblock %}
+{% block header %} Add Donor Notes {% endblock %}
+
+{% block content %}
+<h2>Find Donor by Email</h2>
+
+<form method="GET" class="search-form">
+    <div class="form-group">
+        <label for="email" class="form-label">Enter Donor Email:</label>
+        <input type="email" id="email" name="email" class="form-input" placeholder="Donor Email" required>
+    </div>
+    <button type="submit" class="btn-outline">Find Donor</button>
+</form>
+
+{% if donor %}
+    <div class="donor-details">
+        <h3>Donor Details</h3>
+        <p><strong>Name:</strong> {{ donor.name }}</p>
+        <p><strong>Email:</strong> {{ donor.email }}</p>
+        <p><strong>Phone:</strong> {{ donor.phone }}</p>
+        <p><strong>Blood Type:</strong> {{ donor.blood_type }}</p>
+        <p><strong>Date of Birth:</strong> {{ donor.date_of_birth|date:"F j, Y" }}</p>
+        <p><strong>Address:</strong> {{ donor.address }}</p>
+        
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="notes" class="form-label">Notes:</label>
+                <textarea id="notes" name="notes" class="form-input" rows="4">{{ donor.medical_notes }}</textarea>
+            </div>
+            <div style="text-align: right;">
+                <button type="submit" class="btn-outline">Update Notes</button>
+            </div>
+        </form>
+    </div>
+{% elif email %}
+    <p>No donor found with this email address.</p>
+{% endif %}
+
+{% endblock %}

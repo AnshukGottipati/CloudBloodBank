@@ -1,81 +1,82 @@
 {% extends "hcworker/base.html" %} 
-{% block title %} Register Worker {% endblock %}
-{% block header %} Register Worker {% endblock %}
-{% block content %}
+{% block title %} Health Center {% endblock %}
+{% block header %} Health Center {% endblock %}
 
-<h2>Create Healthcare Worker Account</h2>
+{% block content %} 
+<h2>Blood Inventory Overview</h2>
 
-<div>
-    <form method="post" novalidate>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-        
-        <div class="form-group">
-            <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
-            {{ form.first_name }}
-            <div class="errors">
-                {% for error in form.first_name.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
-            {{ form.last_name }}
-            <div class="errors">
-                {% for error in form.last_name.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div>        
-        
-        <div class="form-group">
-            <label for="{{ form.email.id_for_label }}">{{ form.email.label }}</label>
-            {{ form.email }}
-            <div class="errors">
-                {% for error in form.email.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="{{ form.role.id_for_label }}">{{ form.role.label }}</label>
-            {{ form.role }}
-            <div class="errors">
-                {% for error in form.role.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div>
-
-        <div class="form-row">
-            <div class="form-group">
-                <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
-                {{ form.password1 }}
-                <div class="errors">
-                    {% for error in form.password1.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
-                {{ form.password2 }}
-                <div class="errors">
-                    {% for error in form.password2.errors %}
-                        <p>{{ error }}</p>
-                    {% endfor %}
-                </div>
-            </div>
-        </div>
-
-        <div class="button-container">
-            <button type="submit" class='btn-outline'>Register Blood Bank Worker</button>
-        </div>
-    </form>
+<div class="section">
+    <h3>📊 Blood Type Distribution</h3>
+    <canvas id="bloodTypeChart" width="400" height="400"></canvas>
 </div>
 
+<div class="section">
+    <h3>🚨 Low Supply Alerts</h3>
+    {% if low_supply_notes %}
+        <ul>
+            {% for btype in low_supply_notes %}
+                <li><strong>{{ btype }}</strong> is running low</li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>All blood types sufficiently stocked.</p>
+    {% endif %}
+</div>
+
+<div class="section">
+    <h3>🏥 By Blood Bank</h3>
+    <div class="card-container">
+        {% for bank, blood_data in bloodbank_stats.items %}
+            <div class="card">
+                <h4>{{ bank }}</h4>
+                {% for blood_type, count in blood_data.items %}
+                    <div class="stat">{{ blood_type }}: {{ count }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="section">
+    <h3>🧪 By Health Center</h3>
+    <div class="card-container">
+        {% for center, blood_data in healthcenter_stats.items %}
+            <div class="card">
+                <h4>{{ center }}</h4>
+                {% for blood_type, count in blood_data.items %}
+                    <div class="stat">{{ blood_type }}: {{ count }}</div>
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('bloodTypeChart').getContext('2d');
+    const data = {
+        labels: {{ overall_counts.keys|safe }},
+        datasets: [{
+            data: {{ overall_counts.values|safe }},
+            backgroundColor: [
+                '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
+                '#9966FF', '#FF9F40', '#E7E9ED', '#8DD1E1'
+            ],
+            hoverOffset: 4
+        }]
+    };
+
+    new Chart(ctx, {
+        type: 'pie',
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom'
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}

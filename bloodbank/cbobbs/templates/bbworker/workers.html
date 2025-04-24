@@ -1,0 +1,29 @@
+{% extends "bbworker/base.html" %}
+{% block title %} Workers {% endblock %}
+{% block header %} Workers {% endblock %}
+{% block content %}
+<h2>{{ worker.blood_bank.name}} Workers</h2>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>E-Mail</th>
+            <th>Role</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for worker in workers %}
+        <tr>
+            <td>{{ worker.name }}</td>
+            <td>{{ worker.email }}</td>
+            <td>{{ worker.get_role_display }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">No workers found for your blood bank.</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

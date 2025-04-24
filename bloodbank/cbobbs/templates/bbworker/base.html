@@ -37,6 +37,7 @@
                     <a href="{% url 'bb-donation' %}">Log Donation</a>                                       
                     <a href="{% url 'bb-appt' %}">Appointments</a>
                     {% if request.user.is_authenticated and request.user.bbworker.role|lower == "admin" %}
+                        <a href="{% url 'bb-workers' %}">View Workers</a>
                         <a href="{% url 'bbworker-registration' %}">Register Worker</a>
                     {% endif %}
                 </nav>

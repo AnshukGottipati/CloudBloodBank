@@ -20,6 +20,9 @@
                 <p><strong>Blood Type:</strong> {{ donor.blood_type }}</p>
                 <p><strong>Date of Birth:</strong> {{ donor.date_of_birth|date:"F j, Y" }}</p>
                 <p><strong>Address:</strong> {{ donor.address }}</p>
+                {% if donor.notes %}
+                <p><strong>Notes:</strong> {{ donor.notes }}</p>
+                {% endif %}
                 <hr>
                 <div style="text-align: center; margin-top: 15px;">
                     <a href="{% url 'donor-hist' %}" class="btn-outline">View Donation History</a>
