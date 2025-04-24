@@ -37,4 +37,37 @@
         </tbody>
        
     </table>
+
+    <div class="profile-card" style="padding:0px 20px;">
+        <div class=="profile-card-header">
+            <h2 style="margin-top: 40px; padding:0px 20px;">Schedule a New Appointment</h2>
+        </div>
+        <div class="profile-card-content">
+            <form method="POST">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label for="appt_date">Date:</label>
+                    <input type="date" id="appt_date" name="appt_date" required min="{{ today|date:'Y-m-d' }}">
+                </div>
+
+                <div class="form-group">
+                    <label for="appt_time">Time:</label>
+                    <select name="appt_time" id="appt_time" required>
+                        {% for time in time_slots %}
+                            <option value="{{ time }}">{{ time }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="donor_email">Donor Email:</label>
+                    <input type="email" id="donor_email" name="donor_email" required>
+                </div>                
+
+                <button type="submit" class="btn-outline">Book Appointment</button>
+            </form>
+        </div>
+    </div>
+
 {% endblock %}

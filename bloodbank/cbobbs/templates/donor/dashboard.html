@@ -5,7 +5,7 @@
     <div class="welcome-banner">
         <div class="welcome-text">
             <h1>Welcome back, {{ donor.user.first_name }}!</h1>
-            <p>Thank you for being a blood donor. Your contributions have helped save an estimated {{ lives_saved }} lives so far!</p>
+            <p>Thank you for being a blood donor. Your contributions will help save an estimated {{ lives_saved }} lives!</p>
         </div>
         <div class="welcome-actions">
             <a href="{% url 'donor-appt' %}" class="btn btn-lg">Schedule Donation</a>
@@ -73,7 +73,7 @@
 
     <div class="impact-section">
         <h3>Your Donation Impact</h3>
-        <p>Every donation can save up to 3 lives. Your donations have potentially helped:</p>
+        <p>Every donation can save up to 3 lives. Your donations can potentially help:</p>
         <div class="impact-value">{{ lives_saved }} lives</div>
         <p>Thank you for making a difference!</p>
     </div>

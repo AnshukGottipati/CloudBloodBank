@@ -280,8 +280,7 @@ def bbworker_donation(request):
                     messages.success(request, "Donation logged.")
                 except Donor.DoesNotExist:
                     messages.error(request, "Donor not found.")
-
-        # Handle Status Update
+                    
         elif form_type == 'status':
             status_form = UpdateStatusForm(request.POST)
             if status_form.is_valid():
@@ -293,8 +292,7 @@ def bbworker_donation(request):
                     messages.success(request, "Status updated.")
                 except (Donor.DoesNotExist, Donation.DoesNotExist):
                     messages.error(request, "Donation not found.")
-
-        # Handle Transaction Logging
+                    
         elif form_type == 'transaction':
             transaction_form = LogTransactionForm(request.POST)
             if transaction_form.is_valid():
@@ -306,8 +304,7 @@ def bbworker_donation(request):
                     messages.success(request, "Transaction date logged.")
                 except (Donor.DoesNotExist, Donation.DoesNotExist):
                     messages.error(request, "Donation not found.")
-
-        # Handle Transport
+                    
         elif form_type == 'transport':
             transport_form = TransportForm(request.POST)
             if transport_form.is_valid():
@@ -331,7 +328,30 @@ def bbworker_donation(request):
 def bbworker_appt(request):
     bbworker = request.user.bbworker
     appointments = Appointment.objects.filter(blood_bank=bbworker.blood_bank).order_by('-appt_date', '-appt_time')
-    return render(request, 'bbworker/appointments.html', {'appointments': appointments})
+    
+    if request.method == "POST":
+        appt_date = request.POST.get('appt_date')
+        appt_time = request.POST.get('appt_time')
+        donor_email = request.POST.get('donor_email')
+
+        try:
+            donor = Donor.objects.get(Donor, email=donor_email)
+        except Donor.DoesNotExist:
+            messages.error(request, "Donor not found.")            
+        
+        appointment = Appointment.objects.create(
+            appt_date=appt_date,
+            appt_time=appt_time,
+            donor=donor,
+            blood_bank=bbworker.blood_bank 
+        )
+        messages.success(request, "Appointment booked successfully!")
+
+    return render(request, 'bbworker/appointments.html', {
+        'appointments': appointments,
+        'blood_banks': BloodBank.objects.all(),
+    })
+
 
 @bbworker_admin_required
 def bbworker_workers(request):
@@ -344,30 +364,48 @@ def hcworker_bloodsupply(request):
     user = request.user
     try:
         worker = HealthcareWorker.objects.select_related('health_center').get(hc_worker_id=user)
-        user_center = worker.health_center
+        health_center = worker.health_center
     except HealthcareWorker.DoesNotExist:
         return render(request, "hcworker/bloodsupply.html", {
             "bloodbank_stats": {},
             "healthcenter_stats": {},
         })
 
+    if request.method == "POST":
+        blood_type_used = request.POST.get("blood_type")
+        donation = Donation.objects.filter(
+            health_center=health_center,
+            blood_type=blood_type_used,
+            status="delivered"
+        ).order_by("donation_date").first()
+
+        if donation:
+            donation.status = "used"
+            donation.save()
+            return redirect("hc-bloodsupply")
+        else:
+            messages.error(request, f"No available units of blood type {blood_type_used} at your health center.")
+
     BLOOD_TYPES = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-']
     bloodbank_stats = defaultdict(lambda: {bt: 0 for bt in BLOOD_TYPES})
-    healthcenter_stats = {user_center.name: {bt: 0 for bt in BLOOD_TYPES}}
+    healthcenter_stats = {health_center.name: {bt: 0 for bt in BLOOD_TYPES}}
 
     donations = Donation.objects.select_related('blood_bank', 'health_center').all()
 
     for d in donations:
-        if d.status != 'delivered':
+        if d.health_center == health_center and d.status == 'delivered':
+            healthcenter_stats[health_center.name][d.blood_type] += 1
+            
+        elif d.health_center is None:
             bloodbank_stats[d.blood_bank.name][d.blood_type] += 1
 
-        if d.health_center == user_center and d.status != 'used':
-            healthcenter_stats[user_center.name][d.blood_type] += 1
 
     return render(request, "hcworker/bloodsupply.html", {
         "bloodbank_stats": dict(bloodbank_stats),
-        "healthcenter_stats": healthcenter_stats
+        "healthcenter_stats": healthcenter_stats,
+        "blood_types": BLOOD_TYPES
     })
+
 
 @bbworker_required
 def register_donor(request):

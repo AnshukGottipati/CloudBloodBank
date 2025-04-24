@@ -1,7 +1,7 @@
-{% extends "donor/base.html" %} 
+{% extends "donor/base.html" %}
 {% block title %} Donor History{% endblock %}
 {% block header %} Donor History{% endblock %}
-{% block content %} 
+{% block content %}
 <div class="page-header">
     <h1>Donation History</h1>
     <p>Track your blood donation journey and impact.</p>
@@ -13,8 +13,6 @@
         <div class="stat-value">{{ donations.count }}</div>
     </div>
 </div>
-
-</form>
 
 <table class="donation-table">
     <thead>
@@ -30,7 +28,7 @@
     </thead>
     <tbody>
         {% for d in donations %}
-        <tr>
+        <tr {% if d.status in ['delivered', 'used'] %} class="greyed-out" {% endif %}>
             <td>{{ d.donation_date|date:"F j, Y" }}</td>
             <td>{{ d.blood_type }}</td>
             <td>{{ d.blood_bank.name }}</td>
@@ -58,4 +56,6 @@
         {% endfor %}
     </tbody>
 </table>
+
 {% endblock %}
+

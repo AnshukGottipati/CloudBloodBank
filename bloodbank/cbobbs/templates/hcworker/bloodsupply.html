@@ -49,6 +49,18 @@
     }
 </style>
 
+<form method="POST">
+    {% csrf_token %}
+    <label for="blood_type">Mark unit as used (by Blood Type):</label>
+    <select name="blood_type" id="blood_type">
+        <option value="">Select Blood Type</option>
+        {% for bt in blood_types %}
+            <option value="{{ bt }}">{{ bt }}</option>
+        {% endfor %}
+    </select>
+    <button type="submit">Use First Matching Unit</button>
+</form>
+
 <div class="section">
     <h3>Health Center</h3>
     <div class="card-container">
@@ -57,7 +69,7 @@
                 <h4>{{ center }}</h4>
                 {% for blood_type, count in blood_data.items %}
                     <div class="stat-card">
-                        <strong>{{ blood_type }}</strong>: {{ count }}
+                        <strong>{{ blood_type }}</strong>: {{ count }} units
                         {% if count < 5 %}
                             <div class="tag critical-tag">Critically Low</div>
                         {% elif count < 10 %}
@@ -78,7 +90,7 @@
                 <h4>{{ bank }}</h4>
                 {% for blood_type, count in blood_data.items %}
                     <div class="stat-card">
-                        <strong>{{ blood_type }}</strong>: {{ count }}
+                        <strong>{{ blood_type }}</strong>: {{ count }} units
                         {% if count < 5 %}
                             <div class="tag critical-tag">Critically Low</div>
                         {% elif count < 10 %}
