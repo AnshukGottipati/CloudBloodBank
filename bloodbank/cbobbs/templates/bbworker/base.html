@@ -22,7 +22,7 @@
 <body>
     <header>
         <div class='title'>                
-            <a href="{% url 'bb-dash' %}" class="nav-logo">
+            <a href="{% url 'bb-donation' %}" class="nav-logo">
                 <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
             </a>
             <h1>{% block header %}CBOBBS{% endblock %} </h1> 
@@ -33,17 +33,18 @@
             <div class="dropdown">
                 <button class="dropbtn">Menu &#9662;</button>
                 <nav class="dropdown-content">                    
-                    <a href="{% url 'bb-donors' %}">Donors</a>            
-                    <a href="{% url 'bb-donation' %}">Donation</a>                                       
+                    <a href="{% url 'bb-donors' %}">Donation History</a>            
+                    <a href="{% url 'bb-donation' %}">Log Donation</a>                                       
                     <a href="{% url 'bb-appt' %}">Appointments</a>
-                    <a href="{% url 'bbworker-registration' %}">Register Worker</a> 
+                    {% if request.user.is_authenticated and request.user.bbworker.role|lower == "admin" %}
+                        <a href="{% url 'bbworker-registration' %}">Register Worker</a>
+                    {% endif %}
                 </nav>
             </div>
             <a href="{% url 'logout' %}" class="login">Logout</a>
         </div>
     </header>
     
-
     {% if messages %}
         <ul class="messages" style="padding:5px 15px;">
             {% for message in messages %}
@@ -59,6 +60,7 @@
             Content
         {% endblock %}         
     </main> 
+
     <footer>
         © 2025 CBOBBS
     </footer>

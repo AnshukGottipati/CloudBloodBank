@@ -1,7 +1,6 @@
 from django.shortcuts import render,redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from .forms import BloodBankWorkerRegistrationForm, HealthCareWorkerRegistrationForm, DonorRegistrationForm, LogDonationForm, LogTransactionForm, UpdateStatusForm, TransportForm
 from django.db import transaction 
 from .decorators import donor_required, hcworker_required, hcworker_admin_required, bbworker_required, bbworker_admin_required
@@ -26,12 +25,12 @@ def home(request):
             if hasattr(user, 'bbworker') and user.bbworker.role == "admin":
                 return redirect('bbworker-registration')
             elif(hasattr(user,'bbworker') and user.bbworker.role == "employee"):
-                return redirect('bb-dash')
+                return redirect('bb-registration')
             
             elif hasattr(user, 'hcworker') and user.hcworker.role == "admin":
                 return redirect('hcworker-registration')
             elif(hasattr(user,'hcworker') and user.hcworker.role == "employee"):
-                return redirect('hc-dash')
+                return redirect('hc-bloodsupply')
 
             elif(hasattr(user,'donor')):
                 return redirect('donor-dash')
@@ -58,12 +57,12 @@ def login_user(request):
             if hasattr(user, 'bbworker') and user.bbworker.role == "admin":
                 return redirect('bbworker-registration')
             elif(hasattr(user,'bbworker') and user.bbworker.role == "employee"):
-                return redirect('bb-dash')
+                return redirect('bb-donation')
             
             elif hasattr(user, 'hcworker') and user.hcworker.role == "admin":
                 return redirect('hcworker-registration')
             elif(hasattr(user,'hcworker') and user.hcworker.role == "employee"):
-                return redirect('hc-dash')
+                return redirect('hc-bloodsupply')
 
             elif(hasattr(user,'donor')):
                 return redirect('donor-dash')
@@ -241,7 +240,7 @@ def bbworker_donation(request):
 
         if not hasattr(user, 'bbworker'):
             messages.error(request, "You are not authorized.")
-            return redirect('bb-dash')
+            return redirect('bb-donors')
 
         bb = user.bbworker.blood_bank
 
@@ -343,6 +342,7 @@ def register_bbworker(request):
     if request.method == 'POST':
         form = BloodBankWorkerRegistrationForm(request.POST, request=request)
         if form.is_valid():
+            
             with transaction.atomic():
                 user = form.save()
                 messages.success(request, f"Worker account created. Username: {user.username}")

@@ -28,7 +28,9 @@ class Donor(models.Model):
 class HealthCenter(models.Model):
     hc_id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50, default="Health Center")
+    phone = models.CharField(max_length=10,  default="9999999999")
     address = models.CharField(max_length=512)
+    admin_key = models.CharField(max_length=5, default="admin")
     
     class Meta:
         unique_together = ('address',)
@@ -51,6 +53,11 @@ class BloodBank(models.Model):
     name = models.CharField(max_length=50, default="Blood Bank")
     phone = models.CharField(max_length=10,  default="9999999999")
     address = models.CharField(max_length=512, unique=True)    
+    admin_key = models.CharField(max_length=5, default="admin")
+
+    def __str__(self):
+        return self.name
+
 
 
 class BloodbankWorker(models.Model):

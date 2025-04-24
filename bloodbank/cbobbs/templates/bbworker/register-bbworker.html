@@ -1,11 +1,11 @@
-{% extends "bbworker/base.html" %} 
+{% extends "bbworker/base.html" %}
 {% block title %} Register Worker{% endblock %}
 {% block header %} Register Worker{% endblock %}
 {% block content %}
 
 <h2>Create Blood Bank Worker Account</h2>
 
-<div class="tab-content">
+<div>
     <form method="post" novalidate>
         {% csrf_token %}
         {{ form.non_field_errors }}
@@ -49,7 +49,27 @@
                 {% endfor %}
             </div>
         </div>
-
+        
+        <div class="form-group">
+            <label for="{{ form.blood_bank.id_for_label }}">{{ form.blood_bank.label }}</label>
+            {{ form.blood_bank }}
+            <div class="errors">
+                {% for error in form.blood_bank.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.admin_key.id_for_label }}">{{ form.admin_key.label }}</label>
+            {{ form.admin_key }}
+            <div class="errors">
+                {% for error in form.admin_key.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        
         <div class="form-row">
             <div class="form-group">
                 <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
@@ -73,9 +93,8 @@
         </div>
 
         <div class="button-container">
-            <button type="submit" class='btn-outline'>Register Blood Bank Worker</button>
+            <button type="submit" class="btn-outline">Register Blood Bank Worker</button>
         </div>
     </form>
 </div>
-
 {% endblock %}

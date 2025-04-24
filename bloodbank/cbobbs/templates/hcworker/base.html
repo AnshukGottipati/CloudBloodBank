@@ -22,7 +22,7 @@
 <body>
     <header>
         <div class='title'>                
-            <a href="{% url 'hc-dash' %}" class="nav-logo">
+            <a href="{% url 'hc-bloodsupply' %}" class="nav-logo">
                 <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
             </a>
             <h1>{% block header %}CBOBBS{% endblock %} </h1> 
@@ -32,7 +32,6 @@
             <div class="dropdown">
                 <button class="dropbtn">Menu &#9662;</button>
                 <nav class="dropdown-content">      
-                    <a href="{% url 'hc-dash' %}">Dashboard</a>
                     <a href="{% url 'hc-bloodsupply' %}">Blood Supply</a>
                 </nav>
             </div>

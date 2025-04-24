@@ -13,13 +13,11 @@ urlpatterns = [
     path("donor/appt/", views.donor_appt, name="donor-appt"),
     path("donor/hist/", views.donor_hist, name="donor-hist"),
     path("donor/profile/", views.donor_profile, name="donor-profile"),
-    
-    path("bbworker/", views.bbworker_dash, name="bb-dash"),
+
     path("bbworker/donors/", views.bbworker_donors, name="bb-donors"),
     path("bbworker/donation/", views.bbworker_donation, name="bb-donation"),
     path("bbworker/appt/", views.bbworker_appt, name="bb-appt"),
     
-    path("hcworker/", views.hcworker_dash, name="hc-dash"),
     path("hcworker/bloodsupply/", views.hcworker_bloodsupply, name="hc-bloodsupply"),
 
     path("register/donor/", views.register_donor, name="donor-registration"),
