@@ -28,7 +28,7 @@
     </thead>
     <tbody>
         {% for d in donations %}
-        <tr {% if d.status in ['delivered', 'used'] %} class="greyed-out" {% endif %}>
+        <tr {% if d.status == 'used' %} class="greyed-out" {% endif %}>
             <td>{{ d.donation_date|date:"F j, Y" }}</td>
             <td>{{ d.blood_type }}</td>
             <td>{{ d.blood_bank.name }}</td>
