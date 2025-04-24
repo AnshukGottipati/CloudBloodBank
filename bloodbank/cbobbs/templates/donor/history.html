@@ -14,24 +14,6 @@
     </div>
 </div>
 
-<form method="get" class="filter-bar">
-    <select name="year" class="filter-select">
-        <option value="">All Years</option>
-        {% for y in years %}
-            <option value="{{ y }}" {% if y|stringformat:"s" == request.GET.year %}selected{% endif %}>{{ y }}</option>
-        {% endfor %}
-    </select>
-
-    <select name="location" class="filter-select">
-        <option value="">All Locations</option>
-        {% for bank in bloodbanks %}
-            <option value="{{ bank.id }}" {% if request.GET.location == bank.id|stringformat:"s" %}selected{% endif %}>
-                {{ bank.name }}
-            </option>
-        {% endfor %}
-    </select>
-
-    <button type="submit" class="btn">Filter</button>
 </form>
 
 <table class="donation-table">
@@ -39,8 +21,11 @@
         <tr>
             <th>Donation Date</th>
             <th>Blood Type</th>
-            <th>Status</th>
             <th>Blood Bank</th>
+            <th>Status</th>
+            <th>Transferred</th>
+            <th>Transferred To</th>
+            <th>Paid For</th>
         </tr>
     </thead>
     <tbody>
@@ -48,12 +33,27 @@
         <tr>
             <td>{{ d.donation_date|date:"F j, Y" }}</td>
             <td>{{ d.blood_type }}</td>
-            <td>{{ d.status }}</td>
             <td>{{ d.blood_bank.name }}</td>
+            <td>{{ d.status }}</td>
+            <td>
+                {% if d.transfer_date %}
+                    Yes; on {{ d.transfer_date|date:"F j, Y" }}
+                {% else %}
+                    No
+                {% endif %}
+            </td>
+            <td>{{ d.health_center.name }}</td>
+            <td>
+                {% if d.transaction_date %}
+                    Yes; on {{ d.transaction_date|date:"F j, Y" }}
+                {% else %}
+                    No
+                {% endif %}
+            </td>
         </tr>
         {% empty %}
         <tr>
-            <td colspan="4">No donation records found.</td>
+            <td colspan="7">No donation records found.</td>
         </tr>
         {% endfor %}
     </tbody>

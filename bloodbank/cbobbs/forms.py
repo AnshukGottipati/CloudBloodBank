@@ -2,12 +2,27 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from django.core.exceptions import ValidationError
-from .models import BloodbankWorker, HealthcareWorker, Donor, BloodBank, HealthCenter
+from .models import BloodbankWorker, HealthcareWorker, Donor, BloodBank, HealthCenter, Donation
 from django.utils.translation import gettext_lazy as _
 
 ROLE_CHOICES = [
     ('employee', 'Employee'),
     ('admin', 'Admin'),
+]
+
+STATUS_CHOICES = [
+    ('processing', 'Processing'),
+    ('testing', 'Testing'),
+    ('processed', 'Processed'),
+    ('delivered', 'Delivered'),
+    ('used', 'Used'),
+]
+
+BLOOD_TYPE_CHOICES = [
+    ('A+', 'A+'), ('A-', 'A-'),
+    ('B+', 'B+'), ('B-', 'B-'),
+    ('AB+', 'AB+'), ('AB-', 'AB-'),
+    ('O+', 'O+'), ('O-', 'O-'),
 ]
 
 class BloodBankWorkerRegistrationForm(UserCreationForm):
@@ -159,3 +174,29 @@ class DonorRegistrationForm(UserCreationForm):
             )
 
         return user
+    
+class LogDonationForm(forms.Form):
+    donor_email = forms.EmailField()
+    donation_date = forms.DateField(widget=forms.SelectDateWidget)
+
+class UpdateStatusForm(forms.Form):
+    donor_email = forms.EmailField()
+    donation_date = forms.DateField(widget=forms.SelectDateWidget)
+    status = forms.ChoiceField(choices=STATUS_CHOICES)
+
+class LogTransactionForm(forms.Form):
+    donor_email = forms.EmailField()
+    donation_date = forms.DateField(widget=forms.SelectDateWidget)
+    transaction_date = forms.DateField(widget=forms.SelectDateWidget)
+
+class TransportForm(forms.Form):
+    BLOOD_TYPE_CHOICES = Donor.BLOOD_TYPE_CHOICES
+
+    blood_type = forms.ChoiceField(choices=BLOOD_TYPE_CHOICES)
+    transfer_date = forms.DateField(widget=forms.SelectDateWidget)
+    health_center = forms.ModelChoiceField(queryset=HealthCenter.objects.all())
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # Customize label for dropdown
+        self.fields['health_center'].label_from_instance = lambda obj: obj.name

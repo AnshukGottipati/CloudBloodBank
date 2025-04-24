@@ -33,7 +33,6 @@
             <div class="dropdown">
                 <button class="dropbtn">Menu &#9662;</button>
                 <nav class="dropdown-content">                    
-                    <a href="{% url 'bb-dash' %}">Dashboard</a>
                     <a href="{% url 'bb-donors' %}">Donors</a>            
                     <a href="{% url 'bb-donation' %}">Donation</a>                                       
                     <a href="{% url 'bb-appt' %}">Appointments</a>
@@ -46,7 +45,7 @@
     
 
     {% if messages %}
-        <ul class="messages">
+        <ul class="messages" style="padding:5px 15px;">
             {% for message in messages %}
                 <div class="alert alert-primary" role="alert">
                     {{ message }}

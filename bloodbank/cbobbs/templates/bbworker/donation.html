@@ -2,38 +2,75 @@
 {% block title %} Donations {% endblock %}
 {% block header %} Donations {% endblock %}
 {% block content %}
-<h2>Enter Blood Donation</h2>
+<h2>Manage Donations</h2>
 
-<form method="post">
-    {% csrf_token %}
-    
-    <label for="blood_type">Blood Type:</label>
-    <input type="text" id="blood_type" name="blood_type" maxlength="5" value="n/a" required><br><br>
+<div class="tab-buttons">
+    <div class="tab-button active" data-tab="log">Log Donation</div> 
+    <div class="tab-button" data-tab="status">Update Status</div> 
+    <div class="tab-button" data-tab="transaction">Log Transaction</div> 
+    <div class="tab-button" data-tab="transport">Transport</div> 
+</div>
 
-    <label for="donation_date">Donation Date:</label>
-    <input type="date" id="donation_date" name="donation_date" required><br><br>
+<div id="log" class="tab-content active">
+    <h2>Log Donation</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ log_form.as_p }}
+        <div></div>
+        <input type="hidden" name="form_type" value="log">
+        <button type="submit">Log Donation</button>
+    </form>
+</div>
 
-    <label for="sent_at">Sent At:</label>
-    <input type="date" id="sent_at" name="sent_at"><br><br>
+<div id="status" class="tab-content">
+    <h2>Update Status</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ status_form.as_p }}
+        <input type="hidden" name="form_type" value="status">
+        <button type="submit">Update Status</button>
+    </form>
+</div>
 
-    <label for="status">Status:</label>
-    <input type="text" id="status" name="status" maxlength="10" required><br><br>
+<div id="transaction" class="tab-content">
+    <h2>Log Transaction</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ transaction_form.as_p }}
+        <input type="hidden" name="form_type" value="transaction">
+        <button type="submit">Log Transaction</button>
+    </form>
+</div>
 
-    <label for="transaction_date">Transaction Date:</label>
-    <input type="date" id="transaction_date" name="transaction_date"><br><br>
+<div id="transport" class="tab-content">
+    <h2>Transport Donations</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ transport_form.as_p }}
+        <input type="hidden" name="form_type" value="transport">
+        <button type="submit">Transport</button>
+    </form>
+</div>
 
-    <label for="blood_bank">Blood Bank:</label>
-    <select id="blood_bank" name="blood_bank" required>
-        <option value="">Select a Blood Bank</option>
-        {% for bank in blood_banks %}
-        <option value="{{ bank.bb_id }}">{{ bank.name }}</option>
-        {% endfor %}
-    </select><br><br>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tabs = document.querySelectorAll(".tab-button");
+        const contents = document.querySelectorAll(".tab-content");
 
-    <label for="donor_email">Donor Email:</label>
-    <input type="email" id="donor_email" name="donor_email" required><br><br>
+        tabs.forEach(tab => {
+            tab.addEventListener("click", function (e) {
+                e.preventDefault();
+                const target = tab.getAttribute("data-tab");
 
-    <button type="submit">Add Donation</button>
-</form>
+                // Remove 'active' class from all tabs and content
+                tabs.forEach(t => t.classList.remove("active"));
+                contents.forEach(c => c.classList.remove("active"));
 
+                // Add 'active' class to clicked tab and corresponding content
+                tab.classList.add("active");
+                document.getElementById(target).classList.add("active");
+            });
+        });
+    });
+</script>
 {% endblock %}

@@ -29,31 +29,41 @@
     </div>
 {% endif %}
 
-<h2 style="margin-top: 40px;">Schedule a New Appointment</h2>
-<form method="post" class="appointment-form">
-    {% csrf_token %}
-    
-    <!-- Date Input with Restriction on Past Dates -->
-    <label for="appt_date">Date:</label>
-    <input type="date" id="appt_date" name="appt_date" required min="{{ today|date:'Y-m-d' }}">
+<div class="profile-card" style="padding:0px 20px;">
+    <div class=="profile-card-header">
+        <h2 style="margin-top: 40px; padding:0px 20px;">Schedule a New Appointment</h2>
+    </div>
+    <div class="profile-card-content">
+        <form method="POST">
+            {% csrf_token %}
+            
+            <div class="form-group">
+                <label for="appt_date">Date:</label>
+                <input type="date" id="appt_date" name="appt_date" required min="{{ today|date:'Y-m-d' }}">
+            </div>
 
-    <!-- Time Input with Available Slots (8 AM to 5 PM, excluding 1-2 PM) -->
-    <label for="appt_time">Time:</label>
-    <select name="appt_time" id="appt_time" required>
-        {% for time in time_slots %}
-            <option value="{{ time }}">{{ time }}</option>
-        {% endfor %}
-    </select>
+            <div class="form-group">
+                <label for="appt_time">Time:</label>
+                <select name="appt_time" id="appt_time" required>
+                    {% for time in time_slots %}
+                        <option value="{{ time }}">{{ time }}</option>
+                    {% endfor %}
+                </select>
+            </div>
 
-    <!-- Blood Bank Dropdown -->
-    <label for="blood_bank_id">Blood Bank:</label>
-    <select name="blood_bank_id" id="blood_bank_id" required>
-        {% for bank in blood_banks %}
-            <option value="{{ bank.bb_id }}">{{ bank.name }}</option>
-        {% endfor %}
-    </select>
+            <div class="form-group">
+                <label for="blood_bank_id">Blood Bank:</label>
+                <select name="blood_bank_id" id="blood_bank_id" required>
+                    {% for bank in blood_banks %}
+                        <option value="{{ bank.bb_id }}">{{ bank.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            
 
-    <button type="submit" class="btn">Add Appointment</button>
-</form>
+            <button type="submit" class="btn-outline">Book Appointment</button>
+        </form>
+    </div>
+</div>
 
 {% endblock %}
