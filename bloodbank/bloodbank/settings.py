@@ -74,18 +74,18 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'bloodbank.wsgi.application'
 
-
+GOOGLE_API_KEY = os.getenv("G_KEY")
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bloodbankDB',
+        'NAME': 'bloodbankdb',
         'USER': 'postgres',
         'PASSWORD': os.getenv('db_password'),
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': '5432',
     }}
 
 

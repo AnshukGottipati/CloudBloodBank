@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils import timezone
 from django.contrib.auth.models import User
+import requests
+from django.conf import settings
 
 # Create your models here.
 class Donor(models.Model):
@@ -52,12 +54,40 @@ class HealthcareWorker(models.Model):
 class BloodBank(models.Model):
     bb_id = models.BigAutoField(primary_key=True)
     name = models.CharField(max_length=50, default="Blood Bank")
-    phone = models.CharField(max_length=10,  default="9999999999")
-    address = models.CharField(max_length=512, unique=True)    
+    phone = models.CharField(max_length=10, default="9999999999")
+    address = models.CharField(max_length=512, unique=True)
+    zipcode = models.CharField(max_length=10, default="28277")
+    city = models.CharField(max_length=100, default="Charlotte")
+    state = models.CharField(max_length=100, default="North Carolina")
     admin_key = models.CharField(max_length=5, default="admin")
+
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
+
+    
+    def save(self, *args, **kwargs):
+        
+        if not self.latitude or not self.longitude:
+            full_address = f"{self.address}, {self.city}, {self.state} {self.zipcode}"
+            geocoded = self.geocode_address(full_address)
+            if geocoded:
+                self.latitude = geocoded['lat']
+                self.longitude = geocoded['lng']
+        super().save(*args, **kwargs)
+
+    def geocode_address(self, address):
+        api_key = settings.GOOGLE_API_KEY 
+        url = "https://maps.googleapis.com/maps/api/geocode/json"
+        params = {'address': address, 'key': api_key}
+        response = requests.get(url, params=params).json()
+        if response['status'] == 'OK':
+            loc = response['results'][0]['geometry']['location']
+            return {'lat': loc['lat'], 'lng': loc['lng']}
+        return None
 
     def __str__(self):
         return self.name
+
 
 
 class BloodbankWorker(models.Model):

@@ -1,38 +1,174 @@
 {% extends "base.html" %} 
 {% block title %} Find Blood Banks{% endblock %}
+
 {% block header %} Find Blood Banks{% endblock %}
-{% block content %} 
+
+{% block content %}
+
+<!-- Load Google Maps API -->
+<script
+  src="https://maps.googleapis.com/maps/api/js?key={{ GOOGLE_MAPS_API_KEY }}&libraries=places"
+  defer
+></script>
+
+<!-- Inject the API key into JavaScript -->
+<script>
+  const GOOGLE_MAPS_API_KEY = "{{ GOOGLE_MAPS_API_KEY }}";
+</script>
+
 <div class="hero-banner">
-    <h1>Find Blood Banks</h1>
-    <p>Locate your nearest blood donation center or upcoming blood drive. Every donation can save up to three lives.</p>
+  <h1>Find Blood Banks</h1>
+  <p>Locate your nearest blood donation center or upcoming blood drive. Every donation can save up to three lives.</p>
 </div>
 
-<div class="search-controls">
-    <input type="text" placeholder="Enter your address, city, or zip code...">
-    <a href="#" class="btn-outline"> Blood Banks</a>
+<form class="search-controls" id="searchForm">
+  <input type="text" placeholder="Enter your address" name="address" required>
+  <input type="text" placeholder="Enter your city" name="city" required>
+  <input type="text" placeholder="Enter your state" name="state" required>
+  <input type="text" placeholder="Enter your zip code" name="zip" required>
+  <button type="submit" class="btn-outline">Find Blood Banks</button>
+</form>
+
+<div class="map-and-results" style="display: flex; gap: 20px; margin-top: 30px;">
+  <div class="map-container" style="flex: 2;">
+    <div id="map" style="height: 500px; width: 100%; border: 1px solid #ccc;"></div>
+  </div>
+  <div class="results-container" style="flex: 1;">
+    <h3>Nearest Blood Banks</h3>
+    <ul id="results-list" style="list-style: none; padding-left: 0;"></ul>
+  </div>
 </div>
 
-<div class="map-container">
-    <div class="map-placeholder">
-        <div style="font-size: 18px; margin-bottom: 10px;">Interactive Map</div>
-        <div style="font-size: 14px; color: #666;">(Shows nearby blood banks)</div>
-    </div>
-</div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const findBtn = document.querySelector('.btn-outline');
+  const resultsList = document.getElementById('results-list');
+  const mapContainer = document.getElementById('map');
+  let map;
 
-<h2> Blood Banks Near You</h2>
-<div class="location-list">
-    {% for bloodbank in bloodbanks %}
-    <div class="location-item">
-        <div class="location-info">
-            <h3>{{ bloodbank.name }}</h3>
-            <p><span class="location-badge badge-open">Open Now</span></p>  <!-- You can customize based on real-time data -->
-            <p><strong>Address:</strong> {{ bloodbank.address }}</p>
-            <p><strong>Phone:</strong> {{ bloodbank.phone }}</p>
-        </div>
-    </div>
-    {% empty %}
-    <p>No blood banks available at the moment.</p>
-    {% endfor %}
-</div>
-</div>
+  function initMap(center = { lat: 35.2271, lng: -80.8431 }) {
+    map = new google.maps.Map(mapContainer, {
+      zoom: 10,
+      center: center
+    });
+
+    new google.maps.Marker({
+      position: center,
+      map: map,
+      title: 'Your Location'
+    });
+  }
+
+  function fetchGeocode(address) {
+    const url = `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=${GOOGLE_MAPS_API_KEY}`;
+    return fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        if (data.status === 'OK') {
+          return data.results[0].geometry.location;
+        }
+        throw new Error('Geocoding failed');
+      });
+  }
+
+  function getCSRFToken() {
+    const cookie = document.cookie.split(';').find(item => item.trim().startsWith('csrftoken='));
+    return cookie ? cookie.split('=')[1] : '';
+  }
+
+  const searchForm = document.getElementById('searchForm');
+  searchForm.addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const address = document.querySelector('input[name="address"]').value.trim();
+    const city = document.querySelector('input[name="city"]').value.trim();
+    const state = document.querySelector('input[name="state"]').value.trim();
+    const zip = document.querySelector('input[name="zip"]').value.trim();
+
+    if (!address || !city || !state || !zip) {
+      alert("Please fill out all fields.");
+      return;
+    }
+
+    const fullAddress = `${address}, ${city}, ${state} ${zip}`;
+    const formData = new FormData();
+    formData.append('address', fullAddress);
+
+    findBtn.disabled = true;
+    findBtn.textContent = 'Searching...';
+
+    fetch('/find-bloodbanks/', {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'X-CSRFToken': getCSRFToken(),
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      resultsList.innerHTML = '';
+
+      if (data.message) {
+        resultsList.innerHTML = `<li>${data.message}</li>`;
+        initMap(); // fallback center
+        return;
+      }
+
+      fetchGeocode(fullAddress).then(userLoc => {
+        // Wait for Google Maps to be available
+        const checkGoogle = () => {
+          if (window.google && window.google.maps) {
+            initMap(userLoc);
+            const bounds = new google.maps.LatLngBounds();
+            bounds.extend(userLoc);
+
+            new google.maps.Marker({
+              position: userLoc,
+              map: map,
+              title: "You",
+              icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+            });
+
+            data.bloodbanks.forEach(bank => {
+              const li = document.createElement('li');
+              li.innerHTML = `
+                <strong>${bank.name}</strong><br>
+                ${bank.address}, ${bank.city}, ${bank.state} ${bank.zipcode}<br>
+                Phone: ${bank.phone}<br>
+                Distance: ${bank.distance.toFixed(2)} km
+              `;
+              resultsList.appendChild(li);
+
+              const bankLatLng = new google.maps.LatLng(bank.latitude, bank.longitude);
+              new google.maps.Marker({
+                position: bankLatLng,
+                map: map,
+                title: bank.name
+              });
+
+              bounds.extend(bankLatLng);
+            });
+
+            map.fitBounds(bounds);
+          } else {
+            setTimeout(checkGoogle, 100);
+          }
+        };
+
+        checkGoogle();
+      });
+    })
+    .catch(error => {
+      console.error('Fetch error:', error);
+      resultsList.innerHTML = `<li>Error finding blood banks. Please try again.</li>`;
+      initMap(); // fallback center
+    })
+    .finally(() => {
+      findBtn.disabled = false;
+      findBtn.textContent = 'Find Blood Banks';
+    });
+  });
+});
+</script>
+
 {% endblock %}

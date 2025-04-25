@@ -10,6 +10,92 @@ from datetime import timedelta, datetime
 from django.utils import timezone
 from django.utils.dateparse import parse_date
 from collections import defaultdict
+from math import radians, sin, cos, sqrt, atan2
+import requests
+from django.http import JsonResponse
+from django.conf import settings
+
+
+GOOGLE_MAPS_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
+GOOGLE_MAPS_API_KEY= getattr(settings, "GOOGLE_API_KEY", "")
+
+# Function to geocode an address using Google Maps Geocoding API
+def geocode_address(address):
+    params = {
+        "address": address,
+        "key": GOOGLE_MAPS_API_KEY
+    }
+
+    response = requests.get(GOOGLE_MAPS_API_URL, params=params)
+
+    if response.status_code == 200:
+        data = response.json()
+        if data["status"] == "OK":
+            location = data["results"][0]["geometry"]["location"]
+            return location["lat"], location["lng"]
+
+    return None, None
+
+
+# Haversine formula to calculate distance between two coordinates (in kilometers)
+def haversine_distance(lat1, lon1, lat2, lon2):
+    R = 6371.0  # Earth radius in km
+    dlat = radians(lat2 - lat1)
+    dlon = radians(lon2 - lon1)
+    a = sin(dlat / 2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2)**2
+    c = 2 * atan2(sqrt(a), sqrt(1 - a))
+    return R * c
+
+
+# View to find the closest blood banks
+def find_bloodbanks(request):
+    if request.method == "POST":
+        user_address = request.POST.get('address')
+        user_lat, user_lon = geocode_address(user_address)
+
+        if user_lat is None or user_lon is None:
+            return JsonResponse({
+                "error": "Unable to geocode address. Please check the address."
+            }, status=400)
+
+        bloodbanks = BloodBank.objects.all()
+
+        distances = []
+        for bloodbank in bloodbanks:
+            bb_lat = bloodbank.latitude
+            bb_lon = bloodbank.longitude
+            distance = haversine_distance(user_lat, user_lon, bb_lat, bb_lon)
+            distances.append((bloodbank, distance))
+
+        distances.sort(key=lambda x: x[1])
+        MAX_DISTANCE_KM = 50
+
+        # Take up to 3 within range, but keep the distance for each
+        closest_pairs = [pair for pair in distances[:3] if pair[1] <= MAX_DISTANCE_KM]
+
+        if not closest_pairs:
+            return JsonResponse({
+                "message": "No nearby blood banks found within a reasonable distance."
+            }, status=404)
+
+        result = [{
+            "name": bb.name,
+            "address": bb.address,
+            "city": bb.city,
+            "state": bb.state,
+            "zipcode": bb.zipcode,
+            "phone": bb.phone,
+            "latitude": bb.latitude,
+            "longitude": bb.longitude,
+            "distance": round(distance, 2),
+        } for bb, distance in closest_pairs]
+
+        return JsonResponse({"bloodbanks": result})
+
+    # GET: Render template and pass Maps API key securely in context
+    return render(request, "find-bloodbanks.html", {
+        "GOOGLE_MAPS_API_KEY": settings.GOOGLE_API_KEY
+    })
 
 # Create your views here.
 def home(request):
@@ -41,8 +127,7 @@ def home(request):
             messages.error(request,"Invalid email or password.")
     return render(request, "index.html")
     
-def find_bloodbanks(request):
-    return render(request, "find-bloodbanks.html")
+
 
 def login_user(request):
     if request.method == 'POST':
