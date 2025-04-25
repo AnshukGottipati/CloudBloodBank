@@ -22,6 +22,6 @@ class Command(BaseCommand):
                 bb.latitude = geocoded['lat']
                 bb.longitude = geocoded['lng']
                 bb.save()
-                self.stdout.write(f"✅ Updated {bb.name}: {bb.latitude}, {bb.longitude}")
+                self.stdout.write(f"Updated {bb.name}: {bb.latitude}, {bb.longitude}")
             else:
-                self.stdout.write(f"❌ Failed to geocode address for {bb.name}")
+                self.stdout.write(f"Failed to geocode address for {bb.name}")

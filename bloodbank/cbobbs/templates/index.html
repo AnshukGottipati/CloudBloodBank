@@ -1,82 +1,41 @@
+{% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Cloud Based Online Blood Bank System">
-    <meta name="keywords" content="app free blood donation">
-    <title>
-        {% block title %}
-        CBOBBS 
-        {% endblock %}
-    </title>    
-    <link rel="shortcut icon" type="image/png" href="{% static 'img/logo_placeholder.png' %}">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js" integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq" crossorigin="anonymous"></script>
-</head>
-<body>
-    <header>
-        <div class='title'>                
-            <a href="{% url 'home' %}" class="nav-logo">
-                <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo">
-            </a>
-            <h1>{% block header %}CBOBBS{% endblock %} </h1> 
-        </div>
-    
-        <div class="header-right">
-            <div class="dropdown">
-            </div>
-        </div>
-    </header>
 
-    {% if messages %}
-        <ul class="messages" style="padding:5px 15px;">
-            {% for message in messages %}
-                <div class="alert alert-primary" role="alert">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        </ul>
+{% block title %}Messages{% endblock %}
+{% block header %}Your Messages{% endblock %}
+
+{% block content %}
+    <div class="logo-section">
+        <div class="big-logo">
+            <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo" style="width: 250px; height: auto; margin-bottom: 30px;">
+        </div>
+        <h2 style="text-align: center; margin-bottom: 20px;">Cloud Based Online Blood Bank</h2>
+        <p style="text-align: center; margin-bottom: 30px; font-size: 18px; color: #666;">Your donation can make a difference. Each donation can save up to three lives. Find a donation center near you today.</p>
+        <div class="button-container">
+            <a href="{% url 'find-bloodbanks' %}" class="login">Find Nearest Blood Bank</a>
+            <a href="{% url 'eligibility' %}" class="btn-outline">Check your Eligibility</a>
+        </div>
+    </div>
+    
+    {% if not request.user.is_authenticated %} 
+        <div class="login-section">
+            <div class="login-form">
+                <h2>Login</h2>
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="username">Email</label>
+                        <input type="email" name="username" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password"name="password" placeholder="Enter your password" required>
+                    </div>
+                    
+                    <button type="submit" class="btn-outline">Login</button>
+                </form>                    
+            </div>
+        </div>
     {% endif %}
-        
-    <main class="split-container"> 
-            <div class="logo-section">
-                <div class="big-logo">
-                    <img src="{% static 'img/logo_placeholder.png' %}" alt="CBOBBS Logo" style="width: 250px; height: auto; margin-bottom: 30px;">
-                </div>
-                <h2 style="text-align: center; margin-bottom: 20px;">Cloud Based Online Blood Bank</h2>
-                <p style="text-align: center; margin-bottom: 30px; font-size: 18px; color: #666;">Your donation can make a difference. Each donation can save up to three lives. Find a donation center near you today.</p>
-                <div class="button-container">
-                    <a href="{% url 'find-bloodbanks' %}" class="login">Find Nearest Blood Bank</a>
-                    <a href="{% url 'eligibility' %}" class="btn-outline">Check your Eligibility</a>
-                </div>
-            </div>
-            
-            <div class="login-section">
-                <div class="login-form">
-                    <h2>Login</h2>
-                    <form action="" method="POST">
-                        {% csrf_token %}
-                        <div class="form-group">
-                            <label for="username">Email</label>
-                            <input type="email" name="username" placeholder="Enter your email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="password">Password</label>
-                            <input type="password"name="password" placeholder="Enter your password" required>
-                        </div>
-                        
-                        <button type="submit" class="btn-outline">Login</button>
-                    </form>                    
-                </div>
-            </div>
-     
-    </main> 
-    <footer>
-        © 2025 CBOBBS
-    </footer>
-</body>
-</html>
+
+{% endblock %}

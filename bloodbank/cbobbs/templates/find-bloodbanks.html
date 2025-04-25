@@ -18,18 +18,24 @@
 
 <div class="hero-banner">
   <h1>Find Blood Banks</h1>
-  <p>Locate your nearest blood donation center or upcoming blood drive. Every donation can save up to three lives.</p>
+  <p>Locate your nearest blood donation center.</p>
 </div>
 
-<form class="search-controls" id="searchForm">
-  <input type="text" placeholder="Enter your address" name="address" required>
-  <input type="text" placeholder="Enter your city" name="city" required>
-  <input type="text" placeholder="Enter your state" name="state" required>
-  <input type="text" placeholder="Enter your zip code" name="zip" required>
-  <button type="submit" class="btn-outline">Find Blood Banks</button>
+<h5 style="padding:0px 20px;">Input your address here:</h5>
+<form class="search-controls" id="searchForm" style="display: flex; flex-direction: column; width: 100%;">
+  <div style="width: 100%; padding: 20px;">
+    <input type="text" placeholder="Enter street address" name="address" required style="width: 100%; padding: 10px;">
+  </div>
+  <div style="width: 100%; display: flex; gap: 10px; padding: 0px 20px;">
+    <input type="text" placeholder="Enter city" name="city" required style="flex: 1; padding: 10px;">
+    <input type="text" placeholder="Enter state" name="state" required style="flex: 1; padding: 10px;">
+    <input type="text" placeholder="Enter zip code" name="zip" required style="flex: 1; padding: 10px;">
+    <button type="submit" class="btn-outline" style="flex: 1; padding: 10px;">Find Blood Banks</button>
+  </div>
 </form>
 
-<div class="map-and-results" style="display: flex; gap: 20px; margin-top: 30px;">
+
+<div class="map-and-results" style="display: flex; gap: 20px; margin-top: 30px; padding: 20px;">
   <div class="map-container" style="flex: 2;">
     <div id="map" style="height: 500px; width: 100%; border: 1px solid #ccc;"></div>
   </div>

@@ -1,19 +1,19 @@
-from django.shortcuts import render,redirect
-from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
-from .forms import BloodBankWorkerRegistrationForm, HealthCareWorkerRegistrationForm, DonorRegistrationForm, LogDonationForm, LogTransactionForm, UpdateStatusForm, TransportForm
-from django.db import transaction 
-from .decorators import donor_required, hcworker_required, hcworker_admin_required, bbworker_required, bbworker_admin_required
-
-from .models import BloodbankWorker, BloodBank, HealthcareWorker, Donor, Appointment, Donation, Message, MessageRecipient
 from datetime import timedelta, datetime
-from django.utils import timezone
-from django.utils.dateparse import parse_date
 from collections import defaultdict
 from math import radians, sin, cos, sqrt, atan2
 import requests
+from django.shortcuts import render,redirect
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.db import transaction 
+from django.utils import timezone
+from django.utils.dateparse import parse_date
 from django.http import JsonResponse
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from .forms import BloodBankWorkerRegistrationForm, HealthCareWorkerRegistrationForm, DonorRegistrationForm, LogDonationForm, LogTransactionForm, UpdateStatusForm, TransportForm
+from .models import BloodbankWorker, BloodBank, HealthcareWorker, Donor, Appointment, Donation, Message, MessageRecipient
+from .decorators import donor_required, hcworker_required, hcworker_admin_required, bbworker_required, bbworker_admin_required
 
 
 GOOGLE_MAPS_API_URL = "https://maps.googleapis.com/maps/api/geocode/json"
@@ -36,7 +36,6 @@ def geocode_address(address):
 
     return None, None
 
-
 # Haversine formula to calculate distance between two coordinates (in kilometers)
 def haversine_distance(lat1, lon1, lat2, lon2):
     R = 6371.0  # Earth radius in km
@@ -45,7 +44,6 @@ def haversine_distance(lat1, lon1, lat2, lon2):
     a = sin(dlat / 2)**2 + cos(radians(lat1)) * cos(radians(lat2)) * sin(dlon / 2)**2
     c = 2 * atan2(sqrt(a), sqrt(1 - a))
     return R * c
-
 
 # View to find the closest blood banks
 def find_bloodbanks(request):
@@ -126,9 +124,8 @@ def home(request):
         else:
             messages.error(request,"Invalid email or password.")
     return render(request, "index.html")
-    
 
-
+# Login User
 def login_user(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -158,14 +155,17 @@ def login_user(request):
             messages.error(request,"Invalid email or password.")
     return render(request, "login.html")
 
+# Logout user
 def logout_user(request):
     logout(request)
     messages.success(request,"You have been Logged out!")
     return redirect("home")
 
+# Elibigibility form
 def eligibility(request):
     return render(request, "eligibility.html")
 
+# Donor's dash
 @donor_required
 def donor_dash(request):
     donor = request.user.donor 
@@ -302,7 +302,6 @@ def donor_profile(request):
         'donor': donor,
         'appointments': appointments
     })
-
 
 @bbworker_required
 def bbworker_donors(request):    
@@ -713,29 +712,26 @@ def register_hcworker(request):
         'form': form
         })
 
-@donor_required
-def donor_inbox(request):
+# User inbox
+@login_required
+def inbox(request):  
+    if hasattr(request.user, 'hcworker'):
+        title = request.user.hcworker.health_center
+    elif hasattr(request.user, 'bbworker'):
+        title = request.user.bbworker.blood_bank
+    elif hasattr(request.user, 'donor'):
+        title = request.user.donor
+    else:
+        return render(request, 'access-denied.html')
+    
     user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
-    return render(request, 'donor/inbox.html', {'message_list': user_messages})
-
-@bbworker_required
-def bbworker_inbox(request):
-    blood_bank = request.user.bbworker.blood_bank
-    user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
-    return render(request, 'bbworker/inbox.html', {
-        'blood_bank': blood_bank, 
-        'message_list': user_messages})
-
-@hcworker_required
-def hcworker_inbox(request):    
-    health_center = request.user.hcworker.health_center
-    user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
-    return render(request, 'hcworker/inbox.html', {      
-        "health_center": health_center,
+    
+    return render(request, 'inbox.html', {      
+        "title": title,
         'message_list': user_messages
         })
 
-
+# Simplifying sending messages to a donor
 def send_donor_message(donor, title, body):
     message = Message.objects.create(
         title=title,
