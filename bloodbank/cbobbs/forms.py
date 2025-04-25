@@ -183,23 +183,33 @@ class DonorRegistrationForm(UserCreationForm):
     
 class LogDonationForm(forms.Form):
     donor_email = forms.EmailField()
-    donation_date = forms.DateField(widget=forms.SelectDateWidget)
+    donation_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
 
 class UpdateStatusForm(forms.Form):
     donor_email = forms.EmailField()
-    donation_date = forms.DateField(widget=forms.SelectDateWidget)
+    donation_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
     status = forms.ChoiceField(choices=STATUS_CHOICES)
 
 class LogTransactionForm(forms.Form):
     donor_email = forms.EmailField()
-    donation_date = forms.DateField(widget=forms.SelectDateWidget)
-    transaction_date = forms.DateField(widget=forms.SelectDateWidget)
+    donation_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
+    transaction_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
 
 class TransportForm(forms.Form):
     BLOOD_TYPE_CHOICES = Donor.BLOOD_TYPE_CHOICES
 
     blood_type = forms.ChoiceField(choices=BLOOD_TYPE_CHOICES)
-    transfer_date = forms.DateField(widget=forms.SelectDateWidget)
+    transfer_date = forms.DateField(
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
     health_center = forms.ModelChoiceField(queryset=HealthCenter.objects.all())
 
     def __init__(self, *args, **kwargs):

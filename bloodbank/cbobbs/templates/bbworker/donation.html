@@ -15,41 +15,49 @@
 <div id="log" class="tab-content active">
     <h2>Log Donation</h2>
     <form method="post">
-        {% csrf_token %}
-        {{ log_form.as_p }}
-        <div></div>
-        <input type="hidden" name="form_type" value="log">
-        <button type="submit">Log Donation</button>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ log_form.as_p }}
+            <div></div>
+            <input type="hidden" name="form_type" value="log">
+            <button type="submit" class='btn-outline'>Log Donation</button>
+        </div>
     </form>
 </div>
 
 <div id="status" class="tab-content">
     <h2>Update Status</h2>
     <form method="post">
-        {% csrf_token %}
-        {{ status_form.as_p }}
-        <input type="hidden" name="form_type" value="status">
-        <button type="submit">Update Status</button>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ status_form.as_p }}
+            <input type="hidden" name="form_type" value="status">
+            <button type="submit" class='btn-outline'>Update Status</button>
+    </div>
     </form>
 </div>
 
 <div id="transaction" class="tab-content">
     <h2>Log Transaction</h2>
     <form method="post">
-        {% csrf_token %}
-        {{ transaction_form.as_p }}
-        <input type="hidden" name="form_type" value="transaction">
-        <button type="submit">Log Transaction</button>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ transaction_form.as_p }}
+            <input type="hidden" name="form_type" value="transaction">
+            <button type="submit" class='btn-outline'>Log Transaction</button>
+    </div>
     </form>
 </div>
 
 <div id="transport" class="tab-content">
     <h2>Transport Donations</h2>
     <form method="post">
-        {% csrf_token %}
-        {{ transport_form.as_p }}
-        <input type="hidden" name="form_type" value="transport">
-        <button type="submit">Transport</button>
+        <div class="form-group">
+            {% csrf_token %}
+            {{ transport_form.as_p }}
+            <input type="hidden" name="form_type" value="transport">
+            <button type="submit" class='btn-outline'>Transport</button>
+    </div>
     </form>
 </div>
 
