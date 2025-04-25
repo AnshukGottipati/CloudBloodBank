@@ -218,21 +218,23 @@ def donor_profile(request):
         'appointments': appointments
     })
 
-@bbworker_required
-def bbworker_dash(request):
-    return render(request, "bbworker/dashboard.html")
 
 @bbworker_required
 def bbworker_donors(request):    
     bbworker = request.user.bbworker 
+    blood_bank = bbworker.blood_bank
 
     bb_donations = Donation.objects.filter(blood_bank=bbworker.blood_bank)
     donations = bb_donations.order_by('-donation_date')
      
-    return render(request, 'bbworker/donors.html', {'donations': donations})
+    return render(request, 'bbworker/donors.html', {
+        'blood_bank':blood_bank, 
+        'donations': donations
+        })
 
 @bbworker_required
 def bbworker_donor_notes(request): 
+    blood_bank = request.user.bbworker.blood_bank
     donor = None
     email = request.GET.get('email')
     
@@ -255,14 +257,18 @@ def bbworker_donor_notes(request):
 
         messages.success(request, "Note saved and donor notified.")
         
-    return render(request, 'bbworker/donor-notes.html', {'donor': donor, 'email': email})
+    return render(request, 'bbworker/donor-notes.html', {
+        'blood_bank': blood_bank, 
+        'donor': donor, 
+        'email': email})
 
 @bbworker_required
 def bbworker_donation(request):
     log_form = LogDonationForm()
     status_form = UpdateStatusForm()
     transaction_form = LogTransactionForm()
-    transport_form = TransportForm()
+    transport_form = TransportForm()    
+    blood_bank = request.user.bbworker.blood_bank
 
     if request.method == 'POST':
         form_type = request.POST.get('form_type')
@@ -375,6 +381,7 @@ def bbworker_donation(request):
                     )
 
     context = {
+        'blood_bank': blood_bank,
         'log_form': log_form,
         'status_form': status_form,
         'transaction_form': transaction_form,
@@ -452,21 +459,17 @@ def bbworker_appt(request):
 
 @bbworker_admin_required
 def bbworker_workers(request):
-    bloodbank = request.user.bbworker.blood_bank
-    workers = BloodbankWorker.objects.filter(blood_bank=bloodbank)
-    return render(request, 'bbworker/workers.html', {'workers': workers})
+    blood_bank = request.user.bbworker.blood_bank
+    workers = BloodbankWorker.objects.filter(blood_bank=blood_bank)
+    return render(request, 'bbworker/workers.html', {
+        'workers': workers,
+        'blood_bank': blood_bank
+        })
 
 @hcworker_required
 def hcworker_bloodsupply(request):
-    user = request.user
-    try:
-        worker = HealthcareWorker.objects.select_related('health_center').get(hc_worker_id=user)
-        health_center = worker.health_center
-    except HealthcareWorker.DoesNotExist:
-        return render(request, "hcworker/bloodsupply.html", {
-            "bloodbank_stats": {},
-            "healthcenter_stats": {},
-        })
+    worker = HealthcareWorker.objects.select_related('health_center').get(hc_worker_id=request.user)
+    health_center = worker.health_center
 
     if request.method == "POST":
         blood_type_used = request.POST.get("blood_type")
@@ -487,24 +490,32 @@ def hcworker_bloodsupply(request):
     bloodbank_stats = defaultdict(lambda: {bt: 0 for bt in BLOOD_TYPES})
     healthcenter_stats = {health_center.name: {bt: 0 for bt in BLOOD_TYPES}}
 
+    for bank in BloodBank.objects.all():
+        bloodbank_stats[bank.name] = {bt: 0 for bt in BLOOD_TYPES}
+
     donations = Donation.objects.select_related('blood_bank', 'health_center').all()
 
-    for d in donations:
+    for d in donations: 
         if d.health_center == health_center and d.status == 'delivered':
             healthcenter_stats[health_center.name][d.blood_type] += 1
             
-        elif d.health_center is None:
+        elif d.health_center is None and d.blood_bank:
             bloodbank_stats[d.blood_bank.name][d.blood_type] += 1
 
 
     return render(request, "hcworker/bloodsupply.html", {
+        "health_center": health_center,
         "bloodbank_stats": dict(bloodbank_stats),
         "healthcenter_stats": healthcenter_stats,
         "blood_types": BLOOD_TYPES
     })
 
 @hcworker_required
-def hcworker_request_blood(request):    
+def hcworker_request_blood(request):  
+    
+    hc_worker = HealthcareWorker.objects.get(hc_worker_id=request.user)
+    health_center = hc_worker.health_center
+
     if request.method == "POST":
         priority = request.POST.get('priority')
         blood_types = request.POST.getlist('blood-types[]')
@@ -514,19 +525,16 @@ def hcworker_request_blood(request):
             return redirect('hcworker:send_message')
         
         title = f"{priority.capitalize()} - {', '.join(blood_types)} requested"        
-        try:
-            hc_worker = HealthcareWorker.objects.get(hc_worker_id=request.user)
-            center = hc_worker.health_center
-            body = (
-                f"Blood types needed: {', '.join(blood_types)}\n\n"
-                f"Health Center Details:\n"
-                f"Name: {center.name}\n"
-                f"Address: {center.address}\n"
-                f"Phone: {center.phone}"
-            )
-        except HealthcareWorker.DoesNotExist:
-            messages.error(request, "HealthCareWorker not found.")
-            return redirect('hcworker:send_message')     
+       
+        hc_worker = HealthcareWorker.objects.get(hc_worker_id=request.user)
+        health_center = hc_worker.health_center
+        body = (
+            f"Blood types needed: {', '.join(blood_types)}\n\n"
+            f"Health Center Details:\n"
+            f"Name: {health_center.name}\n"
+            f"Address: {health_center.address}\n"
+            f"Phone: {health_center.phone}"
+        )  
 
         bb_message = Message.objects.create(title=title, body=body)
         for bb_worker in BloodbankWorker.objects.all():
@@ -540,8 +548,8 @@ def hcworker_request_blood(request):
         donor_body = (
             f"Dear Donor, "
             f"We are currently experiencing a {priority} need for blood donations of your blood type "
-            f"at {center.name}. Please consider donating soon to help save lives. "
-            f"Location: {center.address} || Phone: {center.phone}"
+            f"at {health_center.name}. Please consider donating soon to help save lives. "
+            f"Location: {health_center.address} || Phone: {health_center.phone}"
         )
         donor_message = Message.objects.create(title=donor_title, body=donor_body)
         for donor in Donor.objects.filter(blood_type__in=blood_types):
@@ -553,16 +561,21 @@ def hcworker_request_blood(request):
 
         messages.success(request, "Messages successfully sent to blood banks and eligible donors.")
     
-    return render(request, 'hcworker/send-message.html')
+    return render(request, 'hcworker/send-message.html', {"health_center": health_center})
 
 @hcworker_admin_required
 def hcworker_workers(request):
-    healthcenter = request.user.hcworker.health_center
-    workers = HealthcareWorker.objects.filter(health_center=healthcenter)
-    return render(request, 'bbworker/workers.html', {'workers': workers})
+    health_center = request.user.hcworker.health_center
+    workers = HealthcareWorker.objects.filter(health_center=health_center)
+    return render(request, 'hcworker/workers.html', {
+        "health_center": health_center,
+        'workers': workers}
+        )
 
 @bbworker_required
-def register_donor(request):
+def register_donor(request):    
+    blood_bank = request.user.bbworker.blood_bank
+
     if request.method == 'POST':
         form = DonorRegistrationForm(request.POST)
         if form.is_valid():
@@ -573,10 +586,15 @@ def register_donor(request):
     else:
         form = DonorRegistrationForm()
     
-    return render(request, 'bbworker/register-donor.html', {'form': form})
+    return render(request, 'bbworker/register-donor.html', {
+        'blood_bank': blood_bank, 
+        'form': form
+        })
     
 @bbworker_admin_required
-def register_bbworker(request):
+def register_bbworker(request):    
+    blood_bank = request.user.bbworker.blood_bank
+
     if request.method == 'POST':
         form = BloodBankWorkerRegistrationForm(request.POST, request=request)
         if form.is_valid():
@@ -588,10 +606,13 @@ def register_bbworker(request):
     else:
         form = BloodBankWorkerRegistrationForm(request=request)
 
-    return render(request, 'bbworker/register-bbworker.html', {'form': form})
+    return render(request, 'bbworker/register-bbworker.html', {
+        'blood_bank': blood_bank, 
+        'form': form})
 
 @hcworker_admin_required
-def register_hcworker(request):
+def register_hcworker(request):    
+    health_center = request.user.hcworker.health_center
     if request.method == 'POST':
         form = HealthCareWorkerRegistrationForm(request.POST, request=request)
         if form.is_valid():
@@ -602,24 +623,33 @@ def register_hcworker(request):
     else:
         form = HealthCareWorkerRegistrationForm(request=request)
 
-    return render(request, 'hcworker/register-hcworker.html', {'form': form})
-
+    return render(request, 'hcworker/register-hcworker.html', {        
+        "health_center": health_center,
+        'form': form
+        })
 
 @donor_required
 def donor_inbox(request):
     user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
-    return render(request, 'donor/inbox.html', {'messages': user_messages})
-
+    return render(request, 'donor/inbox.html', {'message_list': user_messages})
 
 @bbworker_required
 def bbworker_inbox(request):
+    blood_bank = request.user.bbworker.blood_bank
     user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
-    return render(request, 'bbworker/inbox.html', {'messages': user_messages})
+    return render(request, 'bbworker/inbox.html', {
+        'blood_bank': blood_bank, 
+        'message_list': user_messages})
 
 @hcworker_required
-def hcworker_inbox(request):
+def hcworker_inbox(request):    
+    health_center = request.user.hcworker.health_center
     user_messages = MessageRecipient.objects.filter(user=request.user).order_by('-send_date')
-    return render(request, 'hcworker/inbox.html', {'messages': user_messages})
+    return render(request, 'hcworker/inbox.html', {      
+        "health_center": health_center,
+        'message_list': user_messages
+        })
+
 
 def send_donor_message(donor, title, body):
     message = Message.objects.create(

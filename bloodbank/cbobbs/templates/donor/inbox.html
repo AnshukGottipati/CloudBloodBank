@@ -9,7 +9,7 @@
 </div>
 
 <div class="message-list">
-    {% for recipient in messages %}
+    {% for recipient in message_list %}
         <div class="card mb-3">
             <div class="card-body">
                 <strong>{{ recipient.message.title }}</strong> - [{{ recipient.send_date|date:"F j, Y, g:i A" }}]
