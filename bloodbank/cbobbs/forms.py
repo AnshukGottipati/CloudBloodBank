@@ -30,12 +30,10 @@ class BloodBankWorkerRegistrationForm(UserCreationForm):
     first_name = forms.CharField(max_length=150, required=True)
     last_name = forms.CharField(max_length=150, required=True)
     role = forms.ChoiceField(choices=ROLE_CHOICES, required=True)
-    blood_bank = forms.ModelChoiceField(queryset=BloodBank.objects.all(), required=True)
-    admin_key = forms.CharField(max_length=5, required=False, help_text="Required if registering for a different blood bank.")
 
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'role', 'blood_bank', 'admin_key', 'password1', 'password2']
+        fields = ['email', 'first_name', 'last_name', 'role', 'password1', 'password2']
 
     def __init__(self, *args, **kwargs):
         self.request = kwargs.pop('request', None)
@@ -49,28 +47,25 @@ class BloodBankWorkerRegistrationForm(UserCreationForm):
             raise ValidationError("A blood bank worker with this email already exists.")
         return email
 
-    def clean(self):
-        cleaned_data = super().clean()
-        selected_bank = cleaned_data.get('blood_bank')
-        entered_key = cleaned_data.get('admin_key')
-
-        if selected_bank and selected_bank:
-            if selected_bank.admin_key != entered_key:
-                self.add_error('admin_key', "Invalid admin key for selected blood bank.")
-
-
-        return cleaned_data
-
     def save(self, commit=True):
         user = super().save(commit=False)
-        email = self.cleaned_data['email']
-        user.username = email
+        user.username = self.cleaned_data['email']
+        
         if commit:
             user.save()
 
-        full_name = f"{self.cleaned_data['first_name']} {self.cleaned_data['last_name']}"
+        first_name = self.cleaned_data['first_name']
+        last_name = self.cleaned_data['last_name']
+        full_name = f"{first_name} {last_name}"
+        
         role = self.cleaned_data['role']
-        blood_bank = self.cleaned_data['blood_bank']
+        email = self.cleaned_data['email']
+
+        try:
+            blood_bank = self.request.user.bbworker.blood_bank
+        except AttributeError:
+            if not blood_bank:
+                raise ValidationError("No blood bank available to assign to this worker.")
 
         BloodbankWorker.objects.create(
             bb_worker_id=user,
@@ -105,23 +100,24 @@ class HealthCareWorkerRegistrationForm(UserCreationForm):
             raise ValidationError("A healthcare worker with this email already exists.")
         return email
 
+
     def save(self, commit=True):
         user = super().save(commit=False)
         user.username = self.cleaned_data['email']
+
         if commit:
             user.save()
 
         first_name = self.cleaned_data['first_name']
         last_name = self.cleaned_data['last_name']
         full_name = f"{first_name} {last_name}"
-        email = self.cleaned_data['email']
+
         role = self.cleaned_data['role']
+        email = self.cleaned_data['email']
 
         try:
-            health_center = self.request.user.hcworker.health_center.first()
+            health_center = self.request.user.hcworker.health_center
         except AttributeError:
-            #raise ValidationError("Your account is not linked to a health center.")
-            health_center = HealthCenter.objects.first()  # Gets the first BloodBank entry
             if not health_center:
                 raise ValidationError("No blood bank available to assign to this worker.")
 

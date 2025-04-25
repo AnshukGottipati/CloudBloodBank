@@ -51,26 +51,6 @@
             </div>
         </div>
         
-        <div class="form-group">
-            <label for="{{ form.blood_bank.id_for_label }}">{{ form.blood_bank.label }}</label>
-            {{ form.blood_bank }}
-            <div class="errors">
-                {% for error in form.blood_bank.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div>
-        
-        <div class="form-group">
-            <label for="{{ form.admin_key.id_for_label }}">{{ form.admin_key.label }}</label>
-            {{ form.admin_key }}
-            <div class="errors">
-                {% for error in form.admin_key.errors %}
-                    <p>{{ error }}</p>
-                {% endfor %}
-            </div>
-        </div>
-        
         <div class="form-row">
             <div class="form-group">
                 <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
