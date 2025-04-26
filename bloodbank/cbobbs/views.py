@@ -503,7 +503,7 @@ def bbworker_appt(request):
                     min_eligible_date = last_appt.appt_time + timedelta(days=56)
                     if appt_datetime < min_eligible_date:
                         messages.error(request, f"You must wait 56 days between appointments. Next eligible date: {min_eligible_date.date()}")
-                        return redirect('donor-appt')
+                        return redirect('bb-appt')
     
                     Appointment.objects.create(
                         appt_date=appt_date,
@@ -517,7 +517,7 @@ def bbworker_appt(request):
         else:
             messages.error(request, "Please fill out all fields to create an appointment.")
 
-        return redirect('donor-appt')
+        return redirect('bb-appt')
 
     time_slots = []
     start_time = datetime.strptime("08:00", "%H:%M")
