@@ -76,7 +76,7 @@ For Healthcare Workers:
 -requests==2.32.3
 
 ## Deployment
-Follow the EC2 + Gunicorn + Nginx steps outlined in deployment.txt
+Follow the EC2 + Gunicorn + Nginx steps outlined in README
 
 ## License
 MIT License
