@@ -63,9 +63,17 @@ For Healthcare Workers:
     Communicate with blood banks to notify them when blood supplies are running low and request replenishment.
 
 ## Requirements
-- Python 3.10+
-- Django 4.2+
-- PostgreSQL 14+
+asgiref==3.8.1
+Django==4.2.20
+psycopg==3.2.6
+psycopg2-binary==2.9.10
+python-dotenv==1.1.0
+sqlparse==0.5.3
+typing_extensions==4.13.2
+tzdata==2025.2
+#django-gis>=3.0.0 
+gunicorn==23.0.0
+requests==2.32.3
 
 ## Deployment
 Follow the EC2 + Gunicorn + Nginx steps outlined in deployment.txt
