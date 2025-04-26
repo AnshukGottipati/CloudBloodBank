@@ -110,22 +110,5 @@ Additionally, for test data in the database you can run 'python  populate_db.py'
 
 17. Link domain to EC2 IPv4 address in Cloudflare (or other DNS provider).
 
-18. (Optional) Set up SSL with Certbot:
-
-    ```bash
-    sudo apt install certbot python3-certbot-nginx
-    sudo certbot --nginx
-    ```
-
----
-
-**Bonus Recommendations:**
-
-- Set `DEBUG = False` in Django settings.
-- Use `.env` files to store environment variables.
-- Install UFW and Fail2Ban for extra server security.
-
----
-
 **End of Deployment Steps**
 
