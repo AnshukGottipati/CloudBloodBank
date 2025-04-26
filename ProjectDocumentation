@@ -1,4 +1,4 @@
-```
+
 # My Django Blog Project
 
 ## Overview
@@ -14,66 +14,66 @@ This is a blog application built with Django where users can create, edit, and c
 ## Usage
 For Blood Donors:
 
-    Log into your account using your username and password to access your donor profile.
+    - Log into your account using your username and password to access your donor profile.
 
-    View and update your personal information (such as contact or health information) to ensure records are current.
+    - View and update your personal information (such as contact or health information) to ensure records are current.
 
-    View your donation history including dates, locations, and details of past donations.
+    - View your donation history including dates, locations, and details of past donations.
 
-    Find nearby blood banks to plan visits based on your location.
+    - Find nearby blood banks to plan visits based on your location.
 
-    Receive notifications when the local blood supply for your blood type is low, encouraging timely donations.
+    - Receive notifications when the local blood supply for your blood type is low, encouraging timely donations.
 
-    View payment history to check if you have received any compensation for your donations.
+    - View payment history to check if you have received any compensation for your donations.
 
-    Book appointments with local blood banks for future donations.
+    - Book appointments with local blood banks for future donations.
 
 For Blood Bank Employees:
 
-    Log into your employee account using your assigned credentials to manage donor and blood supply data.
+    - Log into your employee account using your assigned credentials to manage donor and blood supply data.
 
-    Create new donor accounts when new donors provide personal and medical information.
+    - Create new donor accounts when new donors provide personal and medical information.
 
-    Edit or update donor records to maintain accurate and up-to-date information.
+    - Edit or update donor records to maintain accurate and up-to-date information.
 
-    Request creation of employee accounts with appropriate permissions.
+    - Request creation of employee accounts with appropriate permissions.
 
-    Add blood donations to the system when a donor contributes blood.
+    - Add blood donations to the system when a donor contributes blood.
 
-    Update the overall blood supply inventory after receiving donations.
+    - Update the overall blood supply inventory after receiving donations.
 
-    View healthcare facilities in the region that request blood supplies.
+    - View healthcare facilities in the region that request blood supplies.
 
-    Manage and monitor donor appointments by creating or editing appointment details.
+    - Manage and monitor donor appointments by creating or editing appointment details.
 
-    Communicate with donors via messages about upcoming events, urgent donation needs, or other updates.
+    - Communicate with donors via messages about upcoming events, urgent donation needs, or other updates.
 
-    Record payment transactions made to donors.
+    - Record payment transactions made to donors.
 
 For Healthcare Workers:
 
-    Log into your healthcare worker account to monitor the regional blood supply.
+    -Log into your healthcare worker account to monitor the regional blood supply.
 
-    Request creation of healthcare accounts by submitting professional information.
+    -Request creation of healthcare accounts by submitting professional information.
 
-    View blood bank locations and current supply levels in the area.
+    -View blood bank locations and current supply levels in the area.
 
-    Update blood usage information after using stored blood units.
+    -Update blood usage information after using stored blood units.
 
-    Communicate with blood banks to notify them when blood supplies are running low and request replenishment.
+    -Communicate with blood banks to notify them when blood supplies are running low and request replenishment.
 
 ## Requirements
-asgiref==3.8.1
-Django==4.2.20
-psycopg==3.2.6
-psycopg2-binary==2.9.10
-python-dotenv==1.1.0
-sqlparse==0.5.3
-typing_extensions==4.13.2
-tzdata==2025.2
-#django-gis>=3.0.0 
-gunicorn==23.0.0
-requests==2.32.3
+-asgiref==3.8.1
+-Django==4.2.20
+-psycopg==3.2.6
+-psycopg2-binary==2.9.10
+-python-dotenv==1.1.0
+-sqlparse==0.5.3
+-typing_extensions==4.13.2
+-tzdata==2025.2
+-#django-gis>=3.0.0 
+-gunicorn==23.0.0
+-requests==2.32.3
 
 ## Deployment
 Follow the EC2 + Gunicorn + Nginx steps outlined in deployment.txt
@@ -82,4 +82,3 @@ Follow the EC2 + Gunicorn + Nginx steps outlined in deployment.txt
 MIT License
 
 
-```
