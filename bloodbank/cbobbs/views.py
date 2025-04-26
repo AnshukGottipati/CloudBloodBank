@@ -209,25 +209,14 @@ def donor_appt(request):
                 appt_time_obj = datetime.strptime(time_str, "%I:%M %p")
 
                 appt_datetime = datetime.combine(appt_date, appt_time_obj.time())
-
-                last_appt = Appointment.objects.filter(donor=donor).order_by('-appt_time').first()
-
-                if timezone.is_naive(appt_datetime):
-                    appt_datetime = timezone.make_aware(appt_datetime, timezone.get_current_timezone())
-
-                if last_appt:
-                    min_eligible_date = last_appt.appt_time + timedelta(days=56)
-                    if appt_datetime < min_eligible_date:
-                        messages.error(request, f"You must wait 56 days between appointments. Next eligible date: {min_eligible_date.date()}")
-                        return redirect('donor-appt')
     
-                    Appointment.objects.create(
-                        appt_date=appt_date,
-                        appt_time=appt_datetime,
-                        donor=donor,
-                        blood_bank=blood_bank
-                    )
-                    messages.success(request, "Appointment created successfully.")
+                Appointment.objects.create(
+                    appt_date=appt_date,
+                    appt_time=appt_datetime,
+                    donor=donor,
+                    blood_bank=blood_bank
+                )
+                messages.success(request, "Appointment created successfully.")
             except Exception as e:
                 messages.error(request, f"Error creating appointment: {e}")
         else:
@@ -492,26 +481,16 @@ def bbworker_appt(request):
                 appt_date = parse_date(date_str)
                 appt_time_obj = datetime.strptime(time_str, "%I:%M %p")
 
-                appt_datetime = datetime.combine(appt_date, appt_time_obj.time())
-
-                last_appt = Appointment.objects.filter(donor=donor).order_by('-appt_time').first()
-
-                if timezone.is_naive(appt_datetime):
-                    appt_datetime = timezone.make_aware(appt_datetime, timezone.get_current_timezone())
-
-                if last_appt:
-                    min_eligible_date = last_appt.appt_time + timedelta(days=56)
-                    if appt_datetime < min_eligible_date:
-                        messages.error(request, f"You must wait 56 days between appointments. Next eligible date: {min_eligible_date.date()}")
-                        return redirect('bb-appt')
+                appt_datetime = datetime.combine(appt_date, appt_time_obj.time())              
     
-                    Appointment.objects.create(
-                        appt_date=appt_date,
-                        appt_time=appt_datetime,
-                        donor=donor,
-                        blood_bank=blood_bank
-                    )
-                    messages.success(request, f"Appointment created successfully.")
+                Appointment.objects.create(
+                    appt_date=appt_date,
+                    appt_time=appt_datetime,
+                    donor=donor,
+                    blood_bank=blood_bank
+                )
+
+                messages.success(request, f"Appointment created successfully.")
             except Exception as e:
                 messages.error(request, f"Error creating appointment: {e}")
         else:
